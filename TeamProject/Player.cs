@@ -17,6 +17,7 @@ namespace TeamProject
         {
             Lv = 1;
             Name = "이름 없는"; //기본값
+            Job = PlayerJob.warrior;
             AtkPower = 10;
             DefPower = 5;
             Hp = 100;
@@ -37,8 +38,8 @@ namespace TeamProject
         }
 
         public enum PlayerJob 
-        { 
-            전사
+        {
+            warrior
         }
         
         
