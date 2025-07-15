@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace TeamProject
+﻿namespace TeamProject
 {
     public class Monster
     {
@@ -36,18 +34,6 @@ namespace TeamProject
         {
             return Hp <= 0 ? $"{Name} (Dead)" : $"{Name} (HP: {Hp})";
         }
-
-
-        List<Monster> monsters = new List<Monster>();
-
-        void CreateMonsters()
-        {
-            monsters.Add(new Monster("코스믹 슬라임", 2, 15, 6, 1, "우주에 있는 가장 평범한 몬스터."));
-            monsters.Add(new Monster("네뷸라 기생충", 5, 25, 10, 3, "성운(네뷸라) 구름 속을 유영하는 거대 기생충."));
-            monsters.Add(new Monster("궁허충", 3, 10, 7, 0, "빠르고 공격적인 벌레."));
-            monsters.Add(new Monster("외계인 병사", 1, 8, 4, 1, "우주 말단 병사."));
-        }
-
-        //오류가 어디서 나는걸까..
+       
     }
 }
