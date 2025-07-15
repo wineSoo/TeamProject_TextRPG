@@ -25,7 +25,7 @@ namespace TeamProject
             this.player = player;
         }
 
-        public void BattleScene()
+        /*public void BattleScene()
         {
             while (true)
             {
@@ -55,7 +55,7 @@ namespace TeamProject
 
             }
 
-        }
+        }*/
 
         public void BattlePhase()
         {   //// 먼저 플레이어 차례 / 플레이어 이름   
@@ -144,7 +144,7 @@ namespace TeamProject
         }
         Random randomM = new Random();
         // 몬스터 목록을 가져와서 랜덤으로 섞어주기
-        public void MonsterToEnemy()
+        /*public void MonsterToEnemy()
         {
             List<Monster> enemy = new List<Monster>();
 
@@ -154,9 +154,9 @@ namespace TeamProject
                 enemy.Add(MonsterList.AllMonsters[index]);
             }
 
-        }
+        }*/
 
-        void BattleControl()
+        /*void BattleControl()
         {
             ControlManager.InputKey();
 
@@ -176,7 +176,7 @@ namespace TeamProject
                 case InputKey.X:
                     break;
             }
-        }
+        }*/
         public enum InputKey
         {
             None,
