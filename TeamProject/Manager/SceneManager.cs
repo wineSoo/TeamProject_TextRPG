@@ -17,6 +17,7 @@ namespace TeamProject
             scenes.Add(SceneState.InputNameScene, new InputNameScene());
             scenes.Add(SceneState.GameIntroScene, new GameIntroScene());
             scenes.Add(SceneState.StartScene, new StartScene());
+            scenes.Add(SceneState.StatScene, new StatScene());
 
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/

@@ -21,7 +21,7 @@ namespace TeamProject
         // 키 입력 예시
         public static void InputKey()
         {
-            if (Console.KeyAvailable)
+            //if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 

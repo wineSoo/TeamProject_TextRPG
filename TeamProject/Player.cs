@@ -9,7 +9,7 @@ namespace TeamProject
     internal class Player
     {
 
-        private static Player instance;
+        private static Player? instance;
 
        
         //속성을 초기화 합니다. 나중에 직업을 구현하면 직업에 따른 초기 능력치를 조절할 수 있을 것 같습니다.

@@ -11,12 +11,26 @@ namespace TeamProject
         public StartScene()
         {
             sb = new StringBuilder();
+            options.Add("1. 상태 보기");
+            options.Add("2. 전투 시작");
+            optionsLen = options.Count;
         }
         StringBuilder sb;
+        int selOptions = 0;
         public override void Render()
         {
             sb.Clear();
-            sb.AppendLine("스타트 씬");
+            sb.AppendLine("스파르타 던전에 오신 여러분 환영합니다.");
+            sb.AppendLine("이제 전투를 시작할 수 있습니다.");
+            sb.AppendLine();
+            for (int i = 0; i < optionsLen; i++)
+            {
+                if(selOptions == i) sb.Append("▶ ");
+                else sb.Append("　 ");
+                sb.AppendLine(options[i]);
+            }
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
             SceneControl();
         }
@@ -28,28 +42,31 @@ namespace TeamProject
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    //Console.WriteLine("↑ 위쪽 방향키 입력됨");
+                    if (selOptions != 0) selOptions--;
                     break;
                 case ConsoleKey.DownArrow:
-                    //Console.WriteLine("↓ 아래쪽 방향키 입력됨");
+                    if (selOptions != optionsLen - 1) selOptions++;
                     break;
                 case ConsoleKey.LeftArrow:
-                    //Console.WriteLine("← 왼쪽 방향키 입력됨");
                     break;
                 case ConsoleKey.RightArrow:
-                    //Console.WriteLine("→ 오른쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.Escape:
-                    //Console.WriteLine("종료합니다.");
                     break;
                 case ConsoleKey.Z:
-                    //Console.WriteLine("z");
+                    switch (selOptions)
+                    {
+                        case 0: // 상태 보기
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
+                            break;
+                        case 1: // 전투 시작
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case ConsoleKey.X:
-                    //Console.WriteLine("x");
                     break;
                 default:
-                    //Console.WriteLine($"다른 키 입력됨: {keyInfo.Key}"
                     break;
             }
         }

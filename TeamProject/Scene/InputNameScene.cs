@@ -53,6 +53,7 @@ namespace TeamProject
         {
             stringName = Console.ReadLine();
             Console.CursorVisible = false;
+            if(stringName != null) Player.Instance.Name = stringName;
             state = InputState.NextScene;
         }
 
