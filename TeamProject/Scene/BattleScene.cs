@@ -63,13 +63,13 @@ namespace TeamProject
                     switch (selOptions)
                     {
                         case 0: // 1번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
                             break;
                         case 1: // 2번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
                             break;
                         case 2: // 3번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
                             break;
                         default:
                             break;
