@@ -11,9 +11,9 @@ namespace TeamProject
         public InputNameScene()
         {
             sb = new StringBuilder();
-            sbName = new StringBuilder();
             CreatScene();
             state = InputState.Input;
+
         }
         public enum InputState
         {
@@ -22,80 +22,44 @@ namespace TeamProject
         InputState state { get; set; }
 
         StringBuilder sb;
-        StringBuilder sbName;
+        string? stringName;
+
+        //public override void Render()
         public override void Render()
         {
             sb.Clear();
             sb.Append("이름을 입력해주세요. (Enter로 완료): ");
-            sb.AppendLine(sbName.ToString());
-            Console.Write(sb);
-        }
-
-        public override void Update()
-        {
+            if (stringName != null)
+            {
+                sb.AppendLine(stringName);
+            }
             switch (state)
             {
                 case InputState.Input:
-                    if (Console.KeyAvailable)
-                    {
-                        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                        if (keyInfo.Key == ConsoleKey.Enter)
-                        {
-                            state = InputState.NextScene;
-                        }
-                        else if (keyInfo.Key == ConsoleKey.Backspace && sbName.Length > 0)
-                        {
-                            sbName.Length--;
-                        }
-                        else if (!char.IsControl(keyInfo.KeyChar)) // 유효한 문자만
-                        {
-                            sbName.Append(keyInfo.KeyChar);
-                        }
-
-                        /*switch (keyInfo.Key)
-                        {
-                            case ConsoleKey.UpArrow:
-                                //Console.WriteLine("↑ 위쪽 방향키 입력됨");
-                                break;
-                            case ConsoleKey.DownArrow:
-                                //Console.WriteLine("↓ 아래쪽 방향키 입력됨");
-                                break;
-                            case ConsoleKey.LeftArrow:
-                                //Console.WriteLine("← 왼쪽 방향키 입력됨");
-                                break;
-                            case ConsoleKey.RightArrow:
-                                //Console.WriteLine("→ 오른쪽 방향키 입력됨");
-                                break;
-                            case ConsoleKey.Escape:
-                                //Console.WriteLine("종료합니다.");
-                                break;
-                            case ConsoleKey.Z:
-                                //Console.WriteLine("z");
-                                break;
-                            case ConsoleKey.X:
-                                //Console.WriteLine("x");
-                                break;
-                            default:
-                                //Console.WriteLine($"다른 키 입력됨: {keyInfo.Key}"
-                                break;
-                        }*/
-                    }
+                    Console.Write(sb);
+                    SceneControl(); // 입력 대기
                     break;
                 case InputState.NextScene:
-                    Console.WriteLine("1초 뒤 복구");
+                    sb.AppendLine("1초 후 인트로 씬으로 넘어갑니다.");
+                    Console.Write(sb);
                     Thread.Sleep(1000);
-                    state = InputState.Input;
-                    //SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.GameIntroScene;
                     break;
                 default:
                     break;
             }
         }
+        protected override void SceneControl()
+        {
+            stringName = Console.ReadLine();
+            Console.CursorVisible = false;
+            state = InputState.NextScene;
+        }
+
         void CreatScene()
         {
             sb.Append("이름을 입력해 주세요: ");
         }
-        
 
-    }
+    }   
 }

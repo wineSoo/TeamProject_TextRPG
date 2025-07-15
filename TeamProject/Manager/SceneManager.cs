@@ -15,12 +15,18 @@ namespace TeamProject
             // 씬 추가 예시
             scenes = new Dictionary<SceneState, Scene>();
             scenes.Add(SceneState.InputNameScene, new InputNameScene());
+            scenes.Add(SceneState.GameIntroScene, new GameIntroScene());
+            scenes.Add(SceneState.StartScene, new StartScene());
+
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
             /*scenes.Add(SceneState.SellScene, new SellScene());*/
             /*scenes.Add(SceneState.Rest, new RestScene());*/
             /*scenes.Add(SceneState.Dungeon, new DungeonScene());*/
+
+            // 한 장면당 10ms
+            delta = 10;
 
             // 시작은 이름 입력 씬으로
             sceneState = SceneState.InputNameScene;
@@ -42,12 +48,11 @@ namespace TeamProject
         {
             InputNameScene, GameIntroScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnermyAttackScene, TestScene
         }
-
         private SceneState sceneState;
         // 씬 저장용
         private Dictionary<SceneState, Scene> scenes;
 
-        int delta = 10;
+        public int delta { get; private set; }
 
         public SceneState SetSceneState
         {
@@ -76,30 +81,32 @@ namespace TeamProject
         {
             // 윈도우 사이즈
             Console.SetWindowSize(120, 36);
-            Console.CursorVisible = false; // 커서 보이기 x
+            //Console.CursorVisible = false; // 커서 보이기 x
+            Console.CursorVisible = true;
+
             // 한번에 출력하여, 깜빡임 줄이기
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 36; i++)
             {
-                for (int j = 0; j < 110; j++)
+                for (int j = 0; j < 120; j++)
                 {
                     sb.Append(" ");
                 }
                 sb.Append("\n");
             }
+            string tmpS = sb.ToString();
             while (true)
             {
-                // 키 입력 받아서 게임 상태 업데이트 시키기
-                scenes[sceneState].Update();
 
-                // 게임 상태 그리기
-                Console.SetCursorPosition(0, 0);
-                scenes[sceneState].Render();
-                Thread.Sleep(delta);
-                
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기
                 Console.SetCursorPosition(0, 0);
-                Console.Write(sb.ToString());
+
+                // 게임 상태 그리기
+                scenes[sceneState].Render();
+
+                Console.SetCursorPosition(0, 0);
+                Console.Write(tmpS);
+
             }
         }
     }
