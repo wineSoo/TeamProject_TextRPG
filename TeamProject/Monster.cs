@@ -19,8 +19,8 @@ namespace TeamProject
         public int Def;
         public string Description;
 
-        //private int previousHp; 현재 남은 체력 10/15 표시
-
+        
+        
         public Monster(string name, int level, int maxhp, int atk, int def, string description)
         {
             Name = name;
@@ -30,14 +30,14 @@ namespace TeamProject
             Atk = atk;
             Def = def;
             Description = description;
-            //previousHp = maxhp;
+            
         }
-       
 
+        
         //몬스터 hp가 0이하로 내려갈때
         public void DamageTaken(int damage)
         {
-            //previousHp = Hp; 
+            
             Hp -= damage;
             if (Hp < 0)
             {
