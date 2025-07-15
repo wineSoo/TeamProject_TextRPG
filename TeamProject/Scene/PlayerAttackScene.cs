@@ -63,9 +63,9 @@ namespace TeamProject
             {
                 case ConsoleKey.Z: // 나가기 선택
                 case ConsoleKey.X: // 나가기
-                    //SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
                     atkState = AttackState.PlayerAttack;
-                    Console.WriteLine("적 체력 감소, 적 공격으로 전환");
+                    Console.WriteLine("적 공격 턴");
                     Thread.Sleep(1000);
                     break;
                 default:
