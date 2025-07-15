@@ -32,7 +32,7 @@ namespace TeamProject
             delta = 10;
 
             // 시작은 이름 입력 씬으로
-            sceneState = SceneState.StartScene;
+            sceneState = SceneState.BattleScene;
         }
 
         public static SceneManager Instance
