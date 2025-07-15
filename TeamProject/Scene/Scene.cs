@@ -9,6 +9,8 @@ namespace TeamProject
     internal abstract class Scene
     {
         protected List<string> options;
+        protected int optionsLen = 0;
+
         public Scene()
         {
             options = new List<string>();

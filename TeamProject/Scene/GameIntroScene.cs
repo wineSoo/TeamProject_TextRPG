@@ -11,14 +11,23 @@ namespace TeamProject
         public GameIntroScene()
         {
             title = "게임 인트로 씬은 우선 한 글자 씩 출력되다가, 모든 내용이 출력된 후 넘어가도록 세팅하겠습니다.";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠★★★★＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
             sb = new StringBuilder();
         }
         int titleIdx = -2;
         string title;
+        int speed = 30; // 숫자 높을수록 느리게 출력됩니다.
         StringBuilder sb;
         // 0.3초마다 한 글자 씩 출력 되도록
-        int time = 0;
-        
 
         public override void Render()
         {
@@ -42,7 +51,7 @@ namespace TeamProject
             else // 출력할 게 남았다면
             {
                 Console.WriteLine(sb.ToString());
-                Thread.Sleep(100); // 0.2초마다 한 글자씩
+                Thread.Sleep(speed); // ms 마다 한 글자씩
             }
         }
 
@@ -56,34 +65,6 @@ namespace TeamProject
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
-            switch (keyInfo.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    //Console.WriteLine("↑ 위쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.DownArrow:
-                    //Console.WriteLine("↓ 아래쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.LeftArrow:
-                    //Console.WriteLine("← 왼쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.RightArrow:
-                    //Console.WriteLine("→ 오른쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.Escape:
-                    //Console.WriteLine("종료합니다.");
-                    break;
-                case ConsoleKey.Z:
-                    //Console.WriteLine("z");
-                    break;
-                case ConsoleKey.X:
-                    //Console.WriteLine("x");
-                    break;
-                default:
-                    //Console.WriteLine($"다른 키 입력됨: {keyInfo.Key}"
-                    break;
-            }
         }
     }
     
