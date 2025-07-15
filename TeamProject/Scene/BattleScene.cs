@@ -8,31 +8,21 @@ namespace TeamProject
 {
     internal class BattleScene : Scene
     {
-        public BattleScene()
-        {
-            sb = new StringBuilder();
-            options.Add("0. 도망치기");
-            optionsLen = options.Count;
-        }
         StringBuilder sb;
         int selOptions = 0;
 
-        List<Monster> enemy = new List<Monster>();
-
+        private List<Monster> enemy = new List<Monster>();
+        private MonsterLibrary monsterLibrary;
+        public BattleScene()
+        {
+            sb = new StringBuilder();
+            monsterLibrary = new MonsterLibrary();
+        }
         public override void Render()
         {
             sb.Clear();
             sb.AppendLine("Battle!!");
             sb.AppendLine();
-            // 싸울 몬스터 가져옴
-            Monster testMonster1 = new Monster("고블린", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
-            Monster testMonster2 = new Monster("고블", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
-            Monster testMonster3 = new Monster("고", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
-            enemy = new List<Monster>();
-            enemy.Add(testMonster1);
-            enemy.Add(testMonster2);
-            enemy.Add(testMonster3);
-
 
             for (int i = 0; i < enemy.Count; i++)
             {
