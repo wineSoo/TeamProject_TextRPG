@@ -1,4 +1,6 @@
-﻿namespace TeamProject
+﻿using System;
+
+namespace TeamProject
 {
     public class Monster
     {
@@ -29,11 +31,17 @@
                 Hp = 0;
         }
 
-       //몬스터 죽은후 상태(dead) + 나중에 회색처리 예정
-        public string Status()
-        {
-            return Hp <= 0 ? $"{Name} (Dead)" : $"{Name} (HP: {Hp})";
-        }
-       
+        //몬스터 죽은후 회색처리
+        //public void PrintStatusColor()
+        //
+        //   if (Hp <= 0)
+        //       Console.ForegroundColor = ConsoleColor.Gray;
+        //   else
+        //       Console.ForegroundColor = ConsoleColor.Red;
+        //
+        //   Console.WriteLine(Status());
+        //   Console.ResetColor();
+        //
+
     }
 }

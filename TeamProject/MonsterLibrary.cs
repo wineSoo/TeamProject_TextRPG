@@ -8,7 +8,7 @@ namespace TeamProject
 {
     public static class MonsterLibrary
     {
-        // 1. 미리 몬스터 "원본" 정보만 저장 (복사본X)
+        
         public static readonly List<Monster> Templates = new List<Monster>
         {
             new Monster("코스믹 슬라임", 2, 15, 6, 1, "우주에 있는 가장 평범한 몬스터."),
@@ -16,20 +16,19 @@ namespace TeamProject
             new Monster("궁허충", 3, 10, 7, 0, "빠르고 공격적인 벌레."),
             new Monster("외계인 병사", 1, 8, 4, 1, "우주 말단 병사.")
         };
-
-        // 2. 원하는 몬스터 인스턴스를 복사해서 반환 (이름, 인덱스 등으로 검색)
+        
+        
         public static Monster CreateMonsterByName(string name)
         {
+            // 1. Templates 리스트에서 이름이 같은 몬스터 원본을 찾음
             var original = Templates.Find(m => m.Name == name);
-            if (original == null) return null;
+            if (original == null) return null;  //찾는 몬스터가 없으면 null 반환(=실패)
 
-            // 복사본(새 인스턴스) 반환!
+            //몬스터를 찾았으면 복사본을 만들어 반환
             return new Monster(
                 original.Name, original.Level, original.MaxHp, original.Atk, original.Def, original.Description
             );
         }
-
-        // 랜덤 몬스터 복사본 N개 반환 (중복 허용, 랜덤 소환)
         public static List<Monster> GetRandomMonsters(int count)
         {
             var rand = new System.Random();
@@ -44,4 +43,6 @@ namespace TeamProject
             return monsters;
         }
     }
+
+
 }
