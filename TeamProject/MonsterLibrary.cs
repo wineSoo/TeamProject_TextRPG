@@ -6,39 +6,29 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-/*
+
     public class MonsterLibrary
     {
-        private List<Monster> monsters;
+        private List<Monster> monsters;       //몬스터들을 저장해두는 리스트(상자)
 
         public MonsterLibrary()
         {
-            monsters = new List<Monster>();
-            CreateMonsters();  
+            monsters = new List<Monster>();  
+            CreateMonsters();
         }
 
-        void CreateMonsters()
+        // 몬스터 데이터
+        private void CreateMonsters()
         {
-            // 고블린
-            monsters.Add(new Monster());
-            monsters[0].Name = "고블린";
-            monsters[0].Level = 1;
-            monsters[0].MaxHp = 20; 
-            monsters[0].Hp = 20;
-            monsters[0].Atk = 6;
-            monsters[0].Def = 2;
-            monsters[0].Description = "숲 속에 자주 출몰하는 약한 몬스터";
-            //
-            monsters.Add(new Monster());
-            monsters[1].Name = "고블린";
-            monsters[1].Level = 5;
-            monsters[1].MaxHp = 25; 
-            monsters[1].Hp = 25;
-            monsters[1].Atk = 6;
-            monsters[1].Def = 2;
-            monsters[1].Description = "숲 속에 자주 출몰하는 약한 몬스터";
+            monsters.Add(new Monster("미니언", 2, 15, 6, 1, "가장 평범한 몬스터."));
+            monsters.Add(new Monster("대표미니언", 5, 25, 10, 3, "모든 미니언들의 우두머리."));
+            monsters.Add(new Monster("궁허충", 3, 10, 7, 0, "빠르고 공격적인 벌레."));
+        }
 
+        // 몬스터 데이터를 다른 클래스로 전달하는 역할
+        public List<Monster> GiveMonsterData()
+        {
+            return monsters;
         }
     }
 }
-*/
