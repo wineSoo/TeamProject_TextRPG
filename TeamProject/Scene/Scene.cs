@@ -13,8 +13,7 @@ namespace TeamProject
         {
             options = new List<string>();
         }
-
-        public abstract void Update();
+        protected abstract void SceneControl();
         public abstract void Render();
 
         public virtual void SetupScene()

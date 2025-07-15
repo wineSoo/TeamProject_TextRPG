@@ -10,43 +10,81 @@ namespace TeamProject
     {
         public GameIntroScene()
         {
-            title = "게임 인트로 씬은 우선 한 글자 씩 출력되다가, 모든 내용이 출력된 후 넘어가도록 세팅하겠습니다. 추후 추가 작업하겠습니다.";
+            title = "게임 인트로 씬은 우선 한 글자 씩 출력되다가, 모든 내용이 출력된 후 넘어가도록 세팅하겠습니다.";
             sb = new StringBuilder();
         }
-        int titleIdx = 0;
+        int titleIdx = -2;
         string title;
         StringBuilder sb;
         // 0.3초마다 한 글자 씩 출력 되도록
         int time = 0;
-        public override void Update()
-        {
-            time += SceneManager.Instance.delta;
-            if (time >= 100)
-            {
-                time = 0;
-                if (titleIdx >= title.Length)
-                {
-                    Thread.Sleep(1000);
-                    SetupScene();// 무한 반복
-                    return;
-                }
-                sb.Append(title[titleIdx]);
-                titleIdx++;
-            }
-        }
+        
 
         public override void Render()
         {
-            Console.WriteLine(sb.ToString());
+            sb.Clear();
+            if(titleIdx < title.Length)
+            {
+                titleIdx++;
+            }
+            for (int i = 0; i < titleIdx; i++)
+            {
+                sb.Append(title[i]);
+            }
+            if(titleIdx == title.Length) // 다 출력 했다면
+            {
+                sb.Append("\n아무 키를 누르면 다음 씬으로 넘어갑니다.(테스트용, 구현 다했으면 자동으로 넘어감)");
+                Console.WriteLine(sb.ToString());
+                SceneControl(); // 키입력 대기 = 화면 멈추기
+                SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+
+            }
+            else // 출력할 게 남았다면
+            {
+                Console.WriteLine(sb.ToString());
+                Thread.Sleep(100); // 0.2초마다 한 글자씩
+            }
         }
 
         public override void SetupScene()
         {
             base.SetupScene();
             sb.Clear(); // 혹시 다시 인트로 씬으로 오더라도 글자 처음부터 출력되게 하기
-            titleIdx = 0;
+            titleIdx = -2;
         }
 
-        
+        protected override void SceneControl()
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    //Console.WriteLine("↑ 위쪽 방향키 입력됨");
+                    break;
+                case ConsoleKey.DownArrow:
+                    //Console.WriteLine("↓ 아래쪽 방향키 입력됨");
+                    break;
+                case ConsoleKey.LeftArrow:
+                    //Console.WriteLine("← 왼쪽 방향키 입력됨");
+                    break;
+                case ConsoleKey.RightArrow:
+                    //Console.WriteLine("→ 오른쪽 방향키 입력됨");
+                    break;
+                case ConsoleKey.Escape:
+                    //Console.WriteLine("종료합니다.");
+                    break;
+                case ConsoleKey.Z:
+                    //Console.WriteLine("z");
+                    break;
+                case ConsoleKey.X:
+                    //Console.WriteLine("x");
+                    break;
+                default:
+                    //Console.WriteLine($"다른 키 입력됨: {keyInfo.Key}"
+                    break;
+            }
+        }
     }
+    
 }

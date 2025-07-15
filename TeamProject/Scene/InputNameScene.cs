@@ -11,7 +11,6 @@ namespace TeamProject
         public InputNameScene()
         {
             sb = new StringBuilder();
-            sbName = new StringBuilder();
             CreatScene();
             state = InputState.Input;
 
@@ -23,63 +22,44 @@ namespace TeamProject
         InputState state { get; set; }
 
         StringBuilder sb;
-        StringBuilder sbName;
-        
-        public override void Update()
-        {
-            if (Console.KeyAvailable)
-            {
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                if (keyInfo.Key == ConsoleKey.Enter)
-                {
-                    //state = InputState.NextScene;
-                    Console.WriteLine("1초 뒤 다음 씬으로");
-                    Console.CursorVisible = false;
-                    Thread.Sleep(1000);
-                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.GameIntroScene;
-                }
-                else if (keyInfo.Key == ConsoleKey.Backspace && sbName.Length > 0)
-                {
-                    sbName.Length--;
-                }
-                else if (!char.IsControl(keyInfo.KeyChar)) // 유효한 문자만
-                {
-                    sbName.Append(keyInfo.KeyChar);
-                }
+        string? stringName;
 
-            }
-            /*switch (state)
-            {
-                case InputState.Input:
-                    
-                    break;
-                case InputState.NextScene:
-                    Console.WriteLine("1초 뒤 복구");
-                    Thread.Sleep(1000);
-                    state = InputState.Input;
-                    //SceneManager.Instance.SetSceneState = SceneManager.SceneState.;
-                    break;
-                default:
-                    break;
-            }*/
-        }
+        //public override void Render()
         public override void Render()
         {
             sb.Clear();
             sb.Append("이름을 입력해주세요. (Enter로 완료): ");
-            /*Console.Write(sb);
-            Console.Clear();
-            string name = Console.ReadLine();
-            sb.AppendLine(name);*/
-            //sb.Append(sbName.ToString());
-            sb.Append(sbName);
-            Console.Write(sb);
+            if (stringName != null)
+            {
+                sb.AppendLine(stringName);
+            }
+            switch (state)
+            {
+                case InputState.Input:
+                    Console.Write(sb);
+                    SceneControl(); // 입력 대기
+                    break;
+                case InputState.NextScene:
+                    sb.AppendLine("1초 후 인트로 씬으로 넘어갑니다.");
+                    Console.Write(sb);
+                    Thread.Sleep(1000);
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.GameIntroScene;
+                    break;
+                default:
+                    break;
+            }
         }
+        protected override void SceneControl()
+        {
+            stringName = Console.ReadLine();
+            Console.CursorVisible = false;
+            state = InputState.NextScene;
+        }
+
         void CreatScene()
         {
             sb.Append("이름을 입력해 주세요: ");
         }
-        
 
-    }
+    }   
 }
