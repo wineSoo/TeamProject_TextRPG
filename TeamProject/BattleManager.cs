@@ -42,28 +42,22 @@ namespace TeamProject
                         Console.WriteLine($"   {enemies[i]}");
                 }
                 // 몬스터를 선택하면 공격 시작
+                ControlManager.InputKey();
 
                 Console.WriteLine("[내정보]");
                 // 레벨, 이름, 직업, HP
                 Console.WriteLine($"Lv.1 chad (전사)");
                 Console.WriteLine($"HP 100/100");
+                Console.WriteLine();
+                Console.WriteLine("이동: 방향키, 선택:z, 돌아가기: x");
 
-                PlayerBattle();
-                if (battleCount == 1)
-                {
-                    int battleCount = 0;
-                    WInBattle();
-                }
-                else
-                {
-                    EnemyBattle();
-                }
+
             }
 
         }
 
-        public void PlayerBattle()
-        {   // 플레이어 이름   
+        public void BattlePhase()
+        {   // 먼저 플레이어 차례 / 플레이어 이름   
             Console.WriteLine($"chad의 공격!");
             // 몬스터 이름, 플레이어 공격력
             Console.WriteLine($"Lv.2 미니언 을(를) 맞췄습니다. [데미지 : 10]");
@@ -80,12 +74,12 @@ namespace TeamProject
             // 몬스터가 모두 죽었는지 확인
             if (true) 
             {
-                int battleCount = 1;
+                //모두 죽었으면 종료
+                WInBattle();
             }
-        }
 
-        public void EnemyBattle()
-        {   // 몬스터 이름
+
+            // 몬스터 이름
             Console.WriteLine($"Lv.2 미니언의 공격!");
             // 플레이어 이름, 몬스터 공격
             Console.WriteLine($"chad 을(를) 맞췄습니다. [데미지 : 5]");
@@ -101,6 +95,7 @@ namespace TeamProject
             }
 
         }
+
 
         public void WInBattle()
         {
