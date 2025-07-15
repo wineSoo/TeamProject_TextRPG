@@ -17,7 +17,7 @@ namespace TeamProject
             CreateMonsters();
         }
 
-        // 몬스터 데이터
+        // 몬스터 리스트
         private void CreateMonsters()
         {
             monsters.Add(new Monster("미니언", 2, 15, 6, 1, "가장 평범한 몬스터."));
