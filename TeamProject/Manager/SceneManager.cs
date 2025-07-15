@@ -15,8 +15,9 @@ namespace TeamProject
             // 씬 추가 예시
             scenes = new Dictionary<SceneState, Scene>();
             scenes.Add(SceneState.InputNameScene, new InputNameScene());
-            scenes.Add(SceneState.StartScene, new StartScene());
             scenes.Add(SceneState.GameIntroScene, new GameIntroScene());
+            scenes.Add(SceneState.StartScene, new StartScene());
+
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -96,19 +97,16 @@ namespace TeamProject
             string tmpS = sb.ToString();
             while (true)
             {
+
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기
                 Console.SetCursorPosition(0, 0);
-                Console.Write(tmpS);
-                Console.SetCursorPosition(0, 0);
-
-                // 키 입력 받아서 게임 상태 업데이트 시키기
-                scenes[sceneState].Update();
 
                 // 게임 상태 그리기
                 scenes[sceneState].Render();
-                Thread.Sleep(delta);
-                
-                
+
+                Console.SetCursorPosition(0, 0);
+                Console.Write(tmpS);
+
             }
         }
     }
