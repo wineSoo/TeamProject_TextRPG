@@ -11,52 +11,48 @@ namespace TeamProject
         public PlayerAttackScene()
         {
             sb = new StringBuilder();
+            sbMonHp = new StringBuilder();
             options.Add("0. 다음");
             optionsLen = options.Count;
-            tM = new Monster("대포미니언", 99, 124, 10, 5, "");
+            tM = new Monster("대포미니언", 99, 124, 10, 3, "");
+            SetupScene();// 현재 몬스터 체력 세팅
+            atkState = AttackState.PlayerAttack;
         }
-        StringBuilder sb;
+        // 플레이어가 공격 맞춤 -> 적 체력 줄어듦 -> 데미지 표시;
+        enum AttackState
+        {
+            PlayerAttack, EnemyTakeDamage, ShowDamageText
+        }
+        AttackState atkState { get; set; }
+
+        StringBuilder sb; // 기본 출력용
+        float lerpTime = 0;
+
         // 테스트용 몬스터
         Monster tM;
-        int beforeHp = 124;
+        int beforeHp = 0;
+        int lerpBeforeHpToCurHp = -1;
+        int renderDam = 0;
+        // 몬스터 체력 출력용 
+        StringBuilder sbMonHp;
+        // 최대 Hp바 개수
+        int hpBarCnt = 50;
         public override void Render()
         {
-            sb.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
-            Console.Write(sb.ToString());
-            Console.ResetColor();// 출력 색 초기화
-
-            sb.Clear();
-            sb.Append(Player.Instance.Name);
-            sb.AppendLine("의 공격!"); 
-
-            sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
-            sb.Append(" ");
-            sb.Append(tM.Name.ToString());
-            sb.Append("을(를) 맞췄습니다. [데미지: "); 
-            sb.Append("11"); // 가한 데미지
-            sb.AppendLine("]");
-
-            sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
-            sb.Append(" ");
-            sb.AppendLine(tM.Name.ToString());
-
-            sb.Append("HP ");
-            sb.Append(beforeHp);
-            sb.Append(" -> ");
-            sb.AppendLine(tM.Hp <= 0 ? "Dead" : tM.Hp.ToString());
-
-            sb.AppendLine();
-            sb.Append("▶ ");
-            sb.AppendLine(options[0]);
-            
-            sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
-            Console.Write(sb.ToString());
-            SceneControl();
+            switch (atkState)
+            {
+                case AttackState.PlayerAttack:
+                    RenderPlayerAttack();
+                    break;
+                case AttackState.EnemyTakeDamage:
+                    RenderEnermyTakeDam();
+                    break;
+                case AttackState.ShowDamageText:
+                    RenderDamageText();
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void SceneControl()
@@ -68,12 +64,206 @@ namespace TeamProject
                 case ConsoleKey.Z: // 나가기 선택
                 case ConsoleKey.X: // 나가기
                     //SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
-                    Console.WriteLine("적 공격으로 전환");
+                    atkState = AttackState.PlayerAttack;
+                    Console.WriteLine("적 체력 감소, 적 공격으로 전환");
                     Thread.Sleep(1000);
                     break;
                 default:
                     break;
             }
+        }
+        void RenderPlayerAttack()
+        {
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append(Player.Instance.Name);
+            sb.AppendLine("의 공격!");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            sb.Append(tM.Name.ToString());
+            sb.Append("을(를) 맞췄습니다. [데미지: ");
+            beforeHp = tM.Hp;
+            renderDam = tM.DamageTaken((int)Player.Instance.AtkPower);
+            sb.Append(renderDam.ToString()); // 가한 데미지
+            sb.AppendLine("]");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            //sb.AppendLine(tM.Name.ToString());
+            sb.Append(tM.Name.ToString());
+            sb.Append("[");
+            Console.Write(sb.ToString());
+
+            //SetMonHp(tM); // 몬스터 체력바 세팅
+            Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
+            //sb.AppendLine(" ██████████████████████████████████████████████████"); // 50개
+            //sb.AppendLine(" ██████████████████████████████"); // 30개
+            Console.Write(sbMonHp.ToString()); // 체력바 출력
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append("]");
+        
+            Console.Write(sb.ToString());
+            Thread.Sleep(1000);
+            atkState = AttackState.EnemyTakeDamage;
+        }
+        void RenderEnermyTakeDam()
+        {
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append(Player.Instance.Name);
+            sb.AppendLine("의 공격!");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            sb.Append(tM.Name.ToString());
+            sb.Append("을(를) 맞췄습니다. [데미지: ");
+            //sb.Append("11"); // 가한 데미지
+            sb.Append(renderDam); // 가한 데미지
+            sb.AppendLine("]");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            sb.Append(tM.Name.ToString());
+            sb.Append("[");
+            Console.Write(sb.ToString());
+
+            SetMonHp(tM); // 몬스터 체력바 세팅
+            Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
+            Console.Write(sbMonHp.ToString()); // 체력바 출력
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append("]");
+            sb.AppendLine();
+
+            Console.Write(sb.ToString());
+            if (lerpTime >= 1.0f)
+            {
+                lerpTime = 0.0f;
+                atkState = AttackState.ShowDamageText;
+                Thread.Sleep(300);
+            }
+            else
+            {
+                Thread.Sleep(100);
+            }
+        }
+        void RenderDamageText()
+        {
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append(Player.Instance.Name);
+            sb.AppendLine("의 공격!");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            sb.Append(tM.Name.ToString());
+            sb.Append("을(를) 맞췄습니다. [데미지: ");
+            //sb.Append("11"); // 가한 데미지
+            sb.Append(renderDam.ToString()); // 가한 데미지
+            sb.AppendLine("]");
+
+            sb.Append("Lv. ");
+            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(" ");
+            //sb.AppendLine(tM.Name.ToString());
+            sb.Append(tM.Name.ToString());
+            sb.Append("[");
+            Console.Write(sb.ToString());
+
+            //sbMonHp.Clear();
+            //SetMonHp(tM); // 몬스터 체력바 세팅
+            Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
+            //sb.AppendLine(" ██████████████████████████████████████████████████"); // 50개
+            //sb.AppendLine(" ██████████████████████████████"); // 30개
+            Console.Write(sbMonHp.ToString()); // 체력바 출력
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append("]");
+            sb.AppendLine();
+
+            sb.Append("HP ");
+            sb.Append(beforeHp);
+            sb.Append(" -> ");
+            sb.AppendLine(tM.Hp <= 0 ? "Dead" : tM.Hp.ToString());
+
+            sb.AppendLine();
+            sb.Append("▶ ");
+            sb.AppendLine(options[0]);
+
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
+            Console.Write(sb.ToString());
+            SceneControl();
+        }
+
+        void SetMonHp(Monster mon)
+        {
+            lerpTime += (100.0f / 1000.0f);
+            
+
+            lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, mon.Hp, lerpTime);
+            float tmp = (float)lerpBeforeHpToCurHp / mon.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbMonHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if(i < tmpCnt) sbMonHp.Append("█");
+                else sbMonHp.Append(" ");
+            }
+
+
+            // 기존
+            /*float tmp = mon.Hp / (float)mon.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbMonHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if(i <= tmpCnt) sbMonHp.Append("█");
+                else sbMonHp.Append(" ");
+            }*/
+        }
+
+        public override void SetupScene()
+        {
+            base.SetupScene();
+            beforeHp = tM.MaxHp;
+            float tmp = tM.Hp / (float)tM.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbMonHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i <= tmpCnt) sbMonHp.Append("█");
+                else sbMonHp.Append(" ");
+            }
+            lerpBeforeHpToCurHp = beforeHp;
         }
     }
 }

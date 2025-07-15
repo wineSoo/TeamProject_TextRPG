@@ -83,9 +83,9 @@ namespace TeamProject
         {
             // 윈도우 사이즈
             Console.SetWindowSize(120, 36);
-            //Console.CursorVisible = false; // 커서 보이기 x
-            Console.CursorVisible = true;
-
+            Console.CursorVisible = false; // 커서 보이기 x
+            //Console.CursorVisible = true;
+            Console.OutputEncoding = Encoding.UTF8;
             // 한번에 출력하여, 깜빡임 줄이기
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 36; i++)

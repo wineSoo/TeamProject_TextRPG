@@ -54,5 +54,16 @@ namespace TeamProject
                 }
             }
         }
+        public static float Lerp(float a, float b, float t)
+        {
+            t = Clamp01(t);
+            return a + (b - a) * t;
+        }
+        public static float Clamp01(float value)
+        {
+            if (value < 0f) return 0f;
+            if (value > 1f) return 1f;
+            return value;
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace TeamProject
         public int Atk;
         public int Def;
         public string Description;
+        public bool isDie;
 
         //private int previousHp; 현재 남은 체력 10/15 표시
 
@@ -30,19 +31,24 @@ namespace TeamProject
             Atk = atk;
             Def = def;
             Description = description;
+            isDie = false;
             //previousHp = maxhp;
         }
-       
+        
 
         //몬스터 hp가 0이하로 내려갈때
-        public void DamageTaken(int damage)
+        public int DamageTaken(int playerAtk)
         {
+            int tmpDam = 0;
+            tmpDam = playerAtk - Def;
+
             //previousHp = Hp; 
-            Hp -= damage;
+            Hp -= tmpDam;
             if (Hp < 0)
             {
                 Hp = 0;
             }
+            return tmpDam;
         }
         public bool IsDead
         {
