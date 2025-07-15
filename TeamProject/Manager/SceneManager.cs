@@ -19,7 +19,7 @@ namespace TeamProject
             scenes.Add(SceneState.StartScene, new StartScene());
             scenes.Add(SceneState.StatScene, new StatScene());
             scenes.Add(SceneState.PlayerAttackScene, new PlayerAttackScene());
-
+            scenes.Add(SceneState.EnemyAttackScene, new EnemyAttackScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
