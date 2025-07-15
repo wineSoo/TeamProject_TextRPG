@@ -18,6 +18,7 @@ namespace TeamProject
             scenes.Add(SceneState.GameIntroScene, new GameIntroScene());
             scenes.Add(SceneState.StartScene, new StartScene());
             scenes.Add(SceneState.StatScene, new StatScene());
+            scenes.Add(SceneState.PlayerAttackScene, new PlayerAttackScene());
 
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
@@ -30,7 +31,7 @@ namespace TeamProject
             delta = 10;
 
             // 시작은 이름 입력 씬으로
-            sceneState = SceneState.InputNameScene;
+            sceneState = SceneState.PlayerAttackScene;
         }
 
         public static SceneManager Instance
