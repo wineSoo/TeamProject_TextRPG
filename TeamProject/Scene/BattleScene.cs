@@ -17,16 +17,22 @@ namespace TeamProject
         StringBuilder sb;
         int selOptions = 0;
 
+        List<Monster> enemy = new List<Monster>();
+
         public override void Render()
         {
             sb.Clear();
             sb.AppendLine("Battle!!");
             sb.AppendLine();
             // 싸울 몬스터 가져옴
-            List<Monster> enemy = new List<Monster>();
-            Monster testMonster = new Monster("고블린", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
+            Monster testMonster1 = new Monster("고블린", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
+            Monster testMonster2 = new Monster("고블", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
+            Monster testMonster3 = new Monster("고", 2, 30, 5, 2, "작고 약한 몬스터"); //임시
             enemy = new List<Monster>();
-            enemy.Add(testMonster);
+            enemy.Add(testMonster1);
+            enemy.Add(testMonster2);
+            enemy.Add(testMonster3);
+
 
             for (int i = 0; i < enemy.Count; i++)
             {
@@ -53,7 +59,7 @@ namespace TeamProject
                     if (selOptions != 0) selOptions--;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (selOptions != optionsLen - 1) selOptions++;
+                    if (selOptions != enemy.Count - 1) selOptions++;
                     break;
                 case ConsoleKey.LeftArrow:
                     break;
