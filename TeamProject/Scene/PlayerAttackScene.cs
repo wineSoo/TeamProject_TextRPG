@@ -19,9 +19,16 @@ namespace TeamProject
             atkState = AttackState.PlayerAttack;
         }
         // 플레이어가 공격 맞춤 -> 적 체력 줄어듦 -> 데미지 표시;
-        enum AttackState
+        // 추후 필수 기능으로 간다면
+        // 1. 플레이어 공격 -> 플레이어 공격이 맞았다면 2, 안맞았다면 5
+        // 2. 몬스터 현재 체력 잠깐 보여주기 -> 3
+        // 3. 몬스터 체력 닳기 -> 4
+        // 4. 몬스터 체력 변화량 출력
+        // 5. 몬스터 회피, 바로 적 턴으로
+        
+        enum AttackState 
         {
-            PlayerAttack, EnemyTakeDamage, ShowDamageText
+            PlayerAttack, ShowEnermyHp, EnemyTakeDamage, ShowDamageText
         }
         AttackState atkState { get; set; }
 
@@ -43,6 +50,9 @@ namespace TeamProject
             {
                 case AttackState.PlayerAttack:
                     RenderPlayerAttack();
+                    break;
+                case AttackState.ShowEnermyHp:
+                    RenderEnermyHp();
                     break;
                 case AttackState.EnemyTakeDamage:
                     RenderEnermyTakeDam();
@@ -85,6 +95,23 @@ namespace TeamProject
             sb.Append(Player.Instance.Name);
             sb.AppendLine("의 공격!");
 
+            Console.Write(sb.ToString());
+            Thread.Sleep(500);
+            atkState = AttackState.ShowEnermyHp;
+        }
+        void RenderEnermyHp()
+        {
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.Append(Player.Instance.Name);
+            sb.AppendLine("의 공격!");
+
             sb.Append("Lv. ");
             sb.Append(tM.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
@@ -112,9 +139,8 @@ namespace TeamProject
 
             sb.Clear();
             sb.Append("]");
-        
             Console.Write(sb.ToString());
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             atkState = AttackState.EnemyTakeDamage;
         }
         void RenderEnermyTakeDam()
@@ -164,7 +190,7 @@ namespace TeamProject
             }
             else
             {
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
         }
         void RenderDamageText()
@@ -226,7 +252,7 @@ namespace TeamProject
 
         void SetMonHp(Monster mon)
         {
-            lerpTime += (100.0f / 1000.0f);
+            lerpTime += 0.1f;
             
 
             lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, mon.Hp, lerpTime);
@@ -260,7 +286,7 @@ namespace TeamProject
             sbMonHp.Clear();
             for (int i = 0; i < hpBarCnt; i++)
             {
-                if (i <= tmpCnt) sbMonHp.Append("█");
+                if (i < tmpCnt) sbMonHp.Append("█");
                 else sbMonHp.Append(" ");
             }
             lerpBeforeHpToCurHp = beforeHp;

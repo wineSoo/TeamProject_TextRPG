@@ -32,7 +32,7 @@ namespace TeamProject
                 Monster m = enemy[i];
 
                 if (selOptions == i) sb.Append("▶ ");
-                else sb.Append("　");
+                else sb.Append("　 ");
                 sb.AppendLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
 
             }
