@@ -95,6 +95,11 @@ namespace TeamProject
                 Console.Write(tmpS);
 
             }
+
+            // 잠깐 멈췄다가
+            // toDo: 적 공격 턴 후, 적이 다 처치되었다면 시작씬으로, 아니라면 다시 배틀씬으로
+            // 현재는 그냥 배틀 씬으로
+            SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
         }
 
         protected override void SceneControl()
