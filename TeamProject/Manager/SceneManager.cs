@@ -20,6 +20,7 @@ namespace TeamProject
             scenes.Add(SceneState.StatScene, new StatScene());
             scenes.Add(SceneState.PlayerAttackScene, new PlayerAttackScene());
             scenes.Add(SceneState.EnemyAttackScene, new EnemyAttackScene());
+            scenes.Add(SceneState.BattleScene, new BattleScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -31,7 +32,7 @@ namespace TeamProject
             delta = 10;
 
             // 시작은 이름 입력 씬으로
-            sceneState = SceneState.PlayerAttackScene;
+            sceneState = SceneState.BattleScene;
         }
 
         public static SceneManager Instance
@@ -83,9 +84,9 @@ namespace TeamProject
         {
             // 윈도우 사이즈
             Console.SetWindowSize(120, 36);
-            //Console.CursorVisible = false; // 커서 보이기 x
-            Console.CursorVisible = true;
-
+            Console.CursorVisible = false; // 커서 보이기 x
+            //Console.CursorVisible = true;
+            Console.OutputEncoding = Encoding.UTF8;
             // 한번에 출력하여, 깜빡임 줄이기
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 36; i++)

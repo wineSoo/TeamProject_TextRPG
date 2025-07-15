@@ -18,7 +18,7 @@ namespace TeamProject
             Lv = 1;
             Name = "이름 없는"; //기본값
             Job = PlayerJob.warrior;
-            AtkPower = 10;
+            AtkPower = 30;
             DefPower = 5;
             Hp = 100;
             Gold = 1500;
