@@ -47,7 +47,7 @@ namespace TeamProject
         }
         public enum SceneState
         {
-            InputNameScene, GameIntroScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnermyAttackScene, TestScene
+            InputNameScene, GameIntroScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene
         }
         private SceneState sceneState;
         // 씬 저장용
