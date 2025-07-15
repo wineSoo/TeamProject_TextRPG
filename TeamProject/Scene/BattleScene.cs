@@ -11,12 +11,15 @@ namespace TeamProject
         StringBuilder sb;
         int selOptions = 0;
 
-        private List<Monster> enemy = new List<Monster>();
         private MonsterLibrary monsterLibrary;
+        private List<Monster> enemy = new List<Monster>();
+        
         public BattleScene()
         {
             sb = new StringBuilder();
+
             monsterLibrary = new MonsterLibrary();
+            enemy = monsterLibrary.GiveMonsterData();
         }
         public override void Render()
         {
@@ -29,7 +32,7 @@ namespace TeamProject
                 Monster m = enemy[i];
 
                 if (selOptions == i) sb.Append("▶ ");
-                else sb.Append("　 ");
+                else sb.Append("　");
                 sb.AppendLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
 
             }
