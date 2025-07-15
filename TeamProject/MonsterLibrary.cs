@@ -6,34 +6,22 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+     
     public class MonsterLibrary
     {
-        // 모든 몬스터 종류를 저장
+        //모든 몬스터 종류를 저장
         private List<Monster> monsters;
 
-        // 데이터 등록
+        //생성자에서 한 번만 데이터 등록
         public MonsterLibrary()
         {
             monsters = new List<Monster>();
             CreateMonsters();
         }
 
-        // 몬스터 리스트 생성
+        //몬스터 정보 등록
         private void CreateMonsters()
         {
-<<<<<<< HEAD
-            monsters.Add(new Monster("미니언", 2, 15, 6, 1, "가장 평범한 몬스터."));
-            monsters.Add(new Monster("대포미니언", 5, 25, 10, 3, "모든 미니언들의 우두머리."));
-            monsters.Add(new Monster("궁허충", 3, 10, 7, 0, "빠르고 공격적인 벌레."));
-        }
-
-        //랜덤으로 3마리 뽑아서 반환하기
-
-
-
-        // 몬스터 데이터를 다른 클래스로 전달하는 역할
-        public List<Monster> GiveMonsterData()
-=======
             monsters.Add(new Monster());
             monsters[0].Name = "미니언";
             monsters[0].Level = 2;
@@ -62,9 +50,8 @@ namespace TeamProject
             monsters[2].Description = "빠르고 공격적인 벌레.";
         }
 
-        // 전체 몬스터 복사본 리스트 반환
+        //전체 몬스터 복사본 리스트 반환
         public List<Monster> GetAllMonsters()
->>>>>>> Develop
         {
             List<Monster> result = new List<Monster>();
             foreach (var m in monsters)
@@ -74,30 +61,26 @@ namespace TeamProject
             return result;
         }
 
-        // 랜덤으로 몬스터 생성(중복X)
+        //랜덤 N마리 복사본 반환 (중복X)
         public List<Monster> GetRandomMonsters(int count)
         {
-            Random rnd = new Random(); // rnd 랜덤 변수 선언
-            List<int> used = new List<int>(); //중복 방지용 
-            List<Monster> selected = new List<Monster>(); 
+            Random rnd = new Random();
+            List<int> used = new List<int>();
+            List<Monster> selected = new List<Monster>();
 
             for (int i = 0; i < count; i++)
             {
                 int idx;
                 do
                 {
-                    idx = rnd.Next(monsters.Count); //랜덤으로 번호 뽑기
-                } while (used.Contains(idx)); // 이미 뽑은 번호 체크
+                    idx = rnd.Next(monsters.Count);
+                } while (used.Contains(idx));
 
-                used.Add(idx); //한 번 뽑은 번호는 used에 기록
-                var m = monsters[idx]; //한번만 사용할 몬스터
+                used.Add(idx);
+                var m = monsters[idx];
                 selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
             }
             return selected;
         }
-       
-       
-
     }
 }
-
