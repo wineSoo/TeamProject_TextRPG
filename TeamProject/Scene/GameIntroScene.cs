@@ -17,8 +17,6 @@ namespace TeamProject
         string title;
         StringBuilder sb;
         // 0.3초마다 한 글자 씩 출력 되도록
-        int time = 0;
-        
 
         public override void Render()
         {
@@ -42,7 +40,7 @@ namespace TeamProject
             else // 출력할 게 남았다면
             {
                 Console.WriteLine(sb.ToString());
-                Thread.Sleep(100); // 0.2초마다 한 글자씩
+                Thread.Sleep(50); // ms 마다 한 글자씩
             }
         }
 
@@ -56,34 +54,6 @@ namespace TeamProject
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
-            switch (keyInfo.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    //Console.WriteLine("↑ 위쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.DownArrow:
-                    //Console.WriteLine("↓ 아래쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.LeftArrow:
-                    //Console.WriteLine("← 왼쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.RightArrow:
-                    //Console.WriteLine("→ 오른쪽 방향키 입력됨");
-                    break;
-                case ConsoleKey.Escape:
-                    //Console.WriteLine("종료합니다.");
-                    break;
-                case ConsoleKey.Z:
-                    //Console.WriteLine("z");
-                    break;
-                case ConsoleKey.X:
-                    //Console.WriteLine("x");
-                    break;
-                default:
-                    //Console.WriteLine($"다른 키 입력됨: {keyInfo.Key}"
-                    break;
-            }
         }
     }
     
