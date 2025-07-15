@@ -20,8 +20,8 @@ namespace TeamProject
         public string Description;
         public bool isDie;
 
-        
-        
+        public Monster() { }  //몬스터매니저 생성자
+
         public Monster(string name, int level, int maxhp, int atk, int def, string description)
         {
             Name = name;
