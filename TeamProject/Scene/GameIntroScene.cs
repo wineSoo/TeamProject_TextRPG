@@ -11,10 +11,21 @@ namespace TeamProject
         public GameIntroScene()
         {
             title = "게임 인트로 씬은 우선 한 글자 씩 출력되다가, 모든 내용이 출력된 후 넘어가도록 세팅하겠습니다.";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠★★★★＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
+            title += "＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠";
             sb = new StringBuilder();
         }
         int titleIdx = -2;
         string title;
+        int speed = 30; // 숫자 높을수록 느리게 출력됩니다.
         StringBuilder sb;
         // 0.3초마다 한 글자 씩 출력 되도록
 
@@ -40,7 +51,7 @@ namespace TeamProject
             else // 출력할 게 남았다면
             {
                 Console.WriteLine(sb.ToString());
-                Thread.Sleep(50); // ms 마다 한 글자씩
+                Thread.Sleep(speed); // ms 마다 한 글자씩
             }
         }
 
