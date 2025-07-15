@@ -12,7 +12,14 @@ namespace TeamProject
     {
         private InputNameScene inputNameScene;
 
+        public int Gold { get; set; }// 골드
+        public int Exp { get; set; } // 경험치
+
         int battleCount = 0;
+
+        int selectedIndex = 0;
+        // 몬스터 정보
+        string[] enemies = { "Lv.2 미니언", "Lv.2 미니언", "Lv.2 미니언" };
 
         public BattleManager()
         {
@@ -21,28 +28,36 @@ namespace TeamProject
 
         public void BattleScene()
         {
-            Console.WriteLine("Battle!!");
-            // 몬스터 정보 가져와서 출력 // 3마리
-            Console.WriteLine($"Lv.2 미니언");
-            Console.WriteLine($"Lv.2 미니언");
-            Console.WriteLine($"Lv.2 미니언");
-            // 몬스터를 선택하면 공격 시작
-
-            Console.WriteLine("[내정보]");
-            // 레벨, 이름, 직업, HP
-            Console.WriteLine($"Lv.1 chad (전사)");
-            Console.WriteLine($"HP 100/100");
-
-            PlayerBattle();
-            if (battleCount == 1)
+            while (true)
             {
-                Console.WriteLine("몬스터가 모두 죽었습니다. 전투를 종료합니다.");
-                int battleCount = 0;
-                WInBattle();
-            }
-            else
-            {
-                EnemyBattle();
+                Console.Clear();
+                Console.WriteLine("Battle!!");
+                Console.WriteLine();
+                // 몬스터 정보 가져와서 출력 // 3마리
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    if (i == selectedIndex)
+                        Console.WriteLine($"▶ {enemies[i]}");
+                    else
+                        Console.WriteLine($"   {enemies[i]}");
+                }
+                // 몬스터를 선택하면 공격 시작
+
+                Console.WriteLine("[내정보]");
+                // 레벨, 이름, 직업, HP
+                Console.WriteLine($"Lv.1 chad (전사)");
+                Console.WriteLine($"HP 100/100");
+
+                PlayerBattle();
+                if (battleCount == 1)
+                {
+                    int battleCount = 0;
+                    WInBattle();
+                }
+                else
+                {
+                    EnemyBattle();
+                }
             }
 
         }
@@ -50,23 +65,22 @@ namespace TeamProject
         public void PlayerBattle()
         {   // 플레이어 이름   
             Console.WriteLine($"chad의 공격!");
-            // 플레이어 공격력
+            // 몬스터 이름, 플레이어 공격력
             Console.WriteLine($"Lv.2 미니언 을(를) 맞췄습니다. [데미지 : 10]");
             // 몬스터 이름, HP
             Console.WriteLine($"Lv.2 미니언 \n HP가 10 -> 5");
             // 몬스터가 죽었는지 확인
-            Console.WriteLine($"Lv.2 미니언 \n HP가 5 -> dead");
-            // 죽었으면 경험치, 골드 획득
-            if (true)
+            if (true) // 몬스터 피가 0이하인지 확인
             {
+                // 몬스터 이름, HP
+                Console.WriteLine($"Lv.2 미니언 \n HP가 5 -> dead");
+                // 죽었으면 경험치, 골드 획득
                 Console.WriteLine($"경험치 10 획득!, 골드 5 획득!");
             }
-            if (true) // 몬스터가 모두 죽었는지 확인
+            // 몬스터가 모두 죽었는지 확인
+            if (true) 
             {
                 int battleCount = 1;
-                Console.WriteLine($"모든 몬스터를 처치했습니다!");
-                // 다시 시작 씬으로 돌아가기
-
             }
         }
 
@@ -79,10 +93,15 @@ namespace TeamProject
             Console.WriteLine($"Lv.1 chad");
             // 플레이어 HP
             Console.WriteLine($"HP 100 -> 95");
-            // 다시 시작 씬으로 돌아가기
+            // 플레이어가 죽었는지 확인
+            if (true) // 플레이어 피가 0이하인지 확인
+            {
+                // 게임 오버 처리
+                LoseBattle();
+            }
 
         }
-        
+
         public void WInBattle()
         {
             // 전투 종료
@@ -122,10 +141,10 @@ namespace TeamProject
             int max = playerAttack + margin + 1;
 
             int playerAttackdamage = random.Next(min, max);
-            // 플레이어 방어력?
+            // 플레이어 방어력??
 
-            //몬스터 공격력 가져오기
-            int monsterAttack; // 몬스터 공격력
+            //몬스터 공격력
+            int monsterAttack;
         }
 
     }
