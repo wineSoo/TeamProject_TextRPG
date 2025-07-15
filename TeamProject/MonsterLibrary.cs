@@ -21,14 +21,22 @@ namespace TeamProject
         private void CreateMonsters()
         {
             monsters.Add(new Monster("미니언", 2, 15, 6, 1, "가장 평범한 몬스터."));
-            monsters.Add(new Monster("대표미니언", 5, 25, 10, 3, "모든 미니언들의 우두머리."));
+            monsters.Add(new Monster("대포미니언", 5, 25, 10, 3, "모든 미니언들의 우두머리."));
             monsters.Add(new Monster("궁허충", 3, 10, 7, 0, "빠르고 공격적인 벌레."));
         }
+
+        //랜덤으로 3마리 뽑아서 반환하기
+
+
 
         // 몬스터 데이터를 다른 클래스로 전달하는 역할
         public List<Monster> GiveMonsterData()
         {
             return monsters;
         }
+       
+       
+
     }
 }
+
