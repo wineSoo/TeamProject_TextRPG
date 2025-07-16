@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamProject
+namespace TeamProject.CharacterManager
 {
     /* 구현해야될 기능들
         1. 몬스터 기본 구조
