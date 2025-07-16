@@ -17,10 +17,15 @@ namespace TeamProject
         {
             Lv = 1;
             Name = "이름 없는"; //기본값
-            Job = PlayerJob.warrior;
-            AtkPower = 30;
+            Job = PlayerJob.Warrior;
+            AtkPower = 30; // 과제 기본값 10
             DefPower = 5;
+            Skill = 15;
+            Speed = 10;
             Hp = 100;
+            MaxHp = 100;
+            Mp = 50;
+            MaxMp = 50;
             Gold = 1500;
 
         }
@@ -39,7 +44,7 @@ namespace TeamProject
 
         public enum PlayerJob 
         {
-            warrior
+            Warrior, Archer, Theif, Mage
         }
         
         
@@ -49,9 +54,55 @@ namespace TeamProject
         public PlayerJob Job { get; set; }
         public float AtkPower { get; set; }
         public float DefPower { get; set; }
+        public float Skill { get; set; } // 치명타율
+        public float Speed { get; set; } // 회피율
         public float Hp { get; set; }
+        public float MaxHp { get; set; }
+        public float Mp { get; set; }
+        public float MaxMp { get; set; }
+
         public int Gold { get; set; }
 
+        public void PlayerGetDamage(int monsterAtk)
+        {
+            float atkErrorFloat = monsterAtk / 10;
+            int atkError = (int)Math.Ceiling(atkErrorFloat);
+            Random random = new Random();
+            int damage = random.Next(monsterAtk - atkError, monsterAtk + atkError + 1) - (int)Math.Ceiling(DefPower);
+            
+            if ( damage < 0) damage = 0;
+
+            Hp -= damage;
+
+            if (Hp < 0) Hp = 0;
+        }
+
+        public void StatInitializer(PlayerJob selectedjob)
+        {
+            switch (selectedjob)
+            {
+                case PlayerJob.Warrior:
+                    Job = PlayerJob.Warrior;
+                    MaxHp = 150;
+                    Hp = MaxHp;
+                    break;
+                case PlayerJob.Archer:
+                    Job = PlayerJob.Archer;
+                    Skill = 25;
+                    break;
+                case PlayerJob.Theif:
+                    Speed = 20;
+                    Job = PlayerJob.Theif;
+                    break;
+                case PlayerJob.Mage:
+                    Job = PlayerJob.Mage;
+                    MaxMp = 100;
+                    Mp = MaxMp;
+                    break;
+                default:
+                    break;
+            }
+        }
 
     }
 }
