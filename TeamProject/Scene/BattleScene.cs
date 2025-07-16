@@ -8,27 +8,45 @@ namespace TeamProject
 {
     internal class BattleScene : Scene
     {
-        StringBuilder sb;
-        int selOptions = 0; // 몬스터 선택용
-        int actionSelect = 0; // 공격 스킬 선택용
+        
+        public static BattleScene Instance { get; private set; }
+
+        private StringBuilder sb;
+        private int selOptions = 0;     // 몬스터 선택용
+        private int actionSelect = 0;   // 공격 스킬 선택용
 
         private MonsterLibrary monsterLibrary;
         private List<Monster>? enemy;
 
         private Player player;
-        private BattleState currentState = BattleState.SelectAction;
 
+        
+        private BattleState currentState;
+
+        
+        public BattleState CurrentState
+        {
+            get => currentState;
+            set => currentState = value;
+        }
+
+        
+        public enum BattleState
+        {
+            SelectAction,   // 공격 스킬 선택
+            SelectMonster   // 적 선택
+        }
+
+        
         public BattleScene()
         {
+            if (Instance == null)
+                Instance = this;
+
             this.player = Player.Instance;
             sb = new StringBuilder();
             monsterLibrary = new MonsterLibrary();
             SetupScene();
-        }
-        private enum BattleState
-        {
-            SelectAction, // 공격 스킬 선택
-            SelectMonster // 몬스터 선택
         }
 
         public override void Render()
@@ -108,7 +126,7 @@ namespace TeamProject
                             }
                             else if (actionSelect == 1) // 스킬 선택
                             {
-                                sb.AppendLine("아직 스킬이 없습니다");
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.SkillScene;
                             }
                             break;
                     }
