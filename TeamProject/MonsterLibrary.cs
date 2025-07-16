@@ -93,8 +93,23 @@ namespace TeamProject
                 int idx = rnd.Next(monsters.Count);
                 Monster m = monsters[idx];
                 selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
+                LevelIncreaser(selected[i], Player.Instance.DungeonFloor);
+
+
             }
             return selected;
         }
+
+        void LevelIncreaser(Monster monster, int dungeonFloor)
+        {
+            monster.Level += dungeonFloor - 1;
+            monster.Hp += (dungeonFloor / 2) * 5;
+            monster.MaxHp += (dungeonFloor / 2) * 5;
+            monster.Atk += dungeonFloor / 2;
+            monster.Def += dungeonFloor - 1;
+
+        }
+
+
     }
 }

@@ -19,9 +19,35 @@ namespace TeamProject
             optionsLen = options.Count;
         }
 
-
         StringBuilder sb;
         int selOptions = 0;
+        int totalMonsterNumber;
+        int totalExpGained;
+        int pastLevel;
+        int pastExp;
+        bool isLevelUp = false;
+
+        void ResultCalculator()
+        {
+            Player.Instance.DungeonFloor++;
+            pastLevel = Player.Instance.Lv;
+            pastExp= Player.Instance.Exp;
+
+            var monsters = MonsterManager.Instance.GetActiveMonsters();
+            if (monsters != null)
+            {
+                totalMonsterNumber = monsters.Count;
+                
+                foreach (var monster in monsters)
+                {
+                    if (monster != null)
+                    {
+                        totalExpGained += monster.Level;
+                    }
+                }
+            }
+        }
+
         public override void Render()
         {
             sb.Clear();
@@ -29,10 +55,14 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("Victory");
             sb.AppendLine();
-            sb.AppendLine($"던전에서 몬스터 {MonsterManager.Instance.MonsterCnt}마리를 잡았습니다.");
-            sb.AppendLine();
             sb.AppendLine($"Lv.{player.Lv}");
+            sb.AppendLine($"던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
+            sb.AppendLine();
+            sb.AppendLine("[캐릭터 정보]");
+            if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
+                else sb.AppendLine($"Lv.{pastLevel} {player.Name}");
             sb.AppendLine($"HP {player.BattleStartHp} -> {player.Hp}");
+            sb.AppendLine($"exp {pastExp} -> {player.Exp}");
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
@@ -82,5 +112,19 @@ namespace TeamProject
                     break;
             }
         }
+
+        public override void SetupScene()
+        {
+            base.SetupScene();
+
+            //경험치 계산
+            ResultCalculator();
+            isLevelUp = Player.Instance.LevelCalculator(totalExpGained);
+
+            // 소환된 몬스터 초기화
+            MonsterManager.Instance.ClearActiveMonsters();
+        }
+
+
     }
 }

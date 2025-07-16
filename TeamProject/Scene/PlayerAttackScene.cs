@@ -270,8 +270,8 @@ namespace TeamProject
                 atkState = AttackState.PlayerAttack;
                 Console.WriteLine("모든 적을 처지하셨습니다!");
 
-                // 소환된 몬스터 초기화
-                MonsterManager.Instance.ClearActiveMonsters();
+                //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
+
                 Thread.Sleep(2000);
                 // 클리어 했다면 자동으로 승리 씬으로 이동
                 // 테스트로는 스타트로 이동
