@@ -8,7 +8,7 @@ namespace TeamProject
 {
     internal class SkillLibrary
     {
-        private static SkillLibrary instance;
+        private static SkillLibrary? instance;
 
         public static SkillLibrary Instance
         {

@@ -9,7 +9,7 @@ namespace TeamProject
     internal class BattleScene : Scene
     {
         
-        public static BattleScene Instance { get; private set; }
+        public static BattleScene? Instance { get; private set; }
 
         private StringBuilder sb;
         private int selOptions = 0;     // 몬스터 선택용

@@ -22,7 +22,8 @@ namespace TeamProject
         }
         public Skill()
         {
-        
+            Name = "";
+            Description = "";
         }
         public Skill(string name, int atk, int pp, string description, SkillType type)
         {
