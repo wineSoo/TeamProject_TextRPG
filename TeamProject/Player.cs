@@ -22,7 +22,7 @@ namespace TeamProject
             DefPower = 5;
             Skill = 15;
             Speed = 10;
-            Hp = 100;
+            Hp = 10;
             MaxHp = 100;
             Mp = 50;
             MaxMp = 50;

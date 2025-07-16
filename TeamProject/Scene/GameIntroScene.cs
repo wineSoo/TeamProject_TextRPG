@@ -50,8 +50,7 @@ namespace TeamProject
                 sb.Append("\n아무 키를 누르면 다음 씬으로 넘어갑니다.(테스트용, 구현 다했으면 자동으로 넘어감)");
                 Console.WriteLine(sb.ToString());
                 SceneControl(); // 키입력 대기 = 화면 멈추기
-                SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
-
+                SceneManager.Instance.SetSceneState = SceneManager.SceneState.JobSelectScene;
             }
             else // 출력할 게 남았다면
             {

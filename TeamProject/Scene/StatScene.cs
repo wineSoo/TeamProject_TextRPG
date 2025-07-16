@@ -58,7 +58,6 @@ namespace TeamProject
             sb.Append("체 력 : ");
             sb.AppendLine(Player.Instance.Hp.ToString()); // 플레이어 체력
 
-
             sb.Append("Gold : ");
             sb.Append(Player.Instance.Gold.ToString()); // 플레이어 골드
             sb.AppendLine(" G");

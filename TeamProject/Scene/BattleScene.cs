@@ -11,12 +11,16 @@ namespace TeamProject
         StringBuilder sb;
         int selOptions = 0;
 
+        private MonsterLibrary monsterLibrary;
         private List<Monster>? enemy;
-        
+
+        private Player player;
+
         public BattleScene()
         {
             this.player = Player.Instance;
             sb = new StringBuilder();
+            monsterLibrary = new MonsterLibrary();
             SetupScene();
         }
         public override void Render()
@@ -26,6 +30,7 @@ namespace TeamProject
             sb.AppendLine();
 
             if (enemy == null) return;
+
             for (int i = 0; i < enemy.Count; i++)
             {
                 Monster m = enemy[i];
@@ -88,7 +93,7 @@ namespace TeamProject
         public override void SetupScene()
         {
             base.SetupScene();
-            if(enemy == null || enemy.Count == 0)
+            if (enemy == null || enemy.Count == 0)
             {
                 MonsterManager.Instance.SetBattleMonsters(3);
                 enemy = MonsterManager.Instance.GetActiveMonsters();
