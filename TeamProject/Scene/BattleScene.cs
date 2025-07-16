@@ -15,6 +15,7 @@ namespace TeamProject
         
         public BattleScene()
         {
+            this.player = Player.Instance;
             sb = new StringBuilder();
             SetupScene();
         }
@@ -34,6 +35,10 @@ namespace TeamProject
                 sb.AppendLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
 
             }
+            sb.AppendLine();
+            sb.AppendLine("[내정보]");
+            sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+            sb.AppendLine($"HP {player.Hp}/100");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
