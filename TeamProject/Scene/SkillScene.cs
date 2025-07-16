@@ -31,7 +31,7 @@ namespace TeamProject
             {
                 if (selOptions == i) sb.Append("▶ ");
                 else sb.Append("　 ");
-                sb.AppendLine($"{skills[i].Name} | ");
+                sb.AppendLine($"{skills[i].Name} | 데미지: {skills[i].Atk} | PP: {skills[i].PP} | 설명: {skills[i].Description}");
             }
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z, 취소 x");
