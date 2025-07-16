@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,14 @@ namespace TeamProject
 {
     internal class GameIntroScene : Scene
     {
+        int selOption = 0; // 0: START GAME, 1: QUIT
+        readonly string[] menuOptions = { "게임시작", "종료" };
         public GameIntroScene()
         {
-            title = "██████╗ ███████╗███╗   ███╗ ██████╗ ███╗   ██╗\n";
+            title  = "================================================================================================\n";
+            title += "                        **DEMON HUNTERS**                               \n";
+            title += "\n";
+            title += "██████╗ ███████╗███╗   ███╗ ██████╗ ███╗   ██╗\n"; 
             title += "██╔══██╗██╔════╝████╗ ████║██╔═══██╗████╗  ██║\n";
             title += "██║  ██║█████╗  ██╔████╔██║██║   ██║██╔██╗ ██║\n";
             title += "██║  ██║██╔══╝  ██║╚██╔╝██║██║   ██║██║╚██╗██║\n";
@@ -22,6 +28,7 @@ namespace TeamProject
             title += "██╔══██║██║   ██║██║╚██╗██║   ██║   ██╔══╝  ██╔══██╗╚════██║\n";
             title += "██║  ██║╚██████╔╝██║ ╚████║   ██║   ███████╗██║  ██║███████║\n";
             title += "╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝\n";
+            title += "================================================================================================\n";
             sb = new StringBuilder();
         }
         int titleIdx = -2;
@@ -33,45 +40,96 @@ namespace TeamProject
         public override void Render()
         {
             sb.Clear();
-            if(titleIdx < title.Length)
+            if (titleIdx < title.Length)
             {
                 titleIdx += 20;
-                if(titleIdx > title.Length)
-                {
-                    titleIdx = title.Length;
-                }
+                if (titleIdx > title.Length) titleIdx = title.Length;
             }
 
             for (int i = 0; i < titleIdx; i++)
-            {
                 sb.Append(title[i]);
-            }
-            if(titleIdx == title.Length) // 다 출력 했다면
+
+            if (titleIdx == title.Length)
             {
-                //sb.Append("\n아무 키를 누르면 다음 씬으로 넘어갑니다.(테스트용, 구현 다했으면 자동으로 넘어감)");
-                Console.WriteLine(sb.ToString());
-                //SceneControl(); // 키입력 대기 = 화면 멈추기
-                Thread.Sleep(3000);
-                SceneManager.Instance.SetSceneState = SceneManager.SceneState.JobSelectScene;
+                sb.AppendLine();
+                // 메뉴 한 줄에 커서 표시
+                for (int i = 0; i < menuOptions.Length; i++)
+                {
+                    if (selOption == i) sb.Append("▶ ");
+                    else sb.Append("  ");
+                    sb.Append($"[{i + 1}] {menuOptions[i]}  ");
+                }
+                sb.AppendLine();
+                sb.AppendLine("이동: 방향키, 선택: Z");
+                Console.Clear();
+                Console.Write(sb.ToString());
+                SceneControl();
             }
-            else // 출력할 게 남았다면
+            else
             {
-                Console.WriteLine(sb.ToString());
-                Thread.Sleep(speed); // ms 마다 한 글자씩
+                Console.Clear();
+                Console.Write(sb.ToString());
+                Thread.Sleep(speed);
+            }
+        }
+
+        protected override void SceneControl()
+        {
+            while (true)
+            {
+                var keyInfo = Console.ReadKey(true);
+
+                // ←, → 키로 커서 이동
+                if (keyInfo.Key == ConsoleKey.LeftArrow || keyInfo.Key == ConsoleKey.UpArrow)
+                {
+                    selOption = (selOption - 1 + menuOptions.Length) % menuOptions.Length;
+                    Render();
+                    break;
+                }
+                else if (keyInfo.Key == ConsoleKey.RightArrow || keyInfo.Key == ConsoleKey.DownArrow)
+                {
+                    selOption = (selOption + 1) % menuOptions.Length;
+                    Render();
+                    break;
+                }
+                // Z키로 선택
+                else if (keyInfo.Key == ConsoleKey.Z)
+                {
+                    if (selOption == 0)
+                    {
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.JobSelectScene;
+                    }
+                    else if (selOption == 1)
+                    {
+                        Console.WriteLine("\n게임을 종료합니다. 감사합니다!");
+                        Environment.Exit(0);
+                    }
+                    break;
+                }
             }
         }
 
         public override void SetupScene()
         {
             base.SetupScene();
+            sb.Clear();
+            titleIdx = -2;
+            selOption = 0;
+        }
+        /*public override void SetupScene()
+        {
+            base.SetupScene();
             sb.Clear(); // 혹시 다시 인트로 씬으로 오더라도 글자 처음부터 출력되게 하기
             titleIdx = -2;
         }
+        */
 
+        /*
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
         }
+        */
     }
     
 }
