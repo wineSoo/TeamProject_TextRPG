@@ -18,7 +18,7 @@ namespace TeamProject
         public int Atk;
         public int Def;
         public string Description;
-        public bool isDie;
+        public bool isDie; //죽었는지 여부 확인 (true = 죽음 / false = 생존)
 
         public Monster() { }  //몬스터매니저 생성자
 
