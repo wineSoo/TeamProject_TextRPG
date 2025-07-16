@@ -44,12 +44,14 @@ namespace TeamProject
             int tmpDam = 0;
             int check = rand.Next(10);
             // 10% 확률로 공격 실패(0~3, 5~9)
-            //if (check == 6) isHit = false; // 공격 실패 시
-            if (check <= 5) isHit = false; // 테스트용
+            if (check == 6) isHit = false; // 공격 실패 시
+            //if (check <= 5) isHit = false; // 테스트용
             else // 공격 성공 시
             {
+                int tmpAtk = rand.Next((int)(playerAtk - playerAtk * 0.1f), 
+                    (int)(playerAtk * 0.1f >= 0.5f ? (int)(playerAtk + playerAtk * 0.1f + 1) : (int)(playerAtk + playerAtk * 0.1f)));
                 isHit = true;
-                tmpDam = playerAtk - Def;
+                tmpDam = tmpAtk - Def;
 
                 if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
 

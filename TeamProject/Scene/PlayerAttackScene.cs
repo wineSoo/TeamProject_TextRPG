@@ -134,6 +134,7 @@ namespace TeamProject
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
             sb.AppendLine($"을(를) 맞췄습니다. [데미지: {renderDam}]");
+            sb.AppendLine();
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -179,6 +180,7 @@ namespace TeamProject
             //sb.Append("11"); // 가한 데미지
             sb.Append(renderDam); // 가한 데미지
             sb.AppendLine("]");
+            sb.AppendLine();
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -228,20 +230,19 @@ namespace TeamProject
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
             sb.Append("을(를) 맞췄습니다. [데미지: ");
-            //sb.Append("11"); // 가한 데미지
             sb.Append(renderDam.ToString()); // 가한 데미지
             sb.AppendLine("]");
+            sb.AppendLine();
+
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            //sb.AppendLine(tM.Name.ToString());
             sb.AppendLine(selectedMon.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
-            //sbMonHp.Clear();
-            //SetMonHp(tM); // 몬스터 체력바 세팅
+            
             Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
             //sb.AppendLine(" ██████████████████████████████████████████████████"); // 50개
             //sb.AppendLine(" ██████████████████████████████"); // 30개
@@ -274,7 +275,7 @@ namespace TeamProject
                 Thread.Sleep(2000);
                 // 클리어 했다면 자동으로 승리 씬으로 이동
                 // 테스트로는 스타트로 이동
-                SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+                SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
             }
             else SceneControl();
         }
@@ -295,7 +296,7 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine($"▶ {options[0]}");
             sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
+            sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
             SceneControl();
         }
@@ -306,7 +307,7 @@ namespace TeamProject
             selectedMon = MonsterManager.Instance.GetSelectedMonster();
             if (selectedMon == null) return;
 
-            beforeHp = selectedMon.MaxHp;
+            beforeHp = selectedMon.Hp;
             float tmp = selectedMon.Hp / (float)selectedMon.MaxHp;
             int tmpCnt = (int)(hpBarCnt * tmp);
             sbMonHp.Clear();

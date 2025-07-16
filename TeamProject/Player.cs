@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,15 +42,27 @@ namespace TeamProject
             }
         
         }
-        public int DamageTaken(int atk)
+        public int DamageTaken(int atk, out bool isHit)
         {
             int tmpDam = 0;
-            tmpDam = (int)(atk - DefPower);
-
-            Hp -= tmpDam;
-            if (Hp < 0)
+            int check = rand.Next(10);
+            // 10% 확률로 공격 실패(0~3, 5~9)
+            if (check == 6) isHit = false; // 공격 실패 시
+            //if (check <= 5) isHit = false; // 테스트용
+            else // 공격 성공 시
             {
-                Hp = 0;
+                int tmpAtk = rand.Next((int)(atk - atk * 0.1f),
+                    (int)(atk * 0.1f >= 0.5f ? (int)(atk + atk * 0.1f + 1) : (int)(atk + atk * 0.1f)));
+                isHit = true;
+                tmpDam = (int)(tmpAtk - DefPower);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                }
             }
             return tmpDam;
         }
@@ -76,6 +89,7 @@ namespace TeamProject
         public float MaxMp { get; set; }
 
         public int Gold { get; set; }
+        Random rand = new Random();
 
         public void PlayerGetDamage(int monsterAtk)
         {

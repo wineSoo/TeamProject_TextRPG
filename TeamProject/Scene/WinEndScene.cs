@@ -70,7 +70,7 @@ namespace TeamProject
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
                             break;
                         case 1: // 스타트씬으로 
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                             break;
                         default:
                             break;

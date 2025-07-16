@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TeamProject
@@ -24,6 +25,8 @@ namespace TeamProject
              monsters.Add(monster2);
              monsters.Add(monster3);*/
 
+            sbPlayerHp = new StringBuilder();
+            SetPlayerHp();
             sb0 = new StringBuilder();
             for (int i = 0; i < 36; i++)
             {
@@ -35,7 +38,15 @@ namespace TeamProject
             }
             tmpS = sb0.ToString();
         }
-        
+        // 1. 적공격 -> 공격 성공시 2, 실패시 4
+        // 2. 플레이어 체력 줄어들기 -> 3
+        // 3. 데미지
+        enum AttackState
+        {
+            EnermyAttack, ShowPlayerHp, PlayerTakeDamage, DamageText, Evaded, Finish
+        }
+        AttackState AtkState { get; set; }
+
         //float initialHp = Player.Instance.Hp;
         StringBuilder sb;
         int selOptions = 0;
@@ -46,6 +57,14 @@ namespace TeamProject
         int renderDam = 0;
         // 패배 씬으로 넘어가기용 변수
         bool isGameOver = false;
+        // 플레이어 체력 출력용 
+        StringBuilder sbPlayerHp;
+        // 최대 Hp바 개수
+        int hpBarCnt = 50;
+        int beforeHp = 0;
+        int lerpBeforeHpToCurHp = -1;
+        // 체력 보간용
+        float lerpTime = 0;
 
         //받아와야 하는거
         //현재 살아있는 몬스터 목록
@@ -64,7 +83,36 @@ namespace TeamProject
             {
                 if (monster.isDie) continue; // 죽었다면 다음 미니언
 
-                sb.Clear();
+                while (AtkState != AttackState.Finish)
+                {
+                    switch (AtkState)
+                    {
+                        case AttackState.EnermyAttack:
+                            EnermyAttack(monster);
+                            break;
+                        case AttackState.ShowPlayerHp:
+                            ShowPlayerHp(monster);
+                            break;
+                        case AttackState.PlayerTakeDamage:
+                            PlayerTakeDamage(monster);
+                            break;
+                        case AttackState.DamageText:
+                            DamageText(monster);
+                            break;
+                        case AttackState.Evaded:
+                            Evaded(monster);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                AtkState = AttackState.EnermyAttack;
+                // 게임이 종료되면 몬스터 정보도 사라지기 때문에 반복문 종료하기
+                if (isGameOver) break;
+
+
+
+                /*sb.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
                 sb.AppendLine("Battle!!");
                 sb.AppendLine();
@@ -77,11 +125,24 @@ namespace TeamProject
                 initialHp = (int)Player.Instance.Hp;
                 renderDam = Player.Instance.DamageTaken(monster.Atk);
                 sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
+
                 sb.AppendLine($"[데미지: {renderDam}]");
                 sb.AppendLine();
 
                 sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
+                sb.Append("[");
+                Console.Write(sb.ToString());
+
+                // 체력바 출력
+                Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
+                SetPlayerHp();
+                Console.Write(sbPlayerHp.ToString()); // 체력바 출력
+                Console.ResetColor();// 출력 색 초기화
+
+                sb.Clear();
+                sb.AppendLine("]");
                 sb.AppendLine($"Hp {(int)initialHp} -> {(int)Player.Instance.Hp}");
+                sb.AppendLine();
 
                 for (int i = 0; i < optionsLen; i++)
                 {
@@ -92,14 +153,8 @@ namespace TeamProject
                 sb.AppendLine();
                 sb.AppendLine("이동: 방향키, 선택: z");
                 Console.Write(sb.ToString());
-                SceneControl();
+                SceneControl();*/
 
-                Console.SetCursorPosition(0, 0);
-                Console.Write(tmpS);
-                Console.SetCursorPosition(0, 0);
-
-                // 게임이 종료되면 몬스터 정보도 사라지기 때문에 반복문 종료하기
-                if (isGameOver) break;
             }
 
             if (!isGameOver)
@@ -108,7 +163,76 @@ namespace TeamProject
             }
             else isGameOver = false; // 다음 배틀 상황이 올때 바로 게임 오버가 되지 않도록
         }
-
+        void EnermyAttack(Monster mon)
+        {
+            DrawEnermyAttack(ref mon);
+            Console.Write(sb.ToString());
+            if (CheckAttackSuccess()) // 공격이 적중했는가
+            {
+                AtkState = AttackState.ShowPlayerHp;
+            }
+            else // 회피
+            {
+                AtkState = AttackState.Evaded;
+            }
+            Thread.Sleep(500);
+            ClearConsole();
+        }
+        void ShowPlayerHp(Monster mon)
+        {
+            DrawEnermyAttack(ref mon);
+            DrawHit(ref mon);
+            Console.Write(sb.ToString());
+            Thread.Sleep(500);
+            AtkState = AttackState.PlayerTakeDamage;
+            ClearConsole();
+        }
+        void PlayerTakeDamage(Monster mon)
+        {
+            SetPlayerHp();
+            DrawEnermyAttack(ref mon);
+            DrawHit(ref mon);
+            Console.Write(sb.ToString());
+            if (lerpTime >= 1.0f)
+            {
+                lerpTime = 0.0f;
+                AtkState = AttackState.DamageText;
+                Thread.Sleep(300);
+            }
+            else
+            {
+                Thread.Sleep(50);
+            }
+            ClearConsole();
+        }
+        void DamageText(Monster mon)
+        {
+            DrawEnermyAttack(ref mon);
+            DrawHit(ref mon);
+            DrawDamage();
+            SceneControl();
+            ClearConsole();
+            AtkState = AttackState.Finish;
+        }
+        void Evaded(Monster mon)
+        {
+            DrawEnermyAttack(ref mon);
+            sb.AppendLine($"Lv. {Player.Instance.Lv} {Player.Instance.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다.");
+            sb.AppendLine();
+            sb.AppendLine($"▶ {options[0]}");
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z");
+            Console.Write(sb.ToString());
+            SceneControl();
+            ClearConsole();
+            AtkState = AttackState.Finish;
+        }
+        void ClearConsole()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.Write(tmpS);
+            Console.SetCursorPosition(0, 0);
+        }
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -136,7 +260,7 @@ namespace TeamProject
                         // 소환된 몬스터 초기화
                         MonsterManager.Instance.ClearActiveMonsters();
                         // 테스트로 스타트씬으로 변경
-                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.LoseEndScene;
 
                         //SceneManager.Instance.SetSceneState = SceneManager.SceneState.
                     }
@@ -151,6 +275,87 @@ namespace TeamProject
         {
             base.SetupScene();
             monsters = MonsterManager.Instance.GetActiveMonsters();
+            AtkState = AttackState.EnermyAttack;
+
+            beforeHp = (int)Player.Instance.Hp;
+            float tmp = Player.Instance.Hp / (float)Player.Instance.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbPlayerHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i < tmpCnt) sbPlayerHp.Append("█");
+                else sbPlayerHp.Append(" ");
+            }
+            lerpBeforeHpToCurHp = beforeHp;
+        }
+
+        void SetPlayerHp()
+        {
+            lerpTime += 0.1f;
+
+            lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, Player.Instance.Hp, lerpTime);
+            float tmp = (float)lerpBeforeHpToCurHp / Player.Instance.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbPlayerHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i < tmpCnt) sbPlayerHp.Append("█");
+                else sbPlayerHp.Append(" ");
+            }
+        }
+        bool CheckAttackSuccess()
+        {
+            bool IsHit;
+            beforeHp = (int)Player.Instance.Hp;
+            renderDam = Player.Instance.DamageTaken((int)Player.Instance.AtkPower, out IsHit);
+
+            return IsHit;
+        }
+        void DrawEnermyAttack(ref Monster mon)
+        {
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.AppendLine($"LV.{mon.Level} {mon.Name} 의 공격!");
+        }
+        void DrawHit(ref Monster mon)
+        {
+            sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
+
+            sb.AppendLine($"[데미지: {renderDam}]");
+            sb.AppendLine();
+
+            sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
+            sb.Append("[");
+            Console.Write(sb.ToString());
+
+            // 체력바 출력
+            Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
+            Console.Write(sbPlayerHp.ToString()); // 체력바 출력
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.AppendLine("]");
+        }
+        void DrawDamage()
+        {
+            sb.AppendLine($"Hp {(int)beforeHp} -> {(int)Player.Instance.Hp}");
+            sb.AppendLine();
+
+            for (int i = 0; i < optionsLen; i++)
+            {
+                if (selOptions == i) sb.Append("▶ ");
+                else sb.Append("　 ");
+                sb.AppendLine(options[i]);
+            }
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z");
+            Console.Write(sb.ToString());
         }
     }
 }

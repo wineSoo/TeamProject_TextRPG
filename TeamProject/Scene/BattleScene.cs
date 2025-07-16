@@ -95,9 +95,11 @@ namespace TeamProject
             base.SetupScene();
             if (enemy == null || enemy.Count == 0)
             {
-                MonsterManager.Instance.SetBattleMonsters(3);
+                int monCnt = new Random().Next(1, 5);
+                MonsterManager.Instance.SetBattleMonsters(monCnt);
                 enemy = MonsterManager.Instance.GetActiveMonsters();
                 MonsterManager.Instance.SelActiveMonstersNum = -1;
+                selOptions = 0; // 몬스터 선택지도 초기화
             }
         }
     }
