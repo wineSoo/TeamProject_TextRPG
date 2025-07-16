@@ -6,48 +6,38 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    internal class BattleScene : Scene
+    internal class JobSelectScene : Scene
     {
+        public JobSelectScene() 
+        {
+            sb = new StringBuilder();
+            options.Add("1. 전사: 강인한 체력으로 적의 공격을 여러 번 버틸 수 있습니다.");
+            options.Add("2. 궁수: 뛰어난 기술을 가지고 있어서 치명타율이 높습니다. ");
+            options.Add("3. 도적: 빠른 속도로 적의 공격을 좀 더 잘 피할 수 있습니다.");
+            options.Add("4. 마법사: 높은 MP를 가지고 있어 스킬을 여러 번 쓸 수 있습니다.");
+            optionsLen = options.Count;
+
+        }
         StringBuilder sb;
         int selOptions = 0;
 
-        private MonsterLibrary monsterLibrary;
-        private List<Monster> enemy = new List<Monster>();
-
-        private Player player;
-
-        public BattleScene()
-        {
-            this.player = Player.Instance;
-            sb = new StringBuilder();
-            monsterLibrary = new MonsterLibrary();
-            enemy = monsterLibrary.GetRandomMonsters(3);
-        }
         public override void Render()
         {
             sb.Clear();
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("직업을 선택해 주세요\n");
             sb.AppendLine();
-
-            for (int i = 0; i < enemy.Count; i++)
+            for (int i = 0; i < optionsLen; i++)
             {
-                Monster m = enemy[i];
-
                 if (selOptions == i) sb.Append("▶ ");
                 else sb.Append("　 ");
-                sb.AppendLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
-
+                sb.AppendLine(options[i]);
             }
-            sb.AppendLine();
-            sb.AppendLine("[내정보]");
-            sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-            sb.AppendLine($"HP {player.Hp}/100");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
             SceneControl();
-
         }
+
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -58,7 +48,7 @@ namespace TeamProject
                     if (selOptions != 0) selOptions--;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (selOptions != enemy.Count - 1) selOptions++;
+                    if (selOptions != optionsLen - 1) selOptions++;
                     break;
                 case ConsoleKey.LeftArrow:
                     break;
@@ -67,18 +57,22 @@ namespace TeamProject
                 case ConsoleKey.Z:
                     switch (selOptions)
                     {
-                        case 0: // 1번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
+                        case 0: // 전사
+                            Player.Instance.StatInitializer(Player.PlayerJob.Warrior);
                             break;
-                        case 1: // 2번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
+                        case 1: // 궁수
+                            Player.Instance.StatInitializer(Player.PlayerJob.Archer);
                             break;
-                        case 2: // 3번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
+                        case 2: // 도적
+                            Player.Instance.StatInitializer(Player.PlayerJob.Theif);
+                            break;
+                        case 3: // 마법사
+                            Player.Instance.StatInitializer(Player.PlayerJob.Mage);
                             break;
                         default:
                             break;
                     }
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                     break;
                 case ConsoleKey.X:
                     break;

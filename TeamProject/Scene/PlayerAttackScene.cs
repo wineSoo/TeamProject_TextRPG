@@ -126,7 +126,7 @@ namespace TeamProject
             sb.Append(tM.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             //sb.AppendLine(tM.Name.ToString());
-            sb.Append(tM.Name.ToString());
+            sb.AppendLine(tM.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
@@ -168,7 +168,7 @@ namespace TeamProject
             sb.Append("Lv. ");
             sb.Append(tM.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.Append(tM.Name.ToString());
+            sb.AppendLine(tM.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
@@ -219,7 +219,7 @@ namespace TeamProject
             sb.Append(tM.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             //sb.AppendLine(tM.Name.ToString());
-            sb.Append(tM.Name.ToString());
+            sb.AppendLine(tM.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
