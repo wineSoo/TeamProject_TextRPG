@@ -69,7 +69,7 @@ namespace TeamProject
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
                 sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-                sb.AppendLine($"HP {player.Hp}/100");
+                sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
 
                 string[] actions = { "공격", "스킬" };
@@ -97,16 +97,16 @@ namespace TeamProject
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
                 sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-                sb.AppendLine($"HP {player.Hp}/100");
+                sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
                 sb.AppendLine("이동: 방향키, 선택: z, 취소: x");
             }
-            sb.AppendLine();
+            /*sb.AppendLine();
             sb.AppendLine("[내정보]");
             sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
             sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
             sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z");
+            sb.AppendLine("이동: 방향키, 선택: z");*/
             Console.Write(sb.ToString());
             SceneControl();
 
