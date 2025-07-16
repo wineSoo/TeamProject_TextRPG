@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+    
     internal class LoseEndScene : Scene
     {
+        private Player player;
         public LoseEndScene()
         {
+            this.player = Player.Instance;
             sb = new StringBuilder();
             options.Add("처음으로");
             optionsLen = options.Count;
@@ -24,8 +27,8 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("You Lose");
             sb.AppendLine();
-            sb.AppendLine($"Lv.");
-            sb.AppendLine($"HP  -> ");
+            sb.AppendLine($"Lv.{player.Lv}");
+            sb.AppendLine($"HP ? -> Dead");
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)

@@ -18,7 +18,7 @@ namespace TeamProject
 
         public BattleScene()
         {
-            this.player = player;
+            this.player = Player.Instance;
             sb = new StringBuilder();
             monsterLibrary = new MonsterLibrary();
             enemy = monsterLibrary.GetRandomMonsters(3);

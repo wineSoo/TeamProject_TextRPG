@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+    
     internal class WinEndScene : Scene
     {
+        private Player player;
         public WinEndScene()
         {
+            this.player = Player.Instance;
             sb = new StringBuilder();
             options.Add("다음전투");
             options.Add("처음으로");
@@ -28,8 +31,8 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("던전에서 몬스터 3마리를 잡았습니다.");
             sb.AppendLine();
-            sb.AppendLine($"Lv.");
-            sb.AppendLine($"HP  -> ");
+            sb.AppendLine($"Lv.{player.Lv}");
+            sb.AppendLine($"HP ? -> {player.Hp}");
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
