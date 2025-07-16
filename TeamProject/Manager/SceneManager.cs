@@ -21,6 +21,7 @@ namespace TeamProject
             scenes.Add(SceneState.PlayerAttackScene, new PlayerAttackScene());
             scenes.Add(SceneState.EnemyAttackScene, new EnemyAttackScene());
             scenes.Add(SceneState.BattleScene, new BattleScene());
+            scenes.Add(SceneState.JobSelectScene, new JobSelectScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -32,7 +33,7 @@ namespace TeamProject
             delta = 10;
 
             // 시작은 이름 입력 씬으로
-            sceneState = SceneState.BattleScene;
+            sceneState = SceneState.JobSelectScene;
         }
 
         public static SceneManager Instance
@@ -49,7 +50,7 @@ namespace TeamProject
         }
         public enum SceneState
         {
-            InputNameScene, GameIntroScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene
+            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene
         }
         private SceneState sceneState;
         // 씬 저장용
