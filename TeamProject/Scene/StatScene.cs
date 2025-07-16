@@ -27,8 +27,7 @@ namespace TeamProject
 
             sb.AppendLine("캐릭터의 정보가 표시됩니다.");
             sb.AppendLine();
-            sb.Append("Lv. ");
-            sb.AppendLine(Player.Instance.Lv.ToString()); // 플레이어 레벨
+            sb.AppendLine($"Lv. {Player.Instance.Lv}"); // 플레이어 레벨
             sb.Append(Player.Instance.Name); // 플레이어 이름
             switch (Player.Instance.Job) // 플레이어 직업
             {
@@ -47,20 +46,13 @@ namespace TeamProject
                 default:
                     break;
             }
-            sb.Append("공격력 : ");
-            sb.AppendLine(Player.Instance.AtkPower.ToString()); // 플레이어 공격력
-            sb.Append("방어력 : ");
-            sb.AppendLine(Player.Instance.DefPower.ToString()); // 플레이어 방어력
-            sb.Append("기 술 : ");
-            sb.AppendLine(Player.Instance.Skill.ToString()); // 플레이어 기술 = 플레이어 치명타율
-            sb.Append("속 도 : ");
-            sb.AppendLine(Player.Instance.Speed.ToString()); // 플레이어 속도 = 플레이어 회피율
-            sb.Append("체 력 : ");
-            sb.AppendLine(Player.Instance.Hp.ToString()); // 플레이어 체력
-
-            sb.Append("Gold : ");
-            sb.Append(Player.Instance.Gold.ToString()); // 플레이어 골드
-            sb.AppendLine(" G");
+            sb.AppendLine($"공격력 : {Player.Instance.AtkPower}");// 플레이어 공격력
+            sb.AppendLine($"방어력 : {Player.Instance.DefPower}");// 플레이어 방어력
+            sb.AppendLine($"기 술 : {Player.Instance.Skill}"); //플레이어 기술 = 플레이어 치명타율
+            sb.AppendLine($"속 도 : {Player.Instance.Speed}");// 플레이어 속도 = 플레이어 회피율
+            sb.AppendLine($"체 력 : {Player.Instance.Hp}");// 플레이어 체력
+            sb.AppendLine($"마 나 : {Player.Instance.Mp}");//플레이어 마나
+            sb.AppendLine($"Gold : {Player.Instance.Gold} G"); // 플레이어 골드
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
             {
