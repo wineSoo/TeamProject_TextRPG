@@ -28,21 +28,23 @@ namespace TeamProject
             }
         }
 
-
+        Random rand = new Random();
         public MonsterLibrary MonsterLibrary { get; private set; } // 몬스터 라이브러리
         public List<Monster>? ActiveMonsters { get; private set; }  // 현재 관리하는 몬스터들
         public int SelActiveMonstersNum { private get; set; }
+        public int MonsterCnt { get; private set; }
         /*public MonsterManager(MonsterLibrary library) // 생성은 매니저에서
         {
             monsterLibrary = library;
             activeMonsters = new List<Monster>();
         }*/
 
-        public void SetBattleMonsters(int count)
+        public void SetBattleMonsters()
         {
-            ActiveMonsters = MonsterLibrary.GetRandomMonsters(count);
+            MonsterCnt = rand.Next(1, 5);
+            ActiveMonsters = MonsterLibrary.GetRandomMonsters(MonsterCnt);
         }
-       
+
         public List<Monster>? GetActiveMonsters()
         {            
             return ActiveMonsters;

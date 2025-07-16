@@ -55,12 +55,13 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("Victory");
             sb.AppendLine();
+            sb.AppendLine($"Lv.{player.Lv}");
             sb.AppendLine($"던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
             if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
                 else sb.AppendLine($"Lv.{pastLevel} {player.Name}");
-            sb.AppendLine($"HP ? -> {player.Hp}");
+            sb.AppendLine($"HP {player.BattleStartHp} -> {player.Hp}");
             sb.AppendLine($"exp {pastExp} -> {player.Exp}");
 
             sb.AppendLine();

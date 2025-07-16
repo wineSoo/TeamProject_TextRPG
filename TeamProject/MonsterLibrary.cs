@@ -29,7 +29,7 @@ namespace TeamProject
             monsters[0].Level = 2;
             monsters[0].MaxHp = 15;
             monsters[0].Hp = 15;
-            monsters[0].Atk = 6;
+            monsters[0].Atk = 7;
             monsters[0].Def = 1;
             monsters[0].Description = "가장 평범한 몬스터.";
 
@@ -38,7 +38,7 @@ namespace TeamProject
             monsters[1].Level = 5;
             monsters[1].MaxHp = 25;
             monsters[1].Hp = 25;
-            monsters[1].Atk = 10;
+            monsters[1].Atk = 12;
             monsters[1].Def = 3;
             monsters[1].Description = "무시무시한 대포를 장착한 미니언.";
 
@@ -47,7 +47,7 @@ namespace TeamProject
             monsters[2].Level = 3;
             monsters[2].MaxHp = 10;
             monsters[2].Hp = 10;
-            monsters[2].Atk = 7;
+            monsters[2].Atk = 9;
             monsters[2].Def = 0;
             monsters[2].Description = "빠르고 공격적인 벌레.";
         }
