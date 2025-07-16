@@ -29,6 +29,7 @@ namespace TeamProject
 
         void ResultCalculator()
         {
+            Player.Instance.DungeonFloor++;
             pastLevel = Player.Instance.Lv;
             pastExp= Player.Instance.Exp;
 

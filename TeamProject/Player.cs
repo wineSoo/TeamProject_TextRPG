@@ -12,7 +12,7 @@ namespace TeamProject
         private static Player? instance;
 
        
-        //속성을 초기화 합니다. 나중에 직업을 구현하면 직업에 따른 초기 능력치를 조절할 수 있을 것 같습니다.
+        //속성을 초기화 합니다.
         private Player()
         {
             Lv = 1;
@@ -22,13 +22,13 @@ namespace TeamProject
             DefPower = 5;
             Skill = 15;
             Speed = 10;
-            Hp = 10;
+            Hp = 100;
             MaxHp = 100;
             Mp = 50;
             MaxMp = 50;
             Gold = 1500;
             Exp = 0;
-
+            DungeonFloor = 1;
         }
 
 
@@ -77,6 +77,8 @@ namespace TeamProject
         public float MaxMp { get; set; }
         public int Gold { get; set; }
         public int Exp { get; set; }
+
+        public int DungeonFloor { get; set; }
 
         public void PlayerGetDamage(int monsterAtk)
         {
