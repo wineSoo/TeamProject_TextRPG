@@ -28,7 +28,7 @@ namespace TeamProject
             sb.AppendLine("You Lose");
             sb.AppendLine();
             sb.AppendLine($"Lv.{player.Lv}");
-            sb.AppendLine($"HP ? -> Dead");
+            sb.AppendLine($"HP {player.BattleStartHp} -> Dead");
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)

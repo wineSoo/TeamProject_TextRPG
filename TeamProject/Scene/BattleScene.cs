@@ -43,7 +43,7 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("[내정보]");
             sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-            sb.AppendLine($"HP {player.Hp}/100");
+            sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
@@ -95,11 +95,11 @@ namespace TeamProject
             base.SetupScene();
             if (enemy == null || enemy.Count == 0)
             {
-                int monCnt = new Random().Next(1, 5);
-                MonsterManager.Instance.SetBattleMonsters(monCnt);
+                MonsterManager.Instance.SetBattleMonsters();
                 enemy = MonsterManager.Instance.GetActiveMonsters();
                 MonsterManager.Instance.SelActiveMonstersNum = -1;
                 selOptions = 0; // 몬스터 선택지도 초기화
+                Player.Instance.BattleStartHp = Player.Instance.Hp;
             }
         }
     }

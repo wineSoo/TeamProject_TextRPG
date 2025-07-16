@@ -29,10 +29,10 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("Victory");
             sb.AppendLine();
-            sb.AppendLine("던전에서 몬스터 3마리를 잡았습니다.");
+            sb.AppendLine($"던전에서 몬스터 {MonsterManager.Instance.MonsterCnt}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine($"Lv.{player.Lv}");
-            sb.AppendLine($"HP ? -> {player.Hp}");
+            sb.AppendLine($"HP {player.BattleStartHp} -> {player.Hp}");
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)

@@ -19,16 +19,16 @@ namespace TeamProject
             Lv = 1;
             Name = "이름 없는"; //기본값
             Job = PlayerJob.Warrior;
-            AtkPower = 10; // 과제 기본값 10
+            AtkPower = 30; // 과제 기본값 10
             DefPower = 5;
             Skill = 15;
             Speed = 10;
-            Hp = 100;
-            MaxHp = 100;
+            Hp = 30;
+            MaxHp = Hp;
             Mp = 50;
             MaxMp = 50;
             Gold = 1500;
-
+            BattleStartHp = Hp;
         }
 
 
@@ -87,6 +87,7 @@ namespace TeamProject
         public float MaxHp { get; set; }
         public float Mp { get; set; }
         public float MaxMp { get; set; }
+        public float BattleStartHp { get; set; }
 
         public int Gold { get; set; }
         Random rand = new Random();

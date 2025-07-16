@@ -53,7 +53,8 @@ namespace TeamProject
         StringBuilder sb0; // 덮어쓰기 용
         string tmpS;
         // 출력용 임시 저장 변수
-        float initialHp;
+        //float initialHp;
+        int beforeHp = 0;
         int renderDam = 0;
         // 패배 씬으로 넘어가기용 변수
         bool isGameOver = false;
@@ -61,7 +62,6 @@ namespace TeamProject
         StringBuilder sbPlayerHp;
         // 최대 Hp바 개수
         int hpBarCnt = 50;
-        int beforeHp = 0;
         int lerpBeforeHpToCurHp = -1;
         // 체력 보간용
         float lerpTime = 0;
@@ -167,7 +167,7 @@ namespace TeamProject
         {
             DrawEnermyAttack(ref mon);
             Console.Write(sb.ToString());
-            if (CheckAttackSuccess()) // 공격이 적중했는가
+            if (CheckAttackSuccess(ref mon)) // 공격이 적중했는가
             {
                 AtkState = AttackState.ShowPlayerHp;
             }
@@ -303,11 +303,11 @@ namespace TeamProject
                 else sbPlayerHp.Append(" ");
             }
         }
-        bool CheckAttackSuccess()
+        bool CheckAttackSuccess(ref Monster mon)
         {
             bool IsHit;
             beforeHp = (int)Player.Instance.Hp;
-            renderDam = Player.Instance.DamageTaken((int)Player.Instance.AtkPower, out IsHit);
+            renderDam = Player.Instance.DamageTaken((int)mon.Atk, out IsHit);
 
             return IsHit;
         }
