@@ -6,48 +6,40 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    internal class BattleScene : Scene
+    internal class LoseEndScene : Scene
     {
+        public LoseEndScene()
+        {
+            sb = new StringBuilder();
+            options.Add("처음으로");
+            optionsLen = options.Count;
+        }
+
         StringBuilder sb;
         int selOptions = 0;
-
-        private MonsterLibrary monsterLibrary;
-        private List<Monster> enemy = new List<Monster>();
-
-        private Player player;
-
-        public BattleScene()
-        {
-            this.player = player;
-            sb = new StringBuilder();
-            monsterLibrary = new MonsterLibrary();
-            enemy = monsterLibrary.GetRandomMonsters(3);
-        }
         public override void Render()
         {
             sb.Clear();
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle!! - Result");
             sb.AppendLine();
+            sb.AppendLine("You Lose");
+            sb.AppendLine();
+            sb.AppendLine($"Lv.");
+            sb.AppendLine($"HP  -> ");
 
-            for (int i = 0; i < enemy.Count; i++)
+            sb.AppendLine();
+            for (int i = 0; i < optionsLen; i++)
             {
-                Monster m = enemy[i];
-
                 if (selOptions == i) sb.Append("▶ ");
                 else sb.Append("　 ");
-                sb.AppendLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
-
+                sb.AppendLine(options[i]);
             }
-            sb.AppendLine();
-            sb.AppendLine("[내정보]");
-            sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-            sb.AppendLine($"HP {player.Hp}/100");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
             SceneControl();
-
         }
+
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -58,7 +50,7 @@ namespace TeamProject
                     if (selOptions != 0) selOptions--;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (selOptions != enemy.Count - 1) selOptions++;
+                    if (selOptions != optionsLen - 1) selOptions++;
                     break;
                 case ConsoleKey.LeftArrow:
                     break;
@@ -67,14 +59,8 @@ namespace TeamProject
                 case ConsoleKey.Z:
                     switch (selOptions)
                     {
-                        case 0: // 1번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
-                            break;
-                        case 1: // 2번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
-                            break;
-                        case 2: // 3번 몬스터 선택
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
+                        case 0: // 스타트씬으로 
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
                             break;
                         default:
                             break;
@@ -88,3 +74,6 @@ namespace TeamProject
         }
     }
 }
+
+    
+
