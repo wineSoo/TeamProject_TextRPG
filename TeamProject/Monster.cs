@@ -39,18 +39,30 @@ namespace TeamProject
 
         
         //몬스터 hp가 0이하로 내려갈때
-        public int DamageTaken(int playerAtk, out bool isHit)
+        public int DamageTaken(int playerAtk, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);
+            isCritical = false;
+
             // 10% 확률로 공격 실패(0~3, 5~9)
-            if (check == 6) isHit = false; // 공격 실패 시
             //if (check <= 5) isHit = false; // 테스트용
+            if (check == 6) isHit = false; // 공격 실패 시
             else // 공격 성공 시
             {
-                int tmpAtk = rand.Next((int)(playerAtk - playerAtk * 0.1f), 
-                    (int)(playerAtk * 0.1f >= 0.5f ? (int)(playerAtk + playerAtk * 0.1f + 1) : (int)(playerAtk + playerAtk * 0.1f)));
                 isHit = true;
+
+                int tmpAtk = rand.Next((int)(playerAtk - playerAtk * 0.1f),
+                    (int)(playerAtk * 0.1f >= 0.5f ? (int)(playerAtk + playerAtk * 0.1f + 1) : (int)(playerAtk + playerAtk * 0.1f)));
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpAtk = (int)(tmpAtk * 1.6f); // 160% 데미지
+                }
+
                 tmpDam = tmpAtk - Def;
 
                 if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
