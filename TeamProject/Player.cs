@@ -18,11 +18,11 @@ namespace TeamProject
             Lv = 1;
             Name = "이름 없는"; //기본값
             Job = PlayerJob.Warrior;
-            AtkPower = 30; // 과제 기본값 10
+            AtkPower = 10; // 과제 기본값 10
             DefPower = 5;
             Skill = 15;
             Speed = 10;
-            Hp = 10;
+            Hp = 100;
             MaxHp = 100;
             Mp = 50;
             MaxMp = 50;

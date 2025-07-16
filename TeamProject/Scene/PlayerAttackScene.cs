@@ -16,7 +16,6 @@ namespace TeamProject
             options.Add("0. 다음");
             optionsLen = options.Count;
             SetupScene();// 현재 몬스터 체력 세팅
-            atkState = AttackState.PlayerAttack;
         }
         // 플레이어가 공격 맞춤 -> 적 체력 줄어듦 -> 데미지 표시;
         // 추후 필수 기능으로 간다면
@@ -28,7 +27,7 @@ namespace TeamProject
         
         enum AttackState 
         {
-            PlayerAttack, ShowEnermyHp, EnemyTakeDamage, ShowDamageText
+            PlayerAttack, ShowEnermyHp, EnemyTakeDamage, ShowDamageText, Evaded
         }
         AttackState atkState { get; set; }
 
@@ -60,6 +59,9 @@ namespace TeamProject
                 case AttackState.ShowDamageText:
                     RenderDamageText();
                     break;
+                case AttackState.Evaded:
+                    Evaded();
+                    break;
                 default:
                     break;
             }
@@ -67,16 +69,19 @@ namespace TeamProject
 
         protected override void SceneControl()
         {
+            ControlManager.ClearInputBuffer();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             switch (keyInfo.Key)
             {
-                case ConsoleKey.Z: // 나가기 선택
-                case ConsoleKey.X: // 나가기
+                case ConsoleKey.Z: // 다음 선택
                     SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
-                    atkState = AttackState.PlayerAttack;
-                    Console.WriteLine("적 공격 턴");
-                    Thread.Sleep(1000);
+                    // atkState = AttackState.PlayerAttack; 씬 세팅에서
+                    //Console.WriteLine("적 공격 턴으로 넘어갑니다");
+                    //Thread.Sleep(1000);
+                    break;
+                case ConsoleKey.X: // 선택지 없음
+                    
                     break;
                 default:
                     break;
@@ -96,8 +101,19 @@ namespace TeamProject
             sb.AppendLine("의 공격!");
 
             Console.Write(sb.ToString());
+
+            // 기본 공격이라면 회피 확률 10%, 스킬은 회피 불가
+            // 현재는 기본 공격만
+            if(CheckAttackSuccess()) // 공격이 적중했는가
+            {
+                atkState = AttackState.ShowEnermyHp;
+            }
+            else // 회피
+            {
+                atkState = AttackState.Evaded;
+            }
+
             Thread.Sleep(500);
-            atkState = AttackState.ShowEnermyHp;
         }
         void RenderEnermyHp()
         {
@@ -117,11 +133,7 @@ namespace TeamProject
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
-            sb.Append("을(를) 맞췄습니다. [데미지: ");
-            beforeHp = selectedMon.Hp;
-            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower);
-            sb.Append(renderDam.ToString()); // 가한 데미지
-            sb.AppendLine("]");
+            sb.AppendLine($"을(를) 맞췄습니다. [데미지: {renderDam}]");
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -266,32 +278,28 @@ namespace TeamProject
             }
             else SceneControl();
         }
-
-        void SetMonHp(Monster mon)
+        void Evaded()
         {
-            lerpTime += 0.1f;
-            
-            lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, mon.Hp, lerpTime);
-            float tmp = (float)lerpBeforeHpToCurHp / mon.MaxHp;
-            int tmpCnt = (int)(hpBarCnt * tmp);
-            sbMonHp.Clear();
-            for (int i = 0; i < hpBarCnt; i++)
-            {
-                if(i < tmpCnt) sbMonHp.Append("█");
-                else sbMonHp.Append(" ");
-            }
-        }
-        bool CheckClear() // 몬스터 다 죽었는지 체크하기
-        {
-            List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
-            if (monList == null) return true;
-            foreach (Monster mon in monList)
-            {
-                if (!mon.isDie) return false; // 안죽었다면 다시
-            }
-            return true;
-        }
+            if (selectedMon == null) return;
 
+            sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
+            sb.AppendLine("Battle!!");
+            sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
+            sb.AppendLine($"{Player.Instance.Name}의 공격!");
+            sb.AppendLine($"Lv. {selectedMon.Level} {selectedMon.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다.");
+            sb.AppendLine();
+            sb.AppendLine($"▶ {options[0]}");
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
+            Console.Write(sb.ToString());
+            SceneControl();
+        }
+        
         public override void SetupScene()
         {
             base.SetupScene();
@@ -308,6 +316,40 @@ namespace TeamProject
                 else sbMonHp.Append(" ");
             }
             lerpBeforeHpToCurHp = beforeHp;
+            atkState = AttackState.PlayerAttack;
+        }
+        void SetMonHp(Monster mon)
+        {
+            lerpTime += 0.1f;
+
+            lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, mon.Hp, lerpTime);
+            float tmp = (float)lerpBeforeHpToCurHp / mon.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbMonHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i < tmpCnt) sbMonHp.Append("█");
+                else sbMonHp.Append(" ");
+            }
+        }
+        bool CheckClear() // 몬스터 다 죽었는지 체크하기
+        {
+            List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
+            if (monList == null) return true;
+            foreach (Monster mon in monList)
+            {
+                if (!mon.isDie) return false; // 안죽었다면 다시
+            }
+            return true;
+        }
+        bool CheckAttackSuccess()
+        {
+            if (selectedMon == null) return false;
+            bool IsHit;
+            beforeHp = selectedMon.Hp;
+            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit);
+
+            return IsHit;
         }
     }
 }

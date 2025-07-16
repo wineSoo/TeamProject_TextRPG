@@ -19,6 +19,7 @@ namespace TeamProject
         public int Def;
         public string Description;
         public bool isDie; //죽었는지 여부 확인 (true = 죽음 / false = 생존)
+        Random rand = new Random();
 
         public Monster() { Name = ""; Description = ""; }  //몬스터매니저 생성자
 
@@ -38,21 +39,30 @@ namespace TeamProject
 
         
         //몬스터 hp가 0이하로 내려갈때
-        public int DamageTaken(int playerAtk)
+        public int DamageTaken(int playerAtk, out bool isHit)
         {
             int tmpDam = 0;
-            tmpDam = playerAtk - Def;
-
-            //previousHp = Hp; 
-            Hp -= tmpDam;
-            if (Hp < 0)
+            int check = rand.Next(10);
+            // 10% 확률로 공격 실패(0~3, 5~9)
+            //if (check == 6) isHit = false; // 공격 실패 시
+            if (check <= 5) isHit = false; // 테스트용
+            else // 공격 성공 시
             {
-                Hp = 0;
-                isDie = true;
+                isHit = true;
+                tmpDam = playerAtk - Def;
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                    isDie = true;
+                }
             }
             return tmpDam;
         }
-        public bool IsDead
+       /* public bool IsDead
         {
             get
             {
@@ -94,7 +104,7 @@ namespace TeamProject
 
             // 콘솔 글씨색을 원래대로 돌려놓는다.
             Console.ResetColor();
-        }
+        }*/
     }
 
 
