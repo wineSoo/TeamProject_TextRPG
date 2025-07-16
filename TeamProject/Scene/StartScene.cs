@@ -12,7 +12,7 @@ namespace TeamProject
         {
             sb = new StringBuilder();
             options.Add("1. 상태 보기");
-            options.Add("2. 전투 시작");
+            options.Add($"2. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
             optionsLen = options.Count;
         }
         StringBuilder sb;
@@ -69,6 +69,15 @@ namespace TeamProject
                 default:
                     break;
             }
+        }
+
+        public override void SetupScene()
+        {
+            base.SetupScene();
+            options.Clear();
+            options.Add("1. 상태 보기");
+            options.Add($"2. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
+            optionsLen = options.Count;
         }
     }
 }
