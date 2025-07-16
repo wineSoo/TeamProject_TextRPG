@@ -91,10 +91,11 @@ namespace TeamProject
 
             if (Hp < 0) Hp = 0;
         }
-        public void LevelCalculator(int expGained)
+        public bool LevelCalculator(int expGained)
         {
             Exp += expGained;
             int expToLevelUP;
+            bool isLevelUp = false;
             do
             {
                 expToLevelUP = (5 * Lv * Lv + 35 * Lv - 20) / 2;
@@ -103,13 +104,12 @@ namespace TeamProject
                     Lv++;
                     AtkPower += 0.5f;
                     DefPower++;
-                    Exp -= expToLevelUP;
-                    Console.WriteLine("레벨 업!");
+                    isLevelUp = true;
                 }
             }
 
             while (expToLevelUP <= Exp);
-            
+            return isLevelUp;
         }
 
         public void StatInitializer(PlayerJob selectedjob)
