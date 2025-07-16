@@ -79,9 +79,6 @@ namespace TeamProject
                     else sb.Append("　 ");
                     sb.AppendLine(actions[i]);
                 }
-                sb.AppendLine();
-
-                sb.AppendLine("이동: 방향키, 선택: z");
             }
             else if (currentState == BattleState.SelectMonster)
             {
@@ -99,7 +96,6 @@ namespace TeamProject
                 sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
-                sb.AppendLine("이동: 방향키, 선택: z, 취소: x");
             }
             /*sb.AppendLine();
             sb.AppendLine("[내정보]");
@@ -107,6 +103,9 @@ namespace TeamProject
             sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");*/
+            
+            sb.AppendLine();
+            sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
             SceneControl();
 

@@ -55,7 +55,7 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("Victory");
             sb.AppendLine();
-            sb.AppendLine($"던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
+            sb.AppendLine($"{Player.Instance.DungeonFloor}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
             if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
