@@ -27,6 +27,7 @@ namespace TeamProject
             Mp = 50;
             MaxMp = 50;
             Gold = 1500;
+            Exp = 0;
 
         }
 
@@ -74,8 +75,8 @@ namespace TeamProject
         public float MaxHp { get; set; }
         public float Mp { get; set; }
         public float MaxMp { get; set; }
-
         public int Gold { get; set; }
+        public int Exp { get; set; }
 
         public void PlayerGetDamage(int monsterAtk)
         {
@@ -89,6 +90,26 @@ namespace TeamProject
             Hp -= damage;
 
             if (Hp < 0) Hp = 0;
+        }
+        public void LevelCalculator(int expGained)
+        {
+            Exp += expGained;
+            int expToLevelUP;
+            do
+            {
+                expToLevelUP = (5 * Lv * Lv + 35 * Lv - 20) / 2;
+                if ( expToLevelUP <= Exp)
+                {
+                    Lv++;
+                    AtkPower += 0.5f;
+                    DefPower++;
+                    Exp -= expToLevelUP;
+                    Console.WriteLine("레벨 업!");
+                }
+            }
+
+            while (expToLevelUP <= Exp);
+            
         }
 
         public void StatInitializer(PlayerJob selectedjob)
