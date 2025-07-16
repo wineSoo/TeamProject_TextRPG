@@ -16,9 +16,9 @@ namespace TeamProject
         public int Gold { get; set; }// 골드
         public int Exp { get; set; } // 경험치
 
-        int battleCount = 0;
+        //int battleCount = 0;
 
-        int optionnum = 0;
+        //int optionnum = 0;
         
         public BattleManager(Player player)
         {
@@ -140,7 +140,7 @@ namespace TeamProject
             // 플레이어 방어력??
 
             //몬스터 공격력
-            int monsterAttack;
+            //int monsterAttack;
         }
         Random randomM = new Random();
         // 몬스터 목록을 가져와서 랜덤으로 섞어주기

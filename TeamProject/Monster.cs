@@ -20,7 +20,7 @@ namespace TeamProject
         public string Description;
         public bool isDie; //죽었는지 여부 확인 (true = 죽음 / false = 생존)
 
-        public Monster() { }  //몬스터매니저 생성자
+        public Monster() { Name = ""; Description = ""; }  //몬스터매니저 생성자
 
         public Monster(string name, int level, int maxhp, int atk, int def, string description)
         {
@@ -48,6 +48,7 @@ namespace TeamProject
             if (Hp < 0)
             {
                 Hp = 0;
+                isDie = true;
             }
             return tmpDam;
         }

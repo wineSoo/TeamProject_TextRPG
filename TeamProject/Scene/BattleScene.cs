@@ -11,15 +11,12 @@ namespace TeamProject
         StringBuilder sb;
         int selOptions = 0;
 
-        private MonsterLibrary monsterLibrary;
-        private List<Monster> enemy = new List<Monster>();
+        private List<Monster>? enemy;
         
         public BattleScene()
         {
             sb = new StringBuilder();
-
-            monsterLibrary = new MonsterLibrary();
-            enemy = monsterLibrary.GiveMonsterData();
+            SetupScene();
         }
         public override void Render()
         {
@@ -27,6 +24,7 @@ namespace TeamProject
             sb.AppendLine("Battle!!");
             sb.AppendLine();
 
+            if (enemy == null) return;
             for (int i = 0; i < enemy.Count; i++)
             {
                 Monster m = enemy[i];
@@ -52,14 +50,16 @@ namespace TeamProject
                     if (selOptions != 0) selOptions--;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (selOptions != enemy.Count - 1) selOptions++;
+                    if (enemy != null && selOptions != enemy.Count - 1) selOptions++;
                     break;
                 case ConsoleKey.LeftArrow:
                     break;
                 case ConsoleKey.RightArrow:
                     break;
                 case ConsoleKey.Z:
-                    switch (selOptions)
+                    MonsterManager.Instance.SelActiveMonstersNum = selOptions;
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
+                    /*switch (selOptions)
                     {
                         case 0: // 1번 몬스터 선택
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
@@ -72,12 +72,22 @@ namespace TeamProject
                             break;
                         default:
                             break;
-                    }
+                    }*/
                     break;
                 case ConsoleKey.X:
                     break;
                 default:
                     break;
+            }
+        }
+        public override void SetupScene()
+        {
+            base.SetupScene();
+            if(enemy == null || enemy.Count == 0)
+            {
+                MonsterManager.Instance.SetBattleMonsters(3);
+                enemy = MonsterManager.Instance.GetActiveMonsters();
+                MonsterManager.Instance.SelActiveMonstersNum = -1;
             }
         }
     }

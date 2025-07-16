@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,6 @@ namespace TeamProject
             sbMonHp = new StringBuilder();
             options.Add("0. 다음");
             optionsLen = options.Count;
-            tM = new Monster("대포미니언", 99, 124, 10, 3, "");
             SetupScene();// 현재 몬스터 체력 세팅
             atkState = AttackState.PlayerAttack;
         }
@@ -36,7 +36,7 @@ namespace TeamProject
         float lerpTime = 0;
 
         // 테스트용 몬스터
-        Monster tM;
+        Monster? selectedMon;
         int beforeHp = 0;
         int lerpBeforeHpToCurHp = -1;
         int renderDam = 0;
@@ -101,6 +101,7 @@ namespace TeamProject
         }
         void RenderEnermyHp()
         {
+            if (selectedMon == null) return;
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!!");
@@ -113,20 +114,20 @@ namespace TeamProject
             sb.AppendLine("의 공격!");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.Append(tM.Name.ToString());
+            sb.Append(selectedMon.Name.ToString());
             sb.Append("을(를) 맞췄습니다. [데미지: ");
-            beforeHp = tM.Hp;
-            renderDam = tM.DamageTaken((int)Player.Instance.AtkPower);
+            beforeHp = selectedMon.Hp;
+            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower);
             sb.Append(renderDam.ToString()); // 가한 데미지
             sb.AppendLine("]");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             //sb.AppendLine(tM.Name.ToString());
-            sb.AppendLine(tM.Name.ToString());
+            sb.AppendLine(selectedMon.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
@@ -145,6 +146,8 @@ namespace TeamProject
         }
         void RenderEnermyTakeDam()
         {
+            if (selectedMon == null) return;
+
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!!");
@@ -157,22 +160,22 @@ namespace TeamProject
             sb.AppendLine("의 공격!");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.Append(tM.Name.ToString());
+            sb.Append(selectedMon.Name.ToString());
             sb.Append("을(를) 맞췄습니다. [데미지: ");
             //sb.Append("11"); // 가한 데미지
             sb.Append(renderDam); // 가한 데미지
             sb.AppendLine("]");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.AppendLine(tM.Name.ToString());
+            sb.AppendLine(selectedMon.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
-            SetMonHp(tM); // 몬스터 체력바 세팅
+            SetMonHp(selectedMon); // 몬스터 체력바 세팅
             Console.ForegroundColor = ConsoleColor.Red; // 출력 색 지정
             Console.Write(sbMonHp.ToString()); // 체력바 출력
             Console.ResetColor();// 출력 색 초기화
@@ -195,6 +198,8 @@ namespace TeamProject
         }
         void RenderDamageText()
         {
+            if (selectedMon == null) return;
+
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!!");
@@ -207,19 +212,19 @@ namespace TeamProject
             sb.AppendLine("의 공격!");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.Append(tM.Name.ToString());
+            sb.Append(selectedMon.Name.ToString());
             sb.Append("을(를) 맞췄습니다. [데미지: ");
             //sb.Append("11"); // 가한 데미지
             sb.Append(renderDam.ToString()); // 가한 데미지
             sb.AppendLine("]");
 
             sb.Append("Lv. ");
-            sb.Append(tM.Level.ToString()); // 몬스터 레벨
+            sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             //sb.AppendLine(tM.Name.ToString());
-            sb.AppendLine(tM.Name.ToString());
+            sb.AppendLine(selectedMon.Name.ToString());
             sb.Append("[");
             Console.Write(sb.ToString());
 
@@ -238,7 +243,7 @@ namespace TeamProject
             sb.Append("HP ");
             sb.Append(beforeHp);
             sb.Append(" -> ");
-            sb.AppendLine(tM.Hp <= 0 ? "Dead" : tM.Hp.ToString());
+            sb.AppendLine(selectedMon.Hp <= 0 ? "Dead" : selectedMon.Hp.ToString());
 
             sb.AppendLine();
             sb.Append("▶ ");
@@ -247,14 +252,25 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
             Console.Write(sb.ToString());
-            SceneControl();
+            if (CheckClear()) // 클리어 여부 확인
+            {
+                atkState = AttackState.PlayerAttack;
+                Console.WriteLine("모든 적을 처지하셨습니다!");
+
+                // 소환된 몬스터 초기화
+                MonsterManager.Instance.ClearActiveMonsters();
+                Thread.Sleep(2000);
+                // 클리어 했다면 자동으로 승리 씬으로 이동
+                // 테스트로는 스타트로 이동
+                SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
+            }
+            else SceneControl();
         }
 
         void SetMonHp(Monster mon)
         {
             lerpTime += 0.1f;
             
-
             lerpBeforeHpToCurHp = (int)ControlManager.Lerp(beforeHp, mon.Hp, lerpTime);
             float tmp = (float)lerpBeforeHpToCurHp / mon.MaxHp;
             int tmpCnt = (int)(hpBarCnt * tmp);
@@ -264,24 +280,26 @@ namespace TeamProject
                 if(i < tmpCnt) sbMonHp.Append("█");
                 else sbMonHp.Append(" ");
             }
-
-
-            // 기존
-            /*float tmp = mon.Hp / (float)mon.MaxHp;
-            int tmpCnt = (int)(hpBarCnt * tmp);
-            sbMonHp.Clear();
-            for (int i = 0; i < hpBarCnt; i++)
+        }
+        bool CheckClear() // 몬스터 다 죽었는지 체크하기
+        {
+            List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
+            if (monList == null) return true;
+            foreach (Monster mon in monList)
             {
-                if(i <= tmpCnt) sbMonHp.Append("█");
-                else sbMonHp.Append(" ");
-            }*/
+                if (!mon.isDie) return false; // 안죽었다면 다시
+            }
+            return true;
         }
 
         public override void SetupScene()
         {
             base.SetupScene();
-            beforeHp = tM.MaxHp;
-            float tmp = tM.Hp / (float)tM.MaxHp;
+            selectedMon = MonsterManager.Instance.GetSelectedMonster();
+            if (selectedMon == null) return;
+
+            beforeHp = selectedMon.MaxHp;
+            float tmp = selectedMon.Hp / (float)selectedMon.MaxHp;
             int tmpCnt = (int)(hpBarCnt * tmp);
             sbMonHp.Clear();
             for (int i = 0; i < hpBarCnt; i++)

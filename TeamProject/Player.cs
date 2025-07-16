@@ -36,6 +36,20 @@ namespace TeamProject
             }
         
         }
+        public int DamageTaken(int atk)
+        {
+            int tmpDam = 0;
+            tmpDam = (int)(atk - DefPower);
+
+            Hp -= tmpDam;
+            if (Hp < 0)
+            {
+                Hp = 0;
+            }
+            return tmpDam;
+        }
+
+
 
         public enum PlayerJob 
         {

@@ -25,7 +25,7 @@ namespace TeamProject
         }
         int titleIdx = -2;
         string title;
-        int speed = 5; // 숫자 높을수록 느리게 출력됩니다.
+        int speed = 100; // 숫자 높을수록 느리게 출력됩니다.
         StringBuilder sb;
         // 0.3초마다 한 글자 씩 출력 되도록
 
@@ -34,8 +34,13 @@ namespace TeamProject
             sb.Clear();
             if(titleIdx < title.Length)
             {
-                titleIdx++;
+                titleIdx += 10;
+                if(titleIdx > title.Length)
+                {
+                    titleIdx = title.Length;
+                }
             }
+
             for (int i = 0; i < titleIdx; i++)
             {
                 sb.Append(title[i]);

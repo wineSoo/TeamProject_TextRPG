@@ -16,8 +16,10 @@ namespace TeamProject
         public MonsterLibrary()
         {
             monsters = new List<Monster>();
+            rnd = new Random();
             CreateMonsters();
         }
+        Random rnd;
 
         //몬스터 정보 등록
         private void CreateMonsters()
@@ -62,9 +64,8 @@ namespace TeamProject
         }
 
         //랜덤 N마리 복사본 반환 (중복X)
-        public List<Monster> GetRandomMonsters(int count)
+        public List<Monster> GetRandomMonstersR(int count)
         {
-            Random rnd = new Random();
             List<int> used = new List<int>();
             List<Monster> selected = new List<Monster>();
 
@@ -78,6 +79,19 @@ namespace TeamProject
 
                 used.Add(idx);
                 var m = monsters[idx];
+                selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
+            }
+            return selected;
+        }
+        // 랜덤 N마리 복사본 반환 (중복O)
+        public List<Monster> GetRandomMonsters(int count)
+        {
+            List<Monster> selected = new List<Monster>();
+
+            for (int i = 0; i < count; i++)
+            {
+                int idx = rnd.Next(monsters.Count);
+                Monster m = monsters[idx];
                 selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
             }
             return selected;
