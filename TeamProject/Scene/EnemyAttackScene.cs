@@ -57,6 +57,9 @@ namespace TeamProject
         //float initialHp;
         int beforeHp = 0;
         int renderDam = 0;
+        // 치명타 출력용
+        bool isCritical = false;
+        string criticalS = " - 치명타 공격!!";
         // 패배 씬으로 넘어가기용 변수
         bool isGameOver = false;
         // 플레이어 체력 출력용 
@@ -309,7 +312,7 @@ namespace TeamProject
         {
             bool IsHit;
             beforeHp = (int)Player.Instance.Hp;
-            renderDam = Player.Instance.DamageTaken((int)mon.Atk, out IsHit);
+            renderDam = Player.Instance.DamageTaken((int)mon.Atk, out IsHit, out isCritical);
 
             return IsHit;
         }
@@ -327,9 +330,11 @@ namespace TeamProject
         }
         void DrawHit(ref Monster mon)
         {
-            sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
+            sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다. ");
 
-            sb.AppendLine($"[데미지: {renderDam}]");
+            sb.Append($"[데미지: {renderDam}]");
+            if (isCritical) sb.AppendLine(criticalS);
+            else sb.AppendLine();
             sb.AppendLine();
 
             sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");

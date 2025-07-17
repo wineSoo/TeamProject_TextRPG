@@ -55,17 +55,17 @@ namespace TeamProject
                 int tmpAtk = rand.Next((int)(playerAtk - playerAtk * 0.1f),
                     (int)(playerAtk * 0.1f >= 0.5f ? (int)(playerAtk + playerAtk * 0.1f + 1) : (int)(playerAtk + playerAtk * 0.1f)));
 
+                tmpDam = tmpAtk - Def;
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
                 // 치명타 계산
                 check = rand.Next(0, 100);
                 if (check <= 54)
                 {
                     isCritical = true;
-                    tmpAtk = (int)(tmpAtk * 1.6f); // 160% 데미지
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
                 }
-
-                tmpDam = tmpAtk - Def;
-
-                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
 
                 Hp -= tmpDam;
                 if (Hp <= 0)

@@ -43,10 +43,12 @@ namespace TeamProject
             }
         
         }
-        public int DamageTaken(int atk, out bool isHit)
+        public int DamageTaken(int atk, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);
+            isCritical = false;
+
             // 10% 확률로 공격 실패(0~3, 5~9)
             if (check == 6) isHit = false; // 공격 실패 시
             //if (check <= 5) isHit = false; // 테스트용
@@ -58,6 +60,14 @@ namespace TeamProject
                 tmpDam = (int)(tmpAtk - DefPower);
 
                 if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
+                }
 
                 Hp -= tmpDam;
                 if (Hp <= 0)
