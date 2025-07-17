@@ -113,11 +113,15 @@ namespace TeamProject
                 // 게임 상태 그리기
                 scenes[sceneState].Render();
 
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine(tmpS);
-                Console.SetCursorPosition(0, 0);
+                ClearScene();
 
             }
+        }
+        public void ClearScene()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(tmpS);
+            Console.SetCursorPosition(0, 0);
         }
     }
 }
