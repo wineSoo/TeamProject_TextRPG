@@ -56,22 +56,14 @@ namespace TeamProject
                 case ConsoleKey.RightArrow:
                     break;
                 case ConsoleKey.Z:
-                    switch (selOptions)
+                    if (selOptions >= 0 && selOptions <= 2)
                     {
-                        case 0: // 퀘스트 1
-
-                            break;
-                        case 1: // 퀘스트 2
-
-                            break;
-                        case 2: // 퀘스트 3
-
-                            break;
-                        case 3:
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
-                            break;
-                        default:
-                            break;
+                        QuestManager.Instance.SelectQuestVariable = selOptions+1;
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.SelectQuestScene;
+                    }
+                    else if (selOptions == 3)
+                    {
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                     }
                     break;
                 case ConsoleKey.X:
