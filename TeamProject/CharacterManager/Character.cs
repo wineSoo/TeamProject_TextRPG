@@ -11,6 +11,7 @@ namespace TeamProject
         public float AtkPower { get; set; }    // 통일: Atk(X), AtkPower(O)
         public float DefPower { get; set; }    // 통일: Def(X), DefPower(O)
         public string Description { get; set; }
+        protected Random rand = new Random();
 
         protected Character()
         {
@@ -35,13 +36,73 @@ namespace TeamProject
         }
 
         // 공통 대미지 처리
-        public virtual int DamageTaken(float attackerAtk)
+        public virtual int DamageTaken(int atk, out bool isHit, out bool isCritical)
         {
-            int tmpDam = (int)(attackerAtk - DefPower);
-            if (tmpDam < 0) tmpDam = 0;
+            int tmpDam = 0;
+            int check = rand.Next(10);
+            isCritical = false;
 
-            Hp -= tmpDam;
-            if (Hp < 0) Hp = 0;
+            // 10% 확률로 공격 실패(0~3, 5~9)
+            if (check == 6) isHit = false; // 공격 실패 시
+            //if (check <= 5) isHit = false; // 테스트용
+            else // 공격 성공 시
+            {
+                int tmpAtk = rand.Next((int)(atk - atk * 0.1f),
+                    (int)(atk * 0.1f >= 0.5f ? (int)(atk + atk * 0.1f + 1) : (int)(atk + atk * 0.1f)));
+                isHit = true;
+                tmpDam = (int)(tmpAtk - DefPower);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
+                }
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                }
+            }
+            return tmpDam;
+        }
+
+        public virtual int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
+        {
+            int tmpDam = 0;
+            int check = rand.Next(10);
+            isCritical = false;
+            isHit = true;
+
+            // 스킬 공격은 회피 불가
+            if (skill.Type == Skill.SkillType.AttackSkill || check != 6) // 스킬이거나 회피가 발동 안했다면
+            {
+                int tmpAtk = rand.Next((int)(skill.Atk - skill.Atk * 0.1f),
+                        (int)(skill.Atk * 0.1f >= 0.5f ? (int)(skill.Atk + skill.Atk * 0.1f + 1) : (int)(skill.Atk + skill.Atk * 0.1f)));
+
+                tmpDam = (int)(tmpAtk - DefPower);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
+                }
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                }
+            }
+            else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
 
             return tmpDam;
         }

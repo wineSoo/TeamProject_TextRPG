@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
-    
     internal class WinEndScene : Scene
     {
         private Player player;

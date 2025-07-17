@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamProject.CharacterManager
+namespace TeamProject
 {
     public class Monster : Character
     {
@@ -14,7 +14,7 @@ namespace TeamProject.CharacterManager
             isDie = false;
         }
 
-        public override int DamageTaken(float playerAtk)
+        /*public override int DamageTaken(float playerAtk)
         {
             int tmpDam = (int)(playerAtk - DefPower);
             Hp -= tmpDam;
@@ -24,7 +24,7 @@ namespace TeamProject.CharacterManager
                 isDie = true;
             }
             return tmpDam;
-        }
+        }*/
 
         public override bool IsDead()
         {

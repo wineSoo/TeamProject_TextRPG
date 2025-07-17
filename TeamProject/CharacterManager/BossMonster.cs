@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeamProject.CharacterManager
+namespace TeamProject
 {
     // BossMonster는 단순히 Monster를 상속만 받음
 

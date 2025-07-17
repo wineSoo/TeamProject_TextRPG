@@ -49,7 +49,7 @@ namespace TeamProject
             }
         
         }
-        public int DamageTaken(int atk, out bool isHit, out bool isCritical)
+        /*public int DamageTaken(int atk, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);
@@ -119,20 +119,21 @@ namespace TeamProject
             else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
             
             return tmpDam;
-        }
+        }*/
 
-        public enum PlayerJob 
+        /*public enum PlayerJob
+        { Warrior, Archer, Theif, Mage }*/
         // 플레이어 전용 랜덤 데미지 함수 (원하면 override)
         public void PlayerGetDamage(float monsterAtk)
         {
 
             float atkErrorFloat = monsterAtk / 10f;
-            Warrior, Archer, Theif, Mage
+            
         }
         
         
         //플레이어 속성. 필요하면 추가해서 쓰세용
-        public int Lv { get; set; }
+        /*public int Lv { get; set; }
         public string Name { get; set; }
         public PlayerJob Job { get; set; }
         public float AtkPower { get; set; }
@@ -142,14 +143,13 @@ namespace TeamProject
         public float Hp { get; set; }
         public float MaxHp { get; set; }
         public float Mp { get; set; }
-        public float MaxMp { get; set; }
+        public float MaxMp { get; set; }*/
         public float BattleStartHp { get; set; }
 
-        Random rand = new Random();
-        public int Gold { get; set; }
+       /* public int Gold { get; set; }
         public int Exp { get; set; }
 
-        public int DungeonFloor { get; set; }
+        public int DungeonFloor { get; set; }*/
 
         public bool LevelCalculator(int expGained)
         {
