@@ -160,7 +160,6 @@ namespace TeamProject
 
             if (!isGameOver)
             {
-                BattleScene.Instance.CurrentState = BattleState.SelectAction;
                 SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
             }
             else isGameOver = false; // 다음 배틀 상황이 올때 바로 게임 오버가 되지 않도록
