@@ -142,7 +142,11 @@ namespace TeamProject
                                 // 테스트로는 스타트로 이동
                                 SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
                             }
-                            else SceneControl();
+                            else
+                            {
+                                atkState = AttackState.PlayerAttack;
+                                SceneControl();
+                            }
                             break;
                         case AttackState.Evaded:
                             Evaded();
@@ -167,7 +171,21 @@ namespace TeamProject
             switch (keyInfo.Key)
             {
                 case ConsoleKey.Z: // 다음 선택
-                    atkState = AttackState.Finish;
+                    switch (Player.Instance.GetUseSkill().Target)
+                    {
+                        case Skill.SkillTarget.Single:
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
+
+                            break;
+                        case Skill.SkillTarget.Multi:
+                            break;
+                        case Skill.SkillTarget.RandomMulti:
+                            atkState = AttackState.Finish;
+                            break;
+                        default:
+                            break;
+                    }
+                    
                     //SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
                     // atkState = AttackState.PlayerAttack; 씬 세팅에서
                     //Console.WriteLine("적 공격 턴으로 넘어갑니다");
