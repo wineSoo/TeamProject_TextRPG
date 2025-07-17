@@ -6,8 +6,8 @@ namespace TeamProject
     {
         public BossMonster() : base() { }
 
-        public BossMonster(string name, int level, float maxHp, float atkPower, float defPower, string description = "")
-            : base(name, level, maxHp, atkPower, defPower, description)
+        public BossMonster(string name, int level, float maxHp, float atkPower, float defPower, MonsterIndex index, string description = "")
+            : base(name, level, maxHp, atkPower, defPower, index, description)
         {          
         }       
     }
