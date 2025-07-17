@@ -31,8 +31,7 @@ namespace TeamProject
 
         public BattleScene()
         {
-
-            this.player = Player.Instance;
+            player = Player.Instance;
             monsterLibrary = new MonsterLibrary();
             SetupScene();
         }
@@ -43,11 +42,6 @@ namespace TeamProject
             Console.WriteLine("Battle!!");
             Console.WriteLine();
             if (enemy == null) return;
-
-            if (enemy[0] is BossMonster)  //보스 몬스터 등장 대사
-            {
-                Console.WriteLine("보스가 포효를 하며 등장합니다!");
-            }
 
             if (currentState == BattleState.SelectAction || currentState == BattleState.SelectSkill)
             {
