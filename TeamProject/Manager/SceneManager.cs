@@ -62,7 +62,7 @@ namespace TeamProject
         private SceneState sceneState;
         // 씬 저장용
         private Dictionary<SceneState, Scene> scenes;
-
+        public string tmpS; // 밀어내기용
         public int delta { get; private set; }
 
         public SceneState SetSceneState
@@ -105,7 +105,7 @@ namespace TeamProject
                 }
                 sb.AppendLine();
             }
-            string tmpS = sb.ToString();
+            tmpS = sb.ToString();
             while (true)
             {
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기

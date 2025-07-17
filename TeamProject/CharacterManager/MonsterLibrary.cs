@@ -68,6 +68,7 @@ namespace TeamProject
             bossMonster.DefPower = 5f;
             bossMonster.Description = "심연의 지배자. 어둠의 힘을 다루며 모든 악마의 공포 대상이다.";
             bossMonster.Index = Character.MonsterIndex.AbyssLord;
+            bossMonster.skills.Add(new AlphaStrike(bossMonster));
         }
 
         // 전체 몬스터 복사본 반환
