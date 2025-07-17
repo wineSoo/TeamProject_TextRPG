@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -135,12 +136,12 @@ namespace TeamProject
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
-            sb.Append(selectedMon.Name.ToString());
-            
+            sb.Append(selectedMon.Name.ToString());           
             sb.Append($"을(를) 맞췄습니다. [데미지: {renderDam}]");
             if (isCritical) sb.AppendLine(criticalS);
             else sb.AppendLine();
             sb.AppendLine();
+
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -357,6 +358,7 @@ namespace TeamProject
             //renderDam = selectedMon.DamageTaken(new Skill(), out IsHit, out isCritical);
 
             return IsHit;
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -11,37 +12,28 @@ namespace TeamProject
         
         public static BattleScene? Instance { get; private set; }
 
+
         private StringBuilder sb;
         private int selOptions = 0;     // 몬스터 선택용
         private int actionSelect = 0;   // 공격 스킬 선택용
+        private int skillSelect = 1;     // 스킬 선택용 (0: 공격, 1: 스킬) 
 
         private MonsterLibrary monsterLibrary;
         private List<Monster>? enemy;
 
         private Player player;
+        private BattleState currentState = BattleState.SelectAction;
 
-        
-        private BattleState currentState;
-
-        
-        public BattleState CurrentState
-        {
-            get => currentState;
-            set => currentState = value;
-        }
-
-        
         public enum BattleState
         {
             SelectAction,   // 공격 스킬 선택
+            SelectSkill,    // 스킬 선택
             SelectMonster   // 적 선택
         }
 
         
         public BattleScene()
         {
-            if (Instance == null)
-                Instance = this;
 
             this.player = Player.Instance;
             sb = new StringBuilder();
@@ -56,7 +48,7 @@ namespace TeamProject
             sb.AppendLine();
             if (enemy == null) return;
 
-            if (currentState == BattleState.SelectAction)
+            if (currentState == BattleState.SelectAction || currentState == BattleState.SelectSkill)
             {
                 for (int i = 0; i < enemy.Count; i++)
                 {
@@ -68,19 +60,33 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
 
-                string[] actions = { "공격", "스킬" };
-                for (int i = 0; i < actions.Length; i++)
+                if (currentState == BattleState.SelectAction) // 공격 스킬 선택
+                { string[] actions = { "공격", "스킬" };
+                    for (int i = 0; i < actions.Length; i++)
+                    {
+                        if (actionSelect == i) sb.Append("▶ ");
+                        else sb.Append("　 ");
+                        sb.AppendLine(actions[i]);
+                    }
+                }
+                else if (currentState == BattleState.SelectSkill) // 스킬 선택
                 {
-                    if (actionSelect == i) sb.Append("▶ ");
-                    else sb.Append("　 ");
-                    sb.AppendLine(actions[i]);
+                    sb.AppendLine();
+                    List<Skill> skills = SkillLibrary.Instance.GetAllSkills();
+                    for (int i = 1; i < skills.Count; i++)
+                    {
+                        if (skillSelect == i) sb.Append("▶ ");
+                        else sb.Append("　 ");
+                        sb.AppendLine($"{skills[i].Name} | 데미지: {skills[i].Atk} | PP: {skills[i].PP} | 설명: {skills[i].Description}");
+                    }
                 }
             }
-            else if (currentState == BattleState.SelectMonster)
+            else if (currentState == BattleState.SelectMonster) // 몬스터 선택
             {
                 for (int i = 0; i < enemy.Count; i++)
                 {
@@ -93,21 +99,19 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
             }
-            /*sb.AppendLine();
-            sb.AppendLine("[내정보]");
-            sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
-            sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
             sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z");*/
-            
-            sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z");
+            sb.AppendLine("이동: 방향키, 선택: z, 취소: x");
             Console.Write(sb.ToString());
             SceneControl();
+
+
+
+
 
         }
         protected override void SceneControl()
@@ -131,8 +135,28 @@ namespace TeamProject
                             }
                             else if (actionSelect == 1) // 스킬 선택
                             {
-                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.SkillScene;
+                                currentState = BattleState.SelectSkill; 
                             }
+                            break;
+                    }
+                    break;
+
+                case BattleState.SelectSkill:
+                    switch (keyInfo.Key)
+                    {
+                        case ConsoleKey.UpArrow:
+                            if (skillSelect != 1) skillSelect--;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            if (skillSelect != 2) skillSelect++;
+                            break;
+                        case ConsoleKey.Z:
+                            currentState = BattleState.SelectMonster; // 몬스터 선택으로
+                            break;
+                        case ConsoleKey.X: // 취소
+                            currentState = BattleState.SelectAction;
+                            break;
+                        default:
                             break;
                     }
                     break;
@@ -146,11 +170,11 @@ namespace TeamProject
                         case ConsoleKey.DownArrow:
                             if (enemy != null && selOptions != enemy.Count - 1) selOptions++;
                             break;
-                        case ConsoleKey.Z:
+                        case ConsoleKey.Z: // 몬스터 공격으로 
                             MonsterManager.Instance.SelActiveMonstersNum = selOptions;
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.PlayerAttackScene;
                             break;
-                            case ConsoleKey.X:
+                            case ConsoleKey.X: // 취소
                             currentState = BattleState.SelectAction;
                             break;
                         default:

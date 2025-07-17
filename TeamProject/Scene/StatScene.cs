@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -27,7 +28,7 @@ namespace TeamProject
 
             sb.AppendLine("캐릭터의 정보가 표시됩니다.");
             sb.AppendLine();
-            sb.AppendLine($"Lv. {Player.Instance.Lv}"); // 플레이어 레벨
+            sb.AppendLine($"Lv. {Player.Instance.Level}"); // 플레이어 레벨
             sb.Append(Player.Instance.Name); // 플레이어 이름
             switch (Player.Instance.Job) // 플레이어 직업
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -31,7 +32,7 @@ namespace TeamProject
         void ResultCalculator()
         {
             dungeonFloor = Player.Instance.DungeonFloor++; // 출력할때 변경하기
-            pastLevel = Player.Instance.Lv;
+            pastLevel = Player.Instance.Level;
             pastExp= Player.Instance.Exp;
 
             var monsters = MonsterManager.Instance.GetActiveMonsters();
@@ -59,7 +60,7 @@ namespace TeamProject
             sb.AppendLine($"{dungeonFloor}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
-            if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
+            if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Level} {player.Name}");
                 else sb.AppendLine($"Lv.{pastLevel} {player.Name}");
             sb.AppendLine($"HP {player.BattleStartHp} -> {player.Hp}");
             sb.AppendLine($"exp {pastExp} -> {player.Exp}");

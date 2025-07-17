@@ -7,31 +7,37 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    internal class Player
+    internal class Player : Character
     {
-
         private static Player? instance;
 
-       
-        //속성을 초기화 합니다.
-        private Player()
+        public enum PlayerJob { Warrior, Archer, Theif, Mage }
+        public PlayerJob Job { get; set; }
+        public float Skill { get; set; } // 치명타율
+        public float Speed { get; set; } // 회피율
+        public float Mp { get; set; }
+        public float MaxMp { get; set; }
+        public int Gold { get; set; }
+        public int Exp { get; set; }
+        public int DungeonFloor { get; set; }
+
+        private Player() : base()
         {
-            Lv = 1;
-            Name = "이름 없는"; //기본값
+            Level = 1;
+            Name = "이름 없는";
             Job = PlayerJob.Warrior;
-            AtkPower = 30; // 과제 기본값 10
-            DefPower = 5;
-            Skill = 15;
-            Speed = 10;
-            Hp = 100;
-            MaxHp = 100;
-            Mp = 50;
-            MaxMp = 50;
+            AtkPower = 30f; //과제 기본값 30
+            DefPower = 5f;
+            Skill = 15f;
+            Speed = 10f;
+            MaxHp = 100f;
+            Hp = MaxHp;
+            MaxMp = 50f;
+            Mp = MaxMp;
             Gold = 1500;
             Exp = 0;
-            DungeonFloor = 1;
+            DungeonFloor = 1;   
         }
-
 
         public static Player Instance
         {
@@ -116,7 +122,11 @@ namespace TeamProject
         }
 
         public enum PlayerJob 
+        // 플레이어 전용 랜덤 데미지 함수 (원하면 override)
+        public void PlayerGetDamage(float monsterAtk)
         {
+
+            float atkErrorFloat = monsterAtk / 10f;
             Warrior, Archer, Theif, Mage
         }
         
@@ -148,16 +158,15 @@ namespace TeamProject
             bool isLevelUp = false;
             do
             {
-                expToLevelUP = (5 * Lv * Lv + 35 * Lv - 20) / 2;
-                if ( expToLevelUP <= Exp)
+                expToLevelUP = (5 * Level * Level + 35 * Level - 20) / 2;
+                if (expToLevelUP <= Exp)
                 {
-                    Lv++;
+                    Level++;
                     AtkPower += 0.5f;
                     DefPower++;
                     isLevelUp = true;
                 }
             }
-
             while (expToLevelUP <= Exp);
             return isLevelUp;
         }
@@ -168,26 +177,21 @@ namespace TeamProject
             {
                 case PlayerJob.Warrior:
                     Job = PlayerJob.Warrior;
-                    MaxHp = 150;
-                    Hp = MaxHp;
+                    MaxHp = 150f; Hp = MaxHp;
                     break;
                 case PlayerJob.Archer:
                     Job = PlayerJob.Archer;
-                    Skill = 25;
+                    Skill = 25f;
                     break;
                 case PlayerJob.Theif:
-                    Speed = 20;
-                    Job = PlayerJob.Theif;
+                    Speed = 20f; Job = PlayerJob.Theif;
                     break;
                 case PlayerJob.Mage:
                     Job = PlayerJob.Mage;
-                    MaxMp = 100;
+                    MaxMp = 100f;
                     Mp = MaxMp;
-                    break;
-                default:
                     break;
             }
         }
-
     }
 }

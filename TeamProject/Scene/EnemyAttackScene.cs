@@ -127,12 +127,14 @@ namespace TeamProject
                 sb.AppendLine($"LV.{monster.Level} {monster.Name} 의 공격!");
 
                 initialHp = (int)Player.Instance.Hp;
-                renderDam = Player.Instance.DamageTaken(monster.Atk);
+                renderDam = Player.Instance.DamageTaken(monster.AtkPower);
                 sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
 
                 sb.AppendLine($"[데미지: {renderDam}]");
                 sb.AppendLine();
 
+
+                sb.AppendLine($"Lv.{Player.Instance.Level} {Player.Instance.Name}");
                 sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
                 sb.Append("[");
                 Console.Write(sb.ToString());
@@ -163,7 +165,6 @@ namespace TeamProject
 
             if (!isGameOver)
             {
-                BattleScene.Instance.CurrentState = BattleState.SelectAction;
                 SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
             }
             else isGameOver = false; // 다음 배틀 상황이 올때 바로 게임 오버가 되지 않도록
