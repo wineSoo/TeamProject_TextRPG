@@ -46,6 +46,8 @@ namespace TeamProject
         StringBuilder sbMonHp;
         // 최대 Hp바 개수
         int hpBarCnt = 50;
+        // 랜덤 다중 타겟 종료용 변수
+        bool isFinish = false;
         public override void Render()
         {
             HashSet<int> ints = new HashSet<int>();
@@ -78,6 +80,9 @@ namespace TeamProject
                         SetCurMon(monIdx);
                         while (atkState != AttackState.Finish)
                         {
+                            Console.SetCursorPosition(0, 0);
+                            Console.WriteLine(SceneManager.Instance.tmpS);
+                            Console.SetCursorPosition(0, 0);
                             switch (atkState)
                             {
                                 case AttackState.PlayerAttack:
@@ -91,6 +96,7 @@ namespace TeamProject
                                     break;
                                 case AttackState.ShowDamageText:
                                     RenderDamageText();
+                                    atkState = AttackState.Finish;
                                     break;
                                 case AttackState.Evaded:
                                     Evaded();
@@ -98,14 +104,27 @@ namespace TeamProject
                                 default:
                                     break;
                             }
-                            Console.SetCursorPosition(0, 0);
-                            Console.WriteLine(SceneManager.Instance.tmpS);
-                            Console.SetCursorPosition(0, 0);
+                            
                         }
                         atkState = AttackState.PlayerAttack;
-                        
-
                     }
+                    isFinish = true;
+                    if (CheckClear()) // 클리어 여부 확인
+                    {
+                        ControlManager.ClearInputBuffer();
+                        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                        atkState = AttackState.PlayerAttack;
+                        Console.WriteLine("모든 적을 처지하셨습니다!");
+
+                        //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
+
+                        Thread.Sleep(2000);
+                        // 클리어 했다면 자동으로 승리 씬으로 이동
+                        // 테스트로는 스타트로 이동
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
+                    }
+                    else SceneControl();
+
                     break;
                 case Skill.SkillTarget.Single: // 기존대로
                     switch (atkState)
@@ -121,6 +140,19 @@ namespace TeamProject
                             break;
                         case AttackState.ShowDamageText:
                             RenderDamageText();
+                            if (CheckClear()) // 클리어 여부 확인
+                            {
+                                ControlManager.ClearInputBuffer();
+                                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                                atkState = AttackState.PlayerAttack;
+                                Console.WriteLine("모든 적을 처지하셨습니다!");
+
+                                //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
+
+                                Thread.Sleep(2000);
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
+                            }
+                            else SceneControl();
                             break;
                         case AttackState.Evaded:
                             Evaded();
@@ -145,7 +177,9 @@ namespace TeamProject
             switch (keyInfo.Key)
             {
                 case ConsoleKey.Z: // 다음 선택
-                    switch (Player.Instance.GetUseSkill().Target)
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
+
+                    /*switch (Player.Instance.GetUseSkill().Target)
                     {
                         case Skill.SkillTarget.Single:
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
@@ -158,7 +192,7 @@ namespace TeamProject
                             break;
                         default:
                             break;
-                    }
+                    }*/
                     
                     //SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
                     // atkState = AttackState.PlayerAttack; 씬 세팅에서
@@ -346,22 +380,8 @@ namespace TeamProject
             sb.AppendLine(options[0]);
 
             sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
+            sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
-            if (CheckClear()) // 클리어 여부 확인
-            {
-                atkState = AttackState.PlayerAttack;
-                Console.WriteLine("모든 적을 처지하셨습니다!");
-
-                //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
-
-                Thread.Sleep(2000);
-                // 클리어 했다면 자동으로 승리 씬으로 이동
-                // 테스트로는 스타트로 이동
-                SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
-            } 
-            else SceneControl();
-            
         }
         void Evaded()
         {
@@ -406,6 +426,8 @@ namespace TeamProject
             }
             lerpBeforeHpToCurHp = beforeHp;
             atkState = AttackState.PlayerAttack;
+            isFinish = false;
+
         }
 
         public void SetCurMon(int monIdx)

@@ -69,6 +69,8 @@ namespace TeamProject
             {  return sceneState; }*/
             set
             {
+                // 씬 변경 후 실행해야 할 것들 실행
+                scenes[sceneState].FinishScene();
                 // 씬 스테이트 세팅하면 씬 세팅 자동 초기화 해보기
                 sceneState = value;
                 scenes[sceneState].SetupScene();
