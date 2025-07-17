@@ -285,6 +285,7 @@ namespace TeamProject
                 MonsterManager.Instance.SelActiveMonstersNum = -1;
                 monsterselect = 0; // 몬스터 선택지도 초기화
                 Player.Instance.BattleStartHp = Player.Instance.Hp;
+                actionSelect = 0;
             }
             currentState = BattleState.SelectAction;
         }
