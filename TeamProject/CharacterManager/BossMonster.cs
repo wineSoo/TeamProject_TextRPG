@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace TeamProject.CharacterManager
-{
-    // BossMonster는 단순히 Monster를 상속만 받음
-
+namespace TeamProject
+{    
     public class BossMonster : Monster
     {
         // 필요하면 보스 고유 스킬 등 확장 가능
