@@ -24,7 +24,7 @@ namespace TeamProject
         private Player player;
         private List<Skill> skills;
 
-        public SkillLibrary()
+        private SkillLibrary()
         {
             this.player = Player.Instance;
             skills = new List<Skill>();
@@ -34,7 +34,7 @@ namespace TeamProject
         private void CreateSkills()
         {
             skills.Add(new Skill());
-            skills[0].Name = "기본공격";
+            skills[0].Name = "기본 공격";
             skills[0].Atk = (int)player.AtkPower; // 기본 공격력
             skills[0].PP = 100; 
             skills[0].Description = "적에게 기본 공격을 한다.";
@@ -56,7 +56,10 @@ namespace TeamProject
 
         }
 
-
+        public Skill GetSkill(int idx)
+        {
+            return skills[idx];
+        }
 
         public List<Skill> GetAllSkills()
         {

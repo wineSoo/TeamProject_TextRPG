@@ -11,7 +11,12 @@ namespace TeamProject
         public float AtkPower { get; set; }    // 통일: Atk(X), AtkPower(O)
         public float DefPower { get; set; }    // 통일: Def(X), DefPower(O)
         public string Description { get; set; }
+        public bool isDie { get; private set; } // 죽었는지 여부 확인 (true=죽음/false=생존)
+
         protected Random rand = new Random();
+
+        public List<Skill> skills { get; private set; }
+        public int SelSkillNum { get; set; }
 
         protected Character()
         {
@@ -22,6 +27,9 @@ namespace TeamProject
             AtkPower = 10;
             DefPower = 5;
             Description = "";
+            isDie = false;
+            skills = new List<Skill>();
+            SelSkillNum = 0;
         }
 
         protected Character(string name, int level, float maxHp, float atkPower, float defPower, string description = "")
@@ -33,6 +41,26 @@ namespace TeamProject
             AtkPower = atkPower;
             DefPower = defPower;
             Description = description;
+            isDie = false;
+            skills = new List<Skill>();
+            SelSkillNum = 0;
+        }
+        protected Character(Character unit)
+        {
+            Name = unit.Name;
+            Level = unit.Level;
+            MaxHp = unit.MaxHp;
+            Hp = unit.Hp;
+            AtkPower = unit.AtkPower;
+            DefPower = unit.DefPower;
+            Description = unit.Description;
+            isDie = unit.isDie;
+            SelSkillNum = 0;
+            skills = new List<Skill>();
+            for (int i = 0; i < unit.skills.Count; i++)
+            {
+                skills.Add(new Skill(unit.skills[i], unit));
+            }
         }
 
         // 공통 대미지 처리
@@ -66,12 +94,13 @@ namespace TeamProject
                 if (Hp <= 0)
                 {
                     Hp = 0;
+                    isDie = true;
                 }
             }
             return tmpDam;
         }
 
-        public virtual int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
+        public virtual int DamageTaken(TeamProject.Skill skill, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);
@@ -81,8 +110,8 @@ namespace TeamProject
             // 스킬 공격은 회피 불가
             if (skill.Type == Skill.SkillType.AttackSkill || check != 6) // 스킬이거나 회피가 발동 안했다면
             {
-                int tmpAtk = rand.Next((int)(skill.Atk - skill.Atk * 0.1f),
-                        (int)(skill.Atk * 0.1f >= 0.5f ? (int)(skill.Atk + skill.Atk * 0.1f + 1) : (int)(skill.Atk + skill.Atk * 0.1f)));
+                int tmpAtk = rand.Next((int)(skill.skillDamage - skill.skillDamage * 0.1f),
+                        (int)(skill.skillDamage * 0.1f >= 0.5f ? (int)(skill.skillDamage + skill.skillDamage * 0.1f + 1) : (int)(skill.skillDamage + skill.skillDamage * 0.1f)));
 
                 tmpDam = (int)(tmpAtk - DefPower);
 
@@ -100,6 +129,7 @@ namespace TeamProject
                 if (Hp <= 0)
                 {
                     Hp = 0;
+                    isDie = true;
                 }
             }
             else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
@@ -110,6 +140,10 @@ namespace TeamProject
         public virtual bool IsDead()
         {
             return Hp <= 0;
+        }
+        public Skill GetUseSkill()
+        {
+            return skills[SelSkillNum];
         }
     }
 }

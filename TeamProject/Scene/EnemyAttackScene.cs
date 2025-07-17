@@ -313,7 +313,7 @@ namespace TeamProject
         {
             bool IsHit;
             beforeHp = (int)Player.Instance.Hp;
-            renderDam = Player.Instance.DamageTaken((int)mon.AtkPower, out IsHit, out isCritical);
+            renderDam = Player.Instance.DamageTaken(mon.GetUseSkill(), out IsHit, out isCritical);
 
             return IsHit;
         }
@@ -326,7 +326,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.AppendLine($"LV.{mon.Level} {mon.Name} 의 공격!");
+            sb.AppendLine($"LV.{mon.Level} {mon.Name}의 {mon.GetUseSkill().Name}!");
         }
         void DrawHit(ref Monster mon)
         {
