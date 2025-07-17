@@ -102,20 +102,21 @@ namespace TeamProject
                 {
                     sb.Append(" ");
                 }
-                sb.Append("\n");
+                sb.AppendLine();
             }
             string tmpS = sb.ToString();
             while (true)
             {
 
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기
-                Console.SetCursorPosition(0, 0);
+                
 
                 // 게임 상태 그리기
                 scenes[sceneState].Render();
 
                 Console.SetCursorPosition(0, 0);
-                Console.Write(tmpS);
+                Console.WriteLine(tmpS);
+                Console.SetCursorPosition(0, 0);
 
             }
         }

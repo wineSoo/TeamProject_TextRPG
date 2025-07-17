@@ -26,10 +26,11 @@ namespace TeamProject
         int pastLevel;
         int pastExp;
         bool isLevelUp = false;
+        int dungeonFloor = 0;
 
         void ResultCalculator()
         {
-            //Player.Instance.DungeonFloor++; // 출력할때 변경하기
+            dungeonFloor = Player.Instance.DungeonFloor++; // 출력할때 변경하기
             pastLevel = Player.Instance.Lv;
             pastExp= Player.Instance.Exp;
 
@@ -55,7 +56,7 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("Victory");
             sb.AppendLine();
-            sb.AppendLine($"{Player.Instance.DungeonFloor++}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
+            sb.AppendLine($"{dungeonFloor}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
             if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
