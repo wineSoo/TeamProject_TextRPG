@@ -78,7 +78,42 @@ namespace TeamProject
             return tmpDam;
         }
 
+        // 함수 오버로딩
+        public int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
+        {
+            int tmpDam = 0;
+            int check = rand.Next(10);
+            isCritical = false;
+            isHit = true;
 
+            // 스킬 공격은 회피 불가
+            if (skill.Type == TeamProject.Skill.SkillType.AttackSkill || check != 6) // 스킬이거나 회피가 발동 안했다면
+            {
+                int tmpAtk = rand.Next((int)(skill.Atk - skill.Atk * 0.1f),
+                        (int)(skill.Atk * 0.1f >= 0.5f ? (int)(skill.Atk + skill.Atk * 0.1f + 1) : (int)(skill.Atk + skill.Atk * 0.1f)));
+
+                tmpDam = (int)(tmpAtk - DefPower);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
+                }
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                }
+            }
+            else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
+            
+            return tmpDam;
+        }
 
         public enum PlayerJob 
         {

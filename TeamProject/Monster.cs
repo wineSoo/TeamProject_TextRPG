@@ -76,49 +76,86 @@ namespace TeamProject
             }
             return tmpDam;
         }
-       /* public bool IsDead
+        // 함수 오버로딩
+        public int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
         {
-            get
+            int tmpDam = 0;
+            int check = rand.Next(10);
+            isCritical = false;
+            isHit = true;
+
+            // 스킬 공격은 회피 불가
+            if (skill.Type == TeamProject.Skill.SkillType.AttackSkill || check != 6) // 스킬이거나 회피가 발동 안했다면
             {
-                if (Hp <= 0) //0보다 작거나 같은 경우
+                int tmpAtk = rand.Next((int)(skill.Atk - skill.Atk * 0.1f),
+                        (int)(skill.Atk * 0.1f >= 0.5f ? (int)(skill.Atk + skill.Atk * 0.1f + 1) : (int)(skill.Atk + skill.Atk * 0.1f)));
+
+                tmpDam = (int)(tmpAtk - Def);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
                 {
-                    return true; // 체력이 0 이하이면 죽음
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
                 }
-                else
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
                 {
-                    return false; // 체력이 남아 있으면 살아있는 상태
+                    Hp = 0;
                 }
             }
+            else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
+
+            return tmpDam;
         }
 
-        // 몬스터 기본 상태 정보 반환
-        public string GetStatus()
-        {
-            if (IsDead)
-                return $"Lv.{Level} {Name} Dead"; //Lv.2 코스믹 슬라임 Dead
-            else
-                return $"Lv.{Level} {Name} HP {Hp}"; //Lv.2 코스믹 슬라임 HP 12
-        }
+        /* public bool IsDead
+         {
+             get
+             {
+                 if (Hp <= 0) //0보다 작거나 같은 경우
+                 {
+                     return true; // 체력이 0 이하이면 죽음
+                 }
+                 else
+                 {
+                     return false; // 체력이 남아 있으면 살아있는 상태
+                 }
+             }
+         }
 
-        //몬스터 죽은후 회색처리
-        public void PrintStatus()
-        {
-            // 만약 몬스터가 죽었으면 회색, 아니면 빨간색으로 콘솔 글씨색을 바꾼다.
-            if (IsDead)
-            {
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
+         // 몬스터 기본 상태 정보 반환
+         public string GetStatus()
+         {
+             if (IsDead)
+                 return $"Lv.{Level} {Name} Dead"; //Lv.2 코스믹 슬라임 Dead
+             else
+                 return $"Lv.{Level} {Name} HP {Hp}"; //Lv.2 코스믹 슬라임 HP 12
+         }
 
-            // 몬스터의 현재 상태(체력 or Dead)를 출력한다.
-            Console.WriteLine(GetStatus());
+         //몬스터 죽은후 회색처리
+         public void PrintStatus()
+         {
+             // 만약 몬스터가 죽었으면 회색, 아니면 빨간색으로 콘솔 글씨색을 바꾼다.
+             if (IsDead)
+             {
+                 Console.ForegroundColor = ConsoleColor.Gray;
+             }
+             else
+             {
+                 Console.ForegroundColor = ConsoleColor.Red;
+             }
 
-            // 콘솔 글씨색을 원래대로 돌려놓는다.
-            Console.ResetColor();
-        }*/
+             // 몬스터의 현재 상태(체력 or Dead)를 출력한다.
+             Console.WriteLine(GetStatus());
+
+             // 콘솔 글씨색을 원래대로 돌려놓는다.
+             Console.ResetColor();
+         }*/
     }
 
 
