@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamProject
+namespace TeamProject.CharacterManager
 {
-     
+
     public class MonsterLibrary
     {
-        //모든 몬스터 종류를 저장
         private List<Monster> monsters;
+        private BossMonster? bossMonster;
+        private readonly Random rnd;
 
-        //생성자에서 한 번만 데이터 등록
         public MonsterLibrary()
         {
             monsters = new List<Monster>();
             rnd = new Random();
             CreateMonsters();
         }
-        Random rnd;
 
         //몬스터 정보 등록
         private void CreateMonsters()
@@ -27,40 +26,56 @@ namespace TeamProject
             monsters.Add(new Monster());
             monsters[0].Name = "미니언";
             monsters[0].Level = 2;
-            monsters[0].MaxHp = 15;
-            monsters[0].Hp = 15;
-            monsters[0].Atk = 7;
-            monsters[0].Def = 1;
+            monsters[0].MaxHp = 15f;
+            monsters[0].Hp = 15f;
+            monsters[0].AtkPower = 6f;
+            monsters[0].DefPower = 1f;
             monsters[0].Description = "가장 평범한 몬스터.";
 
             monsters.Add(new Monster());
             monsters[1].Name = "대포미니언";
             monsters[1].Level = 5;
-            monsters[1].MaxHp = 25;
-            monsters[1].Hp = 25;
-            monsters[1].Atk = 12;
-            monsters[1].Def = 3;
+            monsters[1].MaxHp = 25f;
+            monsters[1].Hp = 25f;
+            monsters[1].AtkPower = 10f;
+            monsters[1].DefPower = 3f;
             monsters[1].Description = "무시무시한 대포를 장착한 미니언.";
 
             monsters.Add(new Monster());
             monsters[2].Name = "궁허충";
             monsters[2].Level = 3;
-            monsters[2].MaxHp = 10;
-            monsters[2].Hp = 10;
-            monsters[2].Atk = 9;
-            monsters[2].Def = 0;
+            monsters[2].MaxHp = 10f;
+            monsters[2].Hp = 10f;
+            monsters[2].AtkPower = 7f;
+            monsters[2].DefPower = 0f;
             monsters[2].Description = "빠르고 공격적인 벌레.";
+
+            //보스몬스터 생성(단일)
+            bossMonster = new BossMonster();
+            bossMonster.Name = "바론";
+            bossMonster.Level = 10;           
+            bossMonster.MaxHp = 100f;
+            bossMonster.Hp = 100f;
+            bossMonster.AtkPower = 20f;
+            bossMonster.DefPower = 5f;
+            bossMonster.Description = "벌레들의 왕.";
         }
 
-        //전체 몬스터 복사본 리스트 반환
+        // 전체 몬스터 복사본 반환
         public List<Monster> GetAllMonsters()
         {
-            List<Monster> result = new List<Monster>();
+            var result = new List<Monster>();
             foreach (var m in monsters)
             {
-                result.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
+                result.Add(new Monster(m.Name, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description));
             }
             return result;
+        }
+        // 단일 보스 몬스터 복사본 반환
+        public BossMonster GetBossMonster()
+        {
+            var m = bossMonster;
+            return new BossMonster(m.Name!, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description);
         }
 
         //랜덤 N마리 복사본 반환 (중복X)
@@ -79,7 +94,7 @@ namespace TeamProject
 
                 used.Add(idx);
                 var m = monsters[idx];
-                selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
+                selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description));
             }
             return selected;
         }
@@ -92,7 +107,7 @@ namespace TeamProject
             {
                 int idx = rnd.Next(monsters.Count);
                 Monster m = monsters[idx];
-                selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.Atk, m.Def, m.Description));
+                selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description));
                 LevelIncreaser(selected[i], Player.Instance.DungeonFloor);
 
 
@@ -105,11 +120,11 @@ namespace TeamProject
             monster.Level += dungeonFloor - 1;
             monster.Hp += (dungeonFloor / 2) * 5;
             monster.MaxHp += (dungeonFloor / 2) * 5;
-            monster.Atk += dungeonFloor / 2;
-            monster.Def += dungeonFloor - 1;
+            monster.AtkPower += dungeonFloor / 2;
+            monster.DefPower += dungeonFloor - 1;
 
         }
-
+      
 
     }
 }

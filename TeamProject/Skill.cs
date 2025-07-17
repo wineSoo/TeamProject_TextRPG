@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    internal class Skill
+    public class Skill
     {
         public string Name; // 스킬 이름
         public int Atk;// 스킬 데이지
