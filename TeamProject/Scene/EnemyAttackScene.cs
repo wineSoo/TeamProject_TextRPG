@@ -75,12 +75,12 @@ namespace TeamProject
                 sb.AppendLine($"LV.{monster.Level} {monster.Name} 의 공격!");
 
                 initialHp = (int)Player.Instance.Hp;
-                renderDam = Player.Instance.DamageTaken(monster.Atk);
+                renderDam = Player.Instance.DamageTaken(monster.AtkPower);
                 sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
                 sb.AppendLine($"[데미지: {renderDam}]");
                 sb.AppendLine();
 
-                sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
+                sb.AppendLine($"Lv.{Player.Instance.Level} {Player.Instance.Name}");
                 sb.AppendLine($"Hp {(int)initialHp} -> {(int)Player.Instance.Hp}");
 
                 for (int i = 0; i < optionsLen; i++)

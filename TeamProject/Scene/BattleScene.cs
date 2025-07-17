@@ -10,7 +10,7 @@ namespace TeamProject
     internal class BattleScene : Scene
     {
         
-        public static BattleScene Instance { get; private set; }
+        public static BattleScene? Instance { get; private set; }
 
         private StringBuilder sb;
         private int selOptions = 0;     // 몬스터 선택용
@@ -69,7 +69,7 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/100");
                 sb.AppendLine();
 
@@ -97,7 +97,7 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/100");
                 sb.AppendLine();
                 sb.AppendLine("이동: 방향키, 선택: z, 취소: x");

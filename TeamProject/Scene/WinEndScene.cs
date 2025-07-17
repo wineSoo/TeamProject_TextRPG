@@ -31,7 +31,7 @@ namespace TeamProject
         void ResultCalculator()
         {
             Player.Instance.DungeonFloor++;
-            pastLevel = Player.Instance.Lv;
+            pastLevel = Player.Instance.Level;
             pastExp= Player.Instance.Exp;
 
             var monsters = MonsterManager.Instance.GetActiveMonsters();
@@ -59,7 +59,7 @@ namespace TeamProject
             sb.AppendLine($"던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
-            if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Lv} {player.Name}");
+            if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Level} {player.Name}");
                 else sb.AppendLine($"Lv.{pastLevel} {player.Name}");
             sb.AppendLine($"HP ? -> {player.Hp}");
             sb.AppendLine($"exp {pastExp} -> {player.Exp}");

@@ -119,7 +119,7 @@ namespace TeamProject
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
             sb.Append("을(를) 맞췄습니다. [데미지: ");
-            beforeHp = selectedMon.Hp;
+            int beforeHp = (int)selectedMon.Hp;
             renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower);
             sb.Append(renderDam.ToString()); // 가한 데미지
             sb.AppendLine("]");
@@ -299,7 +299,7 @@ namespace TeamProject
             selectedMon = MonsterManager.Instance.GetSelectedMonster();
             if (selectedMon == null) return;
 
-            beforeHp = selectedMon.MaxHp;
+            beforeHp = (int)selectedMon.MaxHp;
             float tmp = selectedMon.Hp / (float)selectedMon.MaxHp;
             int tmpCnt = (int)(hpBarCnt * tmp);
             sbMonHp.Clear();
