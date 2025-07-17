@@ -26,7 +26,7 @@ namespace TeamProject
 
         public enum QuestType
         {
-            KillMinion, Equip, IncreaseLevel
+            KillShadowImp, Equip, IncreaseLevel
         }
  
         public void QuestAccept()
@@ -34,9 +34,8 @@ namespace TeamProject
             IsAccepted = true;
             switch (Type)
             {
-                case QuestType.KillMinion:
-
-
+                case QuestType.KillShadowImp:
+                    initialConditionNumber = QuestManager.Instance.killCounts[Character.MonsterIndex.ShadowImp];
 
                     break;
                 case QuestType.Equip:
@@ -52,16 +51,18 @@ namespace TeamProject
         {
             switch (Type)
             {
-                case QuestType.KillMinion:
+                case QuestType.KillShadowImp:
 
-
-
+                    CurrentConditionNumber = QuestManager.Instance.killCounts[Character.MonsterIndex.ShadowImp] - initialConditionNumber;
+                    if (CurrentConditionNumber >= ConditionNumber)
+                        IsCleared = true;
                     break;
                 case QuestType.Equip:
+
                     break;
                 case QuestType.IncreaseLevel:
                     CurrentConditionNumber = Player.Instance.Level - initialConditionNumber;
-                    if (CurrentConditionNumber > ConditionNumber)
+                    if (CurrentConditionNumber >= ConditionNumber)
                         IsCleared = true;
                     break;
             }

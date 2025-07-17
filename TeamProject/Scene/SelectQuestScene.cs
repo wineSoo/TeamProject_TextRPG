@@ -89,8 +89,9 @@ namespace TeamProject
                         {
                             case 0: // 보상 수령
                                 selectedQuest.QuestReward();
-                                Console.WriteLine("\n수락되었습니다");
+                                Console.WriteLine("\n보상을 받았습니다!");
                                 Thread.Sleep(1000);
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.QuestScene;
                                 break;
                             case 1: // 돌아가기
                                 SceneManager.Instance.SetSceneState = SceneManager.SceneState.QuestScene;

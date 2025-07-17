@@ -11,9 +11,9 @@ namespace TeamProject
        public QuestScene()
         {
             sb = new StringBuilder();
-            options.Add($"1. 마을을 위협하는 미니언 처치");
-            options.Add($"2. 장비를 장착해보자");
-            options.Add($"3. 더욱 더 강해지기\n");
+            options.Add($"1. {QuestManager.Instance.questList[1].Name}");
+            options.Add($"2. {QuestManager.Instance.questList[2].Name}");
+            options.Add($"3. {QuestManager.Instance.questList[3].Name}");
             options.Add($"처음으로");
             optionsLen = options.Count;
         }
