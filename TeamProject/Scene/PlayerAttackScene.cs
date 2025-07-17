@@ -39,6 +39,9 @@ namespace TeamProject
         int beforeHp = 0;
         int lerpBeforeHpToCurHp = -1;
         int renderDam = 0;
+        // 치명타 출력용
+        bool isCritical = false;
+        string criticalS = " - 치명타 공격!!";
         // 몬스터 체력 출력용 
         StringBuilder sbMonHp;
         // 최대 Hp바 개수
@@ -133,7 +136,10 @@ namespace TeamProject
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
-            sb.AppendLine($"을(를) 맞췄습니다. [데미지: {renderDam}]");
+            
+            sb.Append($"을(를) 맞췄습니다. [데미지: {renderDam}]");
+            if (isCritical) sb.AppendLine(criticalS);
+            else sb.AppendLine();
             sb.AppendLine();
 
             sb.Append("Lv. ");
@@ -176,10 +182,9 @@ namespace TeamProject
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
-            sb.Append("을(를) 맞췄습니다. [데미지: ");
-            //sb.Append("11"); // 가한 데미지
-            sb.Append(renderDam); // 가한 데미지
-            sb.AppendLine("]");
+            sb.Append($"을(를) 맞췄습니다. [데미지: {renderDam}]");
+            if (isCritical) sb.AppendLine(criticalS);
+            else sb.AppendLine();
             sb.AppendLine();
 
             sb.Append("Lv. ");
@@ -229,9 +234,9 @@ namespace TeamProject
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
             sb.Append(" ");
             sb.Append(selectedMon.Name.ToString());
-            sb.Append("을(를) 맞췄습니다. [데미지: ");
-            sb.Append(renderDam.ToString()); // 가한 데미지
-            sb.AppendLine("]");
+            sb.Append($"을(를) 맞췄습니다. [데미지: {renderDam}]");
+            if (isCritical) sb.AppendLine(criticalS);
+            else sb.AppendLine();
             sb.AppendLine();
 
 
@@ -348,7 +353,7 @@ namespace TeamProject
             if (selectedMon == null) return false;
             bool IsHit;
             beforeHp = selectedMon.Hp;
-            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit);
+            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit, out isCritical);
 
             return IsHit;
         }
