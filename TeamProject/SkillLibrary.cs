@@ -8,7 +8,7 @@ namespace TeamProject
 {
     internal class SkillLibrary
     {
-        private static SkillLibrary instance;
+        private static SkillLibrary? instance;
 
         public static SkillLibrary Instance
         {
@@ -36,21 +36,21 @@ namespace TeamProject
             skills.Add(new Skill());
             skills[0].Name = "기본공격";
             skills[0].Atk = (int)player.AtkPower; // 기본 공격력
-            skills[0].pp = 100; 
+            skills[0].PP = 100; 
             skills[0].Description = "적에게 기본 공격을 한다.";
             skills[0].Type = Skill.SkillType.Normal;
 
             skills.Add(new Skill());
             skills[1].Name = "몸통 박치기";
             skills[1].Atk = 20;
-            skills[1].pp = 1;
+            skills[1].PP = 1;
             skills[1].Description = "상대를 향해서 몸 전체를 부딪쳐가며 공격한다.";
             skills[1].Type = Skill.SkillType.AttackSkill;
 
             skills.Add(new Skill());
             skills[2].Name = "뛰어오르기";
-            skills[2].Atk = 5;
-            skills[2].pp = 0;
+            skills[2].Atk = 1;
+            skills[2].PP = 10;
             skills[2].Description = "팔딱거린다.";
             skills[2].Type = Skill.SkillType.AttackSkill;
 

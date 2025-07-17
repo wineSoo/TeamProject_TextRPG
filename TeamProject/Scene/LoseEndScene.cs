@@ -28,8 +28,10 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("You Lose");
             sb.AppendLine();
+
             sb.AppendLine($"Lv.{player.Level}");
-            sb.AppendLine($"HP ? -> Dead");
+            sb.AppendLine($"HP {player.BattleStartHp} -> Dead");
+
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
@@ -64,7 +66,7 @@ namespace TeamProject
                     switch (selOptions)
                     {
                         case 0: // 스타트씬으로 
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                             break;
                         default:
                             break;

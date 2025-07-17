@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,12 +47,75 @@ namespace TeamProject
                     instance = new Player();
                 return instance;
             }
+        
+        }
+        public int DamageTaken(int atk, out bool isHit, out bool isCritical)
+        {
+            int tmpDam = 0;
+            int check = rand.Next(10);
+            isCritical = false;
+
+            // 10% 확률로 공격 실패(0~3, 5~9)
+            if (check == 6) isHit = false; // 공격 실패 시
+            //if (check <= 5) isHit = false; // 테스트용
+            else // 공격 성공 시
+            {
+                int tmpAtk = rand.Next((int)(atk - atk * 0.1f),
+                    (int)(atk * 0.1f >= 0.5f ? (int)(atk + atk * 0.1f + 1) : (int)(atk + atk * 0.1f)));
+                isHit = true;
+                tmpDam = (int)(tmpAtk - DefPower);
+
+                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
+
+                // 치명타 계산
+                check = rand.Next(0, 100);
+                if (check <= 54)
+                {
+                    isCritical = true;
+                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
+                }
+
+                Hp -= tmpDam;
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                }
+            }
+            return tmpDam;
         }
 
         // 플레이어 전용 랜덤 데미지 함수 (원하면 override)
         public void PlayerGetDamage(float monsterAtk)
         {
+
             float atkErrorFloat = monsterAtk / 10f;
+            Warrior, Archer, Theif, Mage
+        }
+        
+        
+        //플레이어 속성. 필요하면 추가해서 쓰세용
+        public int Lv { get; set; }
+        public string Name { get; set; }
+        public PlayerJob Job { get; set; }
+        public float AtkPower { get; set; }
+        public float DefPower { get; set; }
+        public float Skill { get; set; } // 치명타율
+        public float Speed { get; set; } // 회피율
+        public float Hp { get; set; }
+        public float MaxHp { get; set; }
+        public float Mp { get; set; }
+        public float MaxMp { get; set; }
+        public float BattleStartHp { get; set; }
+
+        Random rand = new Random();
+        public int Gold { get; set; }
+        public int Exp { get; set; }
+
+        public int DungeonFloor { get; set; }
+
+        public void PlayerGetDamage(int monsterAtk)
+        {
+            float atkErrorFloat = monsterAtk / 10;
             int atkError = (int)Math.Ceiling(atkErrorFloat);
             Random random = new Random();
             int damage = random.Next((int)(monsterAtk - atkError), (int)(monsterAtk + atkError) + 1) - (int)Math.Ceiling(DefPower);
