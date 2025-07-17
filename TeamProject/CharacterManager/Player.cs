@@ -14,18 +14,29 @@ namespace TeamProject
 
         public enum PlayerJob { Warrior, Archer, Theif, Mage }
         public PlayerJob Job { get; set; }
+        public float BaseAttack { get; set; } // 기본 공격력
+        public float BaseDef { get; set; } // 기본 방어력
+        public float BaseHp { get; set; } // 기본 체력
+        public float BaseMp { get; set; } // 기본 마나
+        public float BaseSkill { get; set; } // 치명타율
+        public float BaseSpeed { get; set; } // 회피율\
+
+        public float AtkPower { get; set; } // 장비 추가한 공격력
+        public float DefPower { get; set; } // 장비 추가한 방어력
+        public float MaxHp { get; set; } // 장비 추가한 최대 체력
+        public float MaxMp { get; set; } // 장비 추가한 최대 마나
         public float Skill { get; set; } // 치명타율
-        public float Speed { get; set; } // 회피율
-        public float Mp { get; set; }
-        public float MaxMp { get; set; }
+        public float Speed { get; set; } // 회피율\
         public int Gold { get; set; }
         public int Exp { get; set; }
         public int DungeonFloor { get; set; }
         //장비 추가
         public int PlusAtk { get; set; }
         public int PlusDef { get; set; }
-        public int PlusHP { get; set; }
-        public int PlusMP { get; set; }
+        public int PlusHp { get; set; }
+        public int PlusMp { get; set; }
+        public int PlusSkill { get; set; }
+        public int PlusSpeed { get; set; }
 
         public List<Item> Inventory;
         public Dictionary<Item.ItemType, Item> Equipments;
@@ -35,18 +46,20 @@ namespace TeamProject
             Level = 1;
             Name = "이름 없는";
             Job = PlayerJob.Warrior;
-            AtkPower = 30f; //과제 기본값 30
-            DefPower = 5f;
-            Skill = 15f;
-            Speed = 10f;
+            BaseAttack = 30f; //과제 기본값 30
+            BaseDef = 5f;
+            BaseHp = 100f;
+            BaseMp = 50f;
+            BaseSkill = 15f;
+            BaseSpeed = 10f;
+
             PlusAtk = 0;
             PlusDef = 0;
-            PlusHP = 0;
-            PlusMP = 0;
-            MaxHp = 100f;
-            Hp = MaxHp;
-            MaxMp = 50f;
-            Mp = MaxMp;
+            PlusHp = 0;
+            PlusMp = 0;
+            PlusSkill = 0;
+            PlusSpeed = 0;
+
             Gold = 1500;
             Exp = 0;
             DungeonFloor = 1;
@@ -239,29 +252,51 @@ namespace TeamProject
             {
                 case PlayerJob.Warrior:
                     Job = PlayerJob.Warrior;
-                    MaxHp = 150f; Hp = MaxHp;
+                    BaseHp = 150f;
                     break;
                 case PlayerJob.Archer:
                     Job = PlayerJob.Archer;
-                    Skill = 25f;
+                    BaseSkill = 25f;
                     break;
                 case PlayerJob.Theif:
-                    Speed = 20f; Job = PlayerJob.Theif;
+                    Job = PlayerJob.Theif;
+                    BaseSpeed = 20f;
                     break;
                 case PlayerJob.Mage:
                     Job = PlayerJob.Mage;
-                    MaxMp = 100f;
-                    Mp = MaxMp;
+                    BaseMp = 100f;
                     break;
             }
         }
 
         public void SetAbilityByEquipment()
         {
-
             PlusAtk = 0;
             PlusDef = 0;
-            PlusHP = 0;
+            PlusHp = 0;
+            PlusMp = 0;
+            PlusSkill = 0;
+            PlusSpeed = 0;
+
+            foreach (var equip in Equipments.Values)
+            {
+                if (equip == null) continue;
+
+                PlusAtk += equip.Atk;
+                PlusDef += equip.Def;
+                PlusHp += equip.HP;
+                PlusMp += equip.MP;
+                PlusSkill += equip.Skill;
+                PlusSpeed += equip.Speed;
+            }
+            
+            AtkPower = BaseAttack + PlusAtk; // 기본 공격력 30
+            DefPower = BaseDef + PlusDef; // 기본 방어력 5
+            MaxHp = BaseHp + PlusHp; // 기본 체력 100
+            MaxMp = BaseMp + PlusMp; // 기본 마나 50
+            Skill = BaseSkill + PlusSkill;
+            Speed = BaseSpeed + PlusSpeed;
+
         }
 
         public bool IsEquipped(Item item)
