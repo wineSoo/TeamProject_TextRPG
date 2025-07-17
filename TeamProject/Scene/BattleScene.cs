@@ -9,9 +9,6 @@ namespace TeamProject
 {
     internal class BattleScene : Scene
     {
-        
-        public static BattleScene? Instance { get; private set; }
-
 
 
         private int monsterselect = 0;     // 몬스터 선택용
@@ -58,13 +55,11 @@ namespace TeamProject
                     Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
 
                 }
-
-                sb.AppendLine();
-                sb.AppendLine("[내정보]");
-
-                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
-                sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
-                sb.AppendLine();
+                Console.WriteLine();
+                Console.WriteLine("[내정보]");
+                Console.WriteLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
+                Console.WriteLine();
 
                 if (currentState == BattleState.SelectAction) // 공격 스킬 선택
                 {
@@ -106,12 +101,11 @@ namespace TeamProject
                     else Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
 
                 }
-                sb.AppendLine();
-                sb.AppendLine("[내정보]");
-
-                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
-                sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
-                sb.AppendLine();
+                Console.WriteLine();
+                Console.WriteLine("[내정보]");
+                Console.WriteLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
+                Console.WriteLine();
             }
             Console.WriteLine();
             Console.WriteLine("이동: 방향키, 선택: z, 취소: x");
