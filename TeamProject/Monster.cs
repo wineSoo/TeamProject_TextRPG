@@ -77,7 +77,7 @@ namespace TeamProject
             return tmpDam;
         }
         // 함수 오버로딩
-        public int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
+        public int DamageTaken(ref TeamProject.Skill skill, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);

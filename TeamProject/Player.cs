@@ -79,7 +79,7 @@ namespace TeamProject
         }
 
         // 함수 오버로딩
-        public int DamageTaken(ref Skill skill, out bool isHit, out bool isCritical)
+        public int DamageTaken(ref TeamProject.Skill skill, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
             int check = rand.Next(10);
@@ -141,19 +141,6 @@ namespace TeamProject
 
         public int DungeonFloor { get; set; }
 
-        public void PlayerGetDamage(int monsterAtk)
-        {
-            float atkErrorFloat = monsterAtk / 10;
-            int atkError = (int)Math.Ceiling(atkErrorFloat);
-            Random random = new Random();
-            int damage = random.Next(monsterAtk - atkError, monsterAtk + atkError + 1) - (int)Math.Ceiling(DefPower);
-            
-            if ( damage < 0) damage = 0;
-
-            Hp -= damage;
-
-            if (Hp < 0) Hp = 0;
-        }
         public bool LevelCalculator(int expGained)
         {
             Exp += expGained;

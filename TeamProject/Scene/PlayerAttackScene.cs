@@ -354,6 +354,7 @@ namespace TeamProject
             bool IsHit;
             beforeHp = selectedMon.Hp;
             renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit, out isCritical);
+            //renderDam = selectedMon.DamageTaken(new Skill(), out IsHit, out isCritical);
 
             return IsHit;
         }
