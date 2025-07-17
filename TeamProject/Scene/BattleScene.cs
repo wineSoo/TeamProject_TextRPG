@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
     internal class BattleScene : Scene
     {
         
+        public static BattleScene? Instance { get; private set; }
+
 
         private StringBuilder sb;
         private int selOptions = 0;     // 몬스터 선택용
@@ -57,7 +60,8 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
 
@@ -95,7 +99,8 @@ namespace TeamProject
                 }
                 sb.AppendLine();
                 sb.AppendLine("[내정보]");
-                sb.AppendLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+
+                sb.AppendLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 sb.AppendLine($"HP {player.Hp}/{player.MaxHp}");
                 sb.AppendLine();
             }

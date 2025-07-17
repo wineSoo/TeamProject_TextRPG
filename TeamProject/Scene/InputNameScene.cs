@@ -40,10 +40,10 @@ namespace TeamProject
                     SceneControl(); // 입력 대기
                     break;
                 case InputState.NextScene:
-                    sb.AppendLine("1초 후 인트로 씬으로 넘어갑니다.");
+                    sb.AppendLine("직업 선택으로 넘어갑니다.");
                     Console.Write(sb);
                     Thread.Sleep(1000);
-                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.GameIntroScene;
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.JobSelectScene;
                     break;
                 default:
                     break;

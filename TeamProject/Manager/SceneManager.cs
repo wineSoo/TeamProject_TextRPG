@@ -37,7 +37,7 @@ namespace TeamProject
 
             // 시작은 이름 입력 씬으로
 
-            sceneState = SceneState.StartScene;
+            sceneState = SceneState.InputNameScene;
 
 
         }
@@ -91,8 +91,8 @@ namespace TeamProject
         {
             // 윈도우 사이즈
             Console.SetWindowSize(120, 36);
-            Console.CursorVisible = false; // 커서 보이기 x
-            //Console.CursorVisible = true;
+            //Console.CursorVisible = false; // 커서 보이기 x
+            Console.CursorVisible = true;
             Console.OutputEncoding = Encoding.UTF8;
             // 한번에 출력하여, 깜빡임 줄이기
             StringBuilder sb = new StringBuilder();
@@ -102,20 +102,21 @@ namespace TeamProject
                 {
                     sb.Append(" ");
                 }
-                sb.Append("\n");
+                sb.AppendLine();
             }
             string tmpS = sb.ToString();
             while (true)
             {
 
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기
-                Console.SetCursorPosition(0, 0);
+                
 
                 // 게임 상태 그리기
                 scenes[sceneState].Render();
 
                 Console.SetCursorPosition(0, 0);
-                Console.Write(tmpS);
+                Console.WriteLine(tmpS);
+                Console.SetCursorPosition(0, 0);
 
             }
         }

@@ -42,7 +42,7 @@ namespace TeamProject
 
             skills.Add(new Skill());
             skills[1].Name = "몸통 박치기";
-            skills[1].Atk = 20;
+            skills[1].Atk = (int)(player.AtkPower * 1.5f);
             skills[1].PP = 1;
             skills[1].Description = "상대를 향해서 몸 전체를 부딪쳐가며 공격한다.";
             skills[1].Type = Skill.SkillType.AttackSkill;

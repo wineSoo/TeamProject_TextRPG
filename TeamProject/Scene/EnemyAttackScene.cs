@@ -35,7 +35,7 @@ namespace TeamProject
                 {
                     sb0.Append(" ");
                 }
-                sb0.Append("\n");
+                sb0.AppendLine();
             }
             tmpS = sb0.ToString();
         }
@@ -127,12 +127,14 @@ namespace TeamProject
                 sb.AppendLine($"LV.{monster.Level} {monster.Name} 의 공격!");
 
                 initialHp = (int)Player.Instance.Hp;
-                renderDam = Player.Instance.DamageTaken(monster.Atk);
+                renderDam = Player.Instance.DamageTaken(monster.AtkPower);
                 sb.Append($"{Player.Instance.Name} 을(를) 맞췄습니다.  ");
 
                 sb.AppendLine($"[데미지: {renderDam}]");
                 sb.AppendLine();
 
+
+                sb.AppendLine($"Lv.{Player.Instance.Level} {Player.Instance.Name}");
                 sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
                 sb.Append("[");
                 Console.Write(sb.ToString());
@@ -170,7 +172,7 @@ namespace TeamProject
         void EnermyAttack(Monster mon)
         {
             DrawEnermyAttack(ref mon);
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
             if (CheckAttackSuccess(ref mon)) // 공격이 적중했는가
             {
                 AtkState = AttackState.ShowPlayerHp;
@@ -186,7 +188,7 @@ namespace TeamProject
         {
             DrawEnermyAttack(ref mon);
             DrawHit(ref mon);
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
             Thread.Sleep(500);
             AtkState = AttackState.PlayerTakeDamage;
             ClearConsole();
@@ -196,7 +198,7 @@ namespace TeamProject
             SetPlayerHp();
             DrawEnermyAttack(ref mon);
             DrawHit(ref mon);
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
             if (lerpTime >= 1.0f)
             {
                 lerpTime = 0.0f;
@@ -226,7 +228,7 @@ namespace TeamProject
             sb.AppendLine($"▶ {options[0]}");
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
             SceneControl();
             ClearConsole();
             AtkState = AttackState.Finish;
@@ -234,7 +236,7 @@ namespace TeamProject
         void ClearConsole()
         {
             Console.SetCursorPosition(0, 0);
-            Console.Write(tmpS);
+            Console.WriteLine(tmpS);
             Console.SetCursorPosition(0, 0);
         }
         protected override void SceneControl()
@@ -320,8 +322,7 @@ namespace TeamProject
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!!");
-            sb.AppendLine();
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
@@ -361,7 +362,7 @@ namespace TeamProject
             }
             sb.AppendLine();
             sb.AppendLine("이동: 방향키, 선택: z");
-            Console.Write(sb.ToString());
+            Console.WriteLine(sb.ToString());
         }
     }
 }

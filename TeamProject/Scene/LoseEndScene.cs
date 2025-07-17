@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -27,8 +28,10 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("You Lose");
             sb.AppendLine();
-            sb.AppendLine($"Lv.{player.Lv}");
+
+            sb.AppendLine($"Lv.{player.Level}");
             sb.AppendLine($"HP {player.BattleStartHp} -> Dead");
+
 
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
