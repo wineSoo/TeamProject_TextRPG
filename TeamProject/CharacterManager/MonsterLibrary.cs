@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-
     public class MonsterLibrary
     {
         private List<Monster> monsters;
@@ -109,8 +108,6 @@ namespace TeamProject
                 Monster m = monsters[idx];
                 selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description));
                 LevelIncreaser(selected[i], Player.Instance.DungeonFloor);
-
-
             }
             return selected;
         }
@@ -122,7 +119,6 @@ namespace TeamProject
             monster.MaxHp += (dungeonFloor / 2) * 5;
             monster.AtkPower += dungeonFloor / 2;
             monster.DefPower += dungeonFloor - 1;
-
         }
       
 
