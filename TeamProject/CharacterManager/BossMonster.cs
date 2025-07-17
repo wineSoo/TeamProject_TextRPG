@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace TeamProject
-{    
+{ 
     public class BossMonster : Monster
     {
         // 필요하면 보스 고유 스킬 등 확장 가능

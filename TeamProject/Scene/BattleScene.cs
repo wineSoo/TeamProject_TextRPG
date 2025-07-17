@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -57,7 +56,7 @@ namespace TeamProject
                 }
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
                 Console.WriteLine();
 
@@ -103,7 +102,7 @@ namespace TeamProject
                 }
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Lv} {player.Name} ({player.Job})");
+                Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
                 Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
                 Console.WriteLine();
             }

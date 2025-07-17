@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamProject.CharacterManager
+namespace TeamProject
 {
 
     public class MonsterLibrary

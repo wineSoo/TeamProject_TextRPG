@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using TeamProject.CharacterManager;
 
 namespace TeamProject
 {
@@ -313,7 +312,7 @@ namespace TeamProject
             selectedMon = MonsterManager.Instance.GetSelectedMonster();
             if (selectedMon == null) return;
 
-            beforeHp = selectedMon.Hp;
+            beforeHp = (int)selectedMon.Hp;
             float tmp = selectedMon.Hp / (float)selectedMon.MaxHp;
             int tmpCnt = (int)(hpBarCnt * tmp);
             sbMonHp.Clear();
@@ -353,7 +352,7 @@ namespace TeamProject
         {
             if (selectedMon == null) return false;
             bool IsHit;
-            beforeHp = selectedMon.Hp;
+            beforeHp = (int)selectedMon.Hp;
             renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit, out isCritical);
             //renderDam = selectedMon.DamageTaken(new Skill(), out IsHit, out isCritical);
 
