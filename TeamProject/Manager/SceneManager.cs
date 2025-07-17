@@ -24,6 +24,9 @@ namespace TeamProject
             scenes.Add(SceneState.WinEndScene, new WinEndScene());
             scenes.Add(SceneState.LoseEndScene, new LoseEndScene());
             scenes.Add(SceneState.JobSelectScene, new JobSelectScene());
+            scenes.Add(SceneState.InventoryScene, new InventoryScene());
+            
+
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -55,7 +58,7 @@ namespace TeamProject
         }
         public enum SceneState
         {
-            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene,
+            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, InventoryScene,
         }
         private SceneState sceneState;
         // 씬 저장용

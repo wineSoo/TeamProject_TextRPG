@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static TeamProject.Item;
 
 namespace TeamProject
 {
@@ -20,6 +21,14 @@ namespace TeamProject
         public int Gold { get; set; }
         public int Exp { get; set; }
         public int DungeonFloor { get; set; }
+        //장비 추가
+        public int PlusAtk { get; set; }
+        public int PlusDef { get; set; }
+        public int PlusHP { get; set; }
+        public int PlusMP { get; set; }
+
+        public List<Item> Inventory;
+        public Dictionary<Item.ItemType, Item> Equipments;
 
         private Player() : base()
         {
@@ -30,13 +39,66 @@ namespace TeamProject
             DefPower = 5f;
             Skill = 15f;
             Speed = 10f;
+            PlusAtk = 0;
+            PlusDef = 0;
+            PlusHP = 0;
+            PlusMP = 0;
             MaxHp = 100f;
             Hp = MaxHp;
             MaxMp = 50f;
             Mp = MaxMp;
             Gold = 1500;
             Exp = 0;
-            DungeonFloor = 1;   
+            DungeonFloor = 1;
+
+            Inventory = new List<Item>();
+            Equipments = new Dictionary<Item.ItemType, Item>();
+            // 테스트 아이템 추가
+            Inventory.Add(new Item
+            {
+                Name = "테스트 검1",
+                Type = ItemType.Weapon,
+                Atk = 10,
+                Def = 0,
+                Description = "시험용 무기1"
+            });
+
+            Inventory.Add(new Item
+            {
+                Name = "테스트 검2",
+                Type = ItemType.Weapon,
+                Atk = 10,
+                Def = 0,
+                Description = "시험용 무기2"
+            });
+
+            Inventory.Add(new Item
+            {
+                Name = "테스트 방어구1",
+                Type = ItemType.Armor,
+                Atk = 0,
+                Def = 8,
+                Description = "시험용 방어구1"
+            });
+
+            Inventory.Add(new Item
+            {
+                Name = "테스트 방어구2",
+                Type = ItemType.Armor,
+                Atk = 0,
+                Def = 8,
+                Description = "시험용 방어구2"
+            });
+
+            Inventory.Add(new Item
+            {
+                Name = "회복 물약",
+                Type = ItemType.Consumable,
+                Heal = 20,
+                Quantity = 3,
+                Description = "체력을 회복시킨다"
+            });
+
         }
 
         public static Player Instance
@@ -47,7 +109,7 @@ namespace TeamProject
                     instance = new Player();
                 return instance;
             }
-        
+
         }
         /*public int DamageTaken(int atk, out bool isHit, out bool isCritical)
         {
@@ -128,10 +190,10 @@ namespace TeamProject
         {
 
             float atkErrorFloat = monsterAtk / 10f;
-            
+
         }
-        
-        
+
+
         //플레이어 속성. 필요하면 추가해서 쓰세용
         /*public int Lv { get; set; }
         public string Name { get; set; }
@@ -146,10 +208,10 @@ namespace TeamProject
         public float MaxMp { get; set; }*/
         public float BattleStartHp { get; set; }
 
-       /* public int Gold { get; set; }
-        public int Exp { get; set; }
+        /* public int Gold { get; set; }
+         public int Exp { get; set; }
 
-        public int DungeonFloor { get; set; }*/
+         public int DungeonFloor { get; set; }*/
 
         public bool LevelCalculator(int expGained)
         {
@@ -192,6 +254,46 @@ namespace TeamProject
                     Mp = MaxMp;
                     break;
             }
+        }
+
+        public void SetAbilityByEquipment()
+        {
+
+            PlusAtk = 0;
+            PlusDef = 0;
+            PlusHP = 0;
+        }
+
+        public bool IsEquipped(Item item)
+        {
+            foreach (var pair in Equipments)
+            {
+                if (pair.Value == item)
+                    return true;
+            }
+            return false;
+        }
+
+        public void SetEquipment(Item item)
+        {
+            ItemType slot = GetEquipmentSlot(item);
+
+            // 이미 장착되어 있던 아이템이면 제거
+            if (Equipments.ContainsKey(slot) && Equipments[slot] == item)
+            {
+                Equipments.Remove(slot);
+            }
+            else
+            {
+                // 기존 장비가 있으면 교체
+                Equipments[slot] = item;
+            }
+        }
+        private ItemType GetEquipmentSlot(Item item)
+        {
+
+            return item.Type;
+
         }
     }
 }

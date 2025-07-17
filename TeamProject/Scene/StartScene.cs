@@ -128,6 +128,9 @@ namespace TeamProject
                         case 1: // 전투 시작
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
                             break;
+                        case 2: // 인벤토리
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.InventoryScene;
+                            break;
                         default:
                             break;
                     }
@@ -145,6 +148,7 @@ namespace TeamProject
             options.Clear();
             options.Add("1. 상태 보기");
             options.Add($"2. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
+            options.Add("3. 인벤토리");
             optionsLen = options.Count;
         }
     }
