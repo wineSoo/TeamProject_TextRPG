@@ -223,7 +223,7 @@ namespace TeamProject
         void Evaded(Monster mon)
         {
             DrawEnermyAttack(ref mon);
-            sb.AppendLine($"Lv. {Player.Instance.Lv} {Player.Instance.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다.");
+            sb.AppendLine($"Lv. {Player.Instance.Level} {Player.Instance.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다.");
             sb.AppendLine();
             sb.AppendLine($"▶ {options[0]}");
             sb.AppendLine();
@@ -313,7 +313,7 @@ namespace TeamProject
         {
             bool IsHit;
             beforeHp = (int)Player.Instance.Hp;
-            renderDam = Player.Instance.DamageTaken((int)mon.Atk, out IsHit, out isCritical);
+            renderDam = Player.Instance.DamageTaken((int)mon.AtkPower, out IsHit, out isCritical);
 
             return IsHit;
         }
@@ -337,7 +337,7 @@ namespace TeamProject
             else sb.AppendLine();
             sb.AppendLine();
 
-            sb.AppendLine($"Lv.{Player.Instance.Lv} {Player.Instance.Name}");
+            sb.AppendLine($"Lv.{Player.Instance.Level} {Player.Instance.Name}");
             sb.Append("[");
             Console.Write(sb.ToString());
 
