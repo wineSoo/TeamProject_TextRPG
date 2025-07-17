@@ -4,27 +4,13 @@ namespace TeamProject
 {
     public class Monster : Character
     {
-        public bool isDie; // 죽었는지 여부 확인 (true=죽음/false=생존)
-
-        public Monster() : base() { isDie = false; }
+        public Monster() : base() 
+        {}
 
         public Monster(string name, int level, float maxHp, float atkPower, float defPower, string description = "")
             : base(name, level, maxHp, atkPower, defPower, description)
-        {
-            isDie = false;
-        }
-
-        /*public override int DamageTaken(float playerAtk)
-        {
-            int tmpDam = (int)(playerAtk - DefPower);
-            Hp -= tmpDam;
-            if (Hp <= 0)
-            {
-                Hp = 0;
-                isDie = true;
-            }
-            return tmpDam;
-        }*/
+        {}
+        public Monster(Character unit) : base(unit) {}
 
         public override bool IsDead()
         {

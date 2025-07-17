@@ -20,7 +20,7 @@ namespace TeamProject
         public int Gold { get; set; }
         public int Exp { get; set; }
         public int DungeonFloor { get; set; }
-
+        public float BattleStartHp { get; set; }
         private Player() : base()
         {
             Level = 1;
@@ -36,9 +36,11 @@ namespace TeamProject
             Mp = MaxMp;
             Gold = 1500;
             Exp = 0;
-            DungeonFloor = 1;   
+            DungeonFloor = 1;
+            skills.Add(new TeamProject.Skill(this));
+            skills.Add(new AlphaStrike(this));
+            skills.Add(new DoubleStrike(this));
         }
-
         public static Player Instance
         {
             get
@@ -49,108 +51,6 @@ namespace TeamProject
             }
         
         }
-        /*public int DamageTaken(int atk, out bool isHit, out bool isCritical)
-        {
-            int tmpDam = 0;
-            int check = rand.Next(10);
-            isCritical = false;
-
-            // 10% 확률로 공격 실패(0~3, 5~9)
-            if (check == 6) isHit = false; // 공격 실패 시
-            //if (check <= 5) isHit = false; // 테스트용
-            else // 공격 성공 시
-            {
-                int tmpAtk = rand.Next((int)(atk - atk * 0.1f),
-                    (int)(atk * 0.1f >= 0.5f ? (int)(atk + atk * 0.1f + 1) : (int)(atk + atk * 0.1f)));
-                isHit = true;
-                tmpDam = (int)(tmpAtk - DefPower);
-
-                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
-
-                // 치명타 계산
-                check = rand.Next(0, 100);
-                if (check <= 54)
-                {
-                    isCritical = true;
-                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
-                }
-
-                Hp -= tmpDam;
-                if (Hp <= 0)
-                {
-                    Hp = 0;
-                }
-            }
-            return tmpDam;
-        }
-
-        // 함수 오버로딩
-        public int DamageTaken(ref TeamProject.Skill skill, out bool isHit, out bool isCritical)
-        {
-            int tmpDam = 0;
-            int check = rand.Next(10);
-            isCritical = false;
-            isHit = true;
-
-            // 스킬 공격은 회피 불가
-            if (skill.Type == TeamProject.Skill.SkillType.AttackSkill || check != 6) // 스킬이거나 회피가 발동 안했다면
-            {
-                int tmpAtk = rand.Next((int)(skill.Atk - skill.Atk * 0.1f),
-                        (int)(skill.Atk * 0.1f >= 0.5f ? (int)(skill.Atk + skill.Atk * 0.1f + 1) : (int)(skill.Atk + skill.Atk * 0.1f)));
-
-                tmpDam = (int)(tmpAtk - DefPower);
-
-                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
-
-                // 치명타 계산
-                check = rand.Next(0, 100);
-                if (check <= 54)
-                {
-                    isCritical = true;
-                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
-                }
-
-                Hp -= tmpDam;
-                if (Hp <= 0)
-                {
-                    Hp = 0;
-                }
-            }
-            else isHit = false; // 노멀 공격이며 회피 발동 시, 데미지 계산 x, 
-            
-            return tmpDam;
-        }*/
-
-        /*public enum PlayerJob
-        { Warrior, Archer, Theif, Mage }*/
-        // 플레이어 전용 랜덤 데미지 함수 (원하면 override)
-        public void PlayerGetDamage(float monsterAtk)
-        {
-
-            float atkErrorFloat = monsterAtk / 10f;
-            
-        }
-        
-        
-        //플레이어 속성. 필요하면 추가해서 쓰세용
-        /*public int Lv { get; set; }
-        public string Name { get; set; }
-        public PlayerJob Job { get; set; }
-        public float AtkPower { get; set; }
-        public float DefPower { get; set; }
-        public float Skill { get; set; } // 치명타율
-        public float Speed { get; set; } // 회피율
-        public float Hp { get; set; }
-        public float MaxHp { get; set; }
-        public float Mp { get; set; }
-        public float MaxMp { get; set; }*/
-        public float BattleStartHp { get; set; }
-
-       /* public int Gold { get; set; }
-        public int Exp { get; set; }
-
-        public int DungeonFloor { get; set; }*/
-
         public bool LevelCalculator(int expGained)
         {
             Exp += expGained;
@@ -165,12 +65,15 @@ namespace TeamProject
                     AtkPower += 0.5f;
                     DefPower++;
                     isLevelUp = true;
+                    for (int i = 0; i < skills.Count; i++)
+                    {
+                        skills[i].SetDamge();
+                    }
                 }
             }
             while (expToLevelUP <= Exp);
             return isLevelUp;
         }
-
         public void StatInitializer(PlayerJob selectedjob)
         {
             switch (selectedjob)
@@ -193,5 +96,22 @@ namespace TeamProject
                     break;
             }
         }
+        
+        public void UseSkill()
+        {
+            Mp -= skills[SelSkillNum].MP;
+        }
+        public bool CanUseSkill(int skillNum) // 해당 스킬이 사용 가능한가
+        {
+            if (skillNum >= skills.Count) return false; // 스킬 인덱스 초과
+
+            if (Mp - skills[skillNum].MP < 0) return false; // 사용할 마나가 안되면 false
+
+            //Mp -= skills[skillNum].MP;
+            return true;
+        }
+        // 취소 할 수도 있으니 마나 감소는 플레이어 공격씬 들어갈 때
+
+        
     }
 }
