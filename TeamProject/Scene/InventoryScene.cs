@@ -129,21 +129,31 @@ namespace TeamProject
                                 Thread.Sleep(1500);
                                 return;
                             }
-                            else if (player.Hp < (player.MaxHp - healAmount))
+
+                            if (player.Hp < (player.MaxHp - healAmount))
                             {
                                 player.Hp += healAmount;
                                 Console.WriteLine($"체력이 {healAmount}회복 되었습니다");
                                 Thread.Sleep(1500);
-                                return;
 
                             }
-                            else if (player.Hp > (player.MaxHp - healAmount))
+                            else
                             {
-                                Console.WriteLine($"체력이 {player.MaxHp - player.Hp}회복 되었습니다");
-                                Thread.Sleep(1500);
+                                float realHeal = player.MaxHp - player.Hp;
                                 player.Hp = player.MaxHp;
-                                return;
+                                Console.WriteLine($"체력이 {realHeal} 회복 되었습니다");
+                                Thread.Sleep(1500);
                             }
+
+                            selectedItem.Quantity--;
+                            if (selectedItem.Quantity <= 0)
+                            {
+                                Player.Instance.Inventory.Remove(selectedItem);
+                                Console.WriteLine($"{selectedItem.Name}을(를) 모두 사용했습니다.");
+                                Thread.Sleep(1500);
+                            }
+
+
                         }
                     }
                     break;
