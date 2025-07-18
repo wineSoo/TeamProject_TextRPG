@@ -28,6 +28,7 @@ namespace TeamProject
             scenes.Add(SceneState.SelectQuestScene, new SelectQuestScene());
             scenes.Add(SceneState.FinalScene, new FinalScene());
             scenes.Add(SceneState.InventoryScene, new InventoryScene());
+            scenes.Add(SceneState.LoadScene, new LoadScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -56,9 +57,8 @@ namespace TeamProject
         }
         public enum SceneState
         {
-
-            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene, QuestScene, SelectQuestScene, InventoryScene,FinalScene
-
+            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, 
+            WinEndScene, LoseEndScene, SkillScene, QuestScene, SelectQuestScene, InventoryScene, LoadScene
         }
         private SceneState sceneState;
         // 씬 저장용
@@ -83,8 +83,10 @@ namespace TeamProject
         {
             // 윈도우 사이즈
             Console.SetWindowSize(120, 36);
-            Console.CursorVisible = false; // 커서 보이기 x
-            //Console.CursorVisible = true;
+            //Console.CursorVisible = false; // 커서 보이기 x
+            Console.CursorVisible = true;
+            // 유니코드 설정
+            //Console.OutputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.UTF8;
             // 한번에 출력하여, 깜빡임 줄이기
             StringBuilder sb = new StringBuilder();

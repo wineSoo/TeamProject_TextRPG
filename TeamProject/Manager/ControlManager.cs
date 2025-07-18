@@ -8,7 +8,7 @@ using static TeamProject.InputNameScene;
 
 namespace TeamProject
 {
-    internal class ControlManager
+    internal static class ControlManager
     {
         public static void ClearInputBuffer() // 씬 넘어가기전 현재 입력된 모든 입력 값 없애기
         {

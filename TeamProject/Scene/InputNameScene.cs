@@ -69,7 +69,7 @@ namespace TeamProject
                     SceneControl(); // 입력 대기
                     break;
                 case InputState.NextScene:
-                    sb.AppendLine("직업 선택으로 넘어갑니다.");
+                    sb.AppendLine("                     직업 선택으로 넘어갑니다.");
                     Console.Write(sb);
                     Thread.Sleep(1000);
                     SceneManager.Instance.SetSceneState = SceneManager.SceneState.JobSelectScene;
@@ -80,6 +80,8 @@ namespace TeamProject
         }
         protected override void SceneControl()
         {
+            Console.SetCursorPosition(24, 17);
+
             stringName = Console.ReadLine();
             Console.CursorVisible = false;
             if(stringName != null) Player.Instance.Name = stringName;
@@ -89,6 +91,10 @@ namespace TeamProject
         void CreatScene()
         {
             sb.Append("이름을 입력해 주세요: ");
+        }
+        public override void FinishScene()
+        {
+            Console.CursorVisible = false; // 커서 보이기 x
         }
 
     }   

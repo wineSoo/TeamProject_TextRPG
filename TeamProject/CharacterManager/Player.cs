@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static TeamProject.Item;
 
@@ -30,9 +32,15 @@ namespace TeamProject
         public int PlusSkill { get; set; }
         public int PlusSpeed { get; set; }
 
-        public List<Item> Inventory;
-        public Dictionary<Item.ItemType, Item> Equipments;
+        //public List<Item> Inventory;
+        //public Dictionary<Item.ItemType, Item> Equipments;
+        // 직렬화 위해 아래로 수정
+        public List<Item> Inventory { get; set; }
+        [JsonIgnore] // 저장하지 않음
+        public Dictionary<Item.ItemType, Item> Equipments { get; set; }
+        public Dictionary<Item.ItemType, Guid> EquippedItemIds { get; set; } // 저장용 ID 목록
 
+        [JsonConstructor]
         private Player() : base()
         {
             Level = 1;
@@ -64,7 +72,9 @@ namespace TeamProject
             skills.Add(new DoubleStrike(this));
 
             Inventory = new List<Item>();
+
             Equipments = new Dictionary<Item.ItemType, Item>();
+            EquippedItemIds = new Dictionary<Item.ItemType, Guid>();
 
             // 테스트 아이템 추가
             Inventory.Add(new Item
@@ -106,9 +116,9 @@ namespace TeamProject
             Inventory.Add(new Item
             {
                 Name = "회복 물약",
-                Type = ItemType.Consumable,
-                Heal = 20,
-                Quantity = 3,
+                Type = ItemType.ConsumableHP,
+                RestoreHp = 20,
+                Quantity = 1,
                 Description = "체력을 회복시킨다"
             });
 
@@ -121,6 +131,11 @@ namespace TeamProject
                 if (instance == null)
                     instance = new Player();
                 return instance;
+            }
+            private set
+            {
+                instance = null;
+                instance = value;
             }
 
         }
@@ -245,9 +260,57 @@ namespace TeamProject
         }
         private ItemType GetEquipmentSlot(Item item)
         {
-
             return item.Type;
+        }
 
+        public void AddItem(Item newItem) //아이템 획득
+        {
+            // 소모품이면 이미 있는 아이템 수량만 증가
+            if (newItem.Type == ItemType.ConsumableHP || newItem.Type == ItemType.ConsumableMP)
+            {
+                Console.WriteLine($"[DEBUG] 추가 아이템: {newItem.Name} / 수량: {newItem.Quantity}");
+                var existingItem = Inventory.Find(item =>
+                item.Name == newItem.Name &&
+                (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
+);
+                if (existingItem != null)
+                {
+                    Console.WriteLine($"[DEBUG] 기존 아이템 발견: {existingItem.Name} / 기존 수량: {existingItem.Quantity}");
+                    existingItem.Quantity += newItem.Quantity;
+                    Console.WriteLine($"[DEBUG] 추가 후 수량: {existingItem.Quantity}");
+                    return;
+                }
+            }
+            Console.WriteLine($"[DEBUG] 새 아이템 추가: {newItem.Name} / 수량: {newItem.Quantity}");
+            // 그 외에는 새 아이템 추가
+            Inventory.Add(newItem);
+        }
+        public void PrepareForSave()
+        {
+            EquippedItemIds = Equipments.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Id);
+        }
+        public void LoadPlayer(Player player)
+        {
+            // 여기서 헤맸다...
+            // 처음 이 메서드를 호출하면 this가 instance다. 매개변수인 player가 아니라
+            // 따라서 여기서 모든 값들을 수정할거라면 모든 변수에 (this.)대신 instance.을 해줘야 한다.
+            // 혹은 로드할때 다 세팅하는 것도 편한 방법인거 같다.
+
+            // ******** 여기서 instance = player 해줬다고, this가 player라고 착각하면 안된다.
+            // this.instance = player인 것이고, this는 여전히 처음 이 메서드를 호출한 player객체다(= 기존 instance)
+            instance = player;
+            // 장비창 복원
+            var dict = instance.Inventory.ToDictionary(i => i.Id, i => i);
+            instance.Equipments = new Dictionary<Item.ItemType, Item>();
+
+            foreach (var kvp in instance.EquippedItemIds)
+            {
+                if (dict.TryGetValue(kvp.Value, out var item))
+                {
+                    instance.Equipments[kvp.Key] = item;
+                }
+            }
+            instance.SetAbilityByEquipment();
         }
     }
 }
