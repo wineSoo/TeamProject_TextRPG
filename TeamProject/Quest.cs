@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static TeamProject.Item;
 
 namespace TeamProject
 {
@@ -18,9 +19,15 @@ namespace TeamProject
         public int CurrentConditionNumber {get;set;}
         public int RewardGold { get; set; }
 
+        //public Item? RewardItem { get; set; }
+        public string? RewardItem { get; set; } // 원래는 아이템을 받아와야 하지만, 현재 보상 아이템이 회복 아이템이 전부라서 일단 이렇게 구현
+        public int RewardItemQuantity { get; set; }
+
         public bool IsAccepted { get; set; }
         public bool IsCleared { get; set; }
         public bool IsRewarded { get; set; }
+
+
 
         // [미완성] 보상 아이템 추가 필요
 
@@ -58,7 +65,8 @@ namespace TeamProject
                         IsCleared = true;
                     break;
                 case QuestType.Equip:
-
+                    CurrentConditionNumber = Player.Instance.Equipments.Count >= 1 ? Player.Instance.Equipments.Count : 0;
+                    IsCleared = CurrentConditionNumber >= 1 ? true : false;
                     break;
                 case QuestType.IncreaseLevel:
                     CurrentConditionNumber = Player.Instance.Level - initialConditionNumber;
@@ -72,6 +80,32 @@ namespace TeamProject
         {
             IsRewarded = true;
             Player.Instance.Gold += RewardGold;
+
+            // 아이템 보상 지급
+            if (RewardItem != null)
+            {
+                var inventory = Player.Instance.Inventory;
+                var consumableList = inventory.FirstOrDefault(
+                    i => i.Type == Item.ItemType.Consumable // 주의: 현재 가장 먼저 검색된 소비 아이템을 찾음 => 소비 아이템이 한 종류라 가능, 종류 늘어나면 반드시 수정
+                );
+
+                if (consumableList != null)
+                {
+                    consumableList.Quantity += RewardItemQuantity;
+                }
+                else
+                {
+                    inventory.Add(new Item
+                    {
+                        Name = "회복 물약",
+                        Type = ItemType.Consumable,
+                        Heal = 20,
+                        Quantity = RewardItemQuantity,
+                        Description = "체력을 회복시킨다"
+                    });
+                }
+            }
+
         }
 
     }
