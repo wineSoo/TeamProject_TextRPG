@@ -52,6 +52,9 @@ namespace TeamProject
             Player player = Player.Instance;
             var items = player.Inventory;
 
+            if (selOptions < 0) selOptions = 0;
+            if (selOptions >= items.Count) selOptions = items.Count - 1;
+
             for (int i = 0; i < items.Count; i++)
             {
                 Item item = items[i];
@@ -70,9 +73,9 @@ namespace TeamProject
                 {
                     Console.WriteLine($"{equipTag} {item.Name} |공격력: {item.Atk} | 방어력: {item.Def} | {item.Description}");
                 }
-                else if (item.Type == ItemType.Consumable)
+                else if (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
                 {
-                    Console.WriteLine($"   {item.Name} |회복력: {item.Heal} | 수량: {item.Quantity} | {item.Description}");
+                    Console.WriteLine($"   {item.Name} |회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)} | 수량: {item.Quantity} | {item.Description}");
                 }
             }
         }
@@ -94,56 +97,95 @@ namespace TeamProject
             player.SetEquipment(item);
         }
 
+        private void UseConsumable(Item selectedItem)
+        {
+            Player player = Player.Instance;
+            int hpamount = selectedItem.RestoreHp;
+            int mpAmount = selectedItem.RestoreMp;
+            
+            if (selectedItem.Type == ItemType.ConsumableHP)
+            {
+                if (player.Hp == player.MaxHp)
+                {
+                    Console.WriteLine("체력이 가득 찼습니다.");
+                    Thread.Sleep(1000);
+                    return;
+                }
+
+                if (player.Hp < player.MaxHp - hpamount)
+                {
+                    player.Hp += hpamount;
+                    Console.WriteLine($"체력이 {hpamount}회복 되었습니다");
+                }
+                else
+                {
+                    float realHeal = player.MaxHp - player.Hp;
+                    player.Hp = player.MaxHp;
+                    Console.WriteLine($"체력이 {realHeal} 회복 되었습니다");
+                }
+            }
+            else // ConsumableMP
+            {
+                if (player.Mp == player.MaxMp)
+                {
+                    Console.WriteLine("마나가 가득 찼습니다.");
+                    Thread.Sleep(1000);
+                    return;
+                }
+
+                if (player.Mp < player.MaxMp - mpAmount)
+                {
+                    player.Mp += mpAmount;
+                    Console.WriteLine($"마나가 {mpAmount}회복 되었습니다");
+                }
+                else
+                {
+                    float realRestore = player.MaxMp - player.Mp;
+                    player.Mp = player.MaxMp;
+                    Console.WriteLine($"마나가 {realRestore} 회복 되었습니다");
+                }
+            }
+
+            Thread.Sleep(1000);
+
+            selectedItem.Quantity--;
+            if (selectedItem.Quantity <= 0)
+            {
+                Player.Instance.Inventory.Remove(selectedItem);
+                Console.WriteLine($"{selectedItem.Name}을(를) 모두 사용했습니다.");
+                Thread.Sleep(1000);
+            }
+        }
+
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            int itemCount = Player.Instance.Inventory.Count;
 
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    if (selOptions != 0) selOptions--;
+                    selOptions--;
+                    if (selOptions < 0) selOptions = 0;
                     break;
 
                 case ConsoleKey.DownArrow:
-                    if (selOptions != optionsLen - 1) selOptions++;
+                    selOptions++;
+                    if (selOptions >= itemCount) selOptions = itemCount - 1;
                     break;
 
                 case ConsoleKey.Z: // 아이템 선택
-                    if (items != null && selOptions < items.Count)
+                    if (itemCount > 0 && selOptions < itemCount)
                     {
-                        Item selectedItem = items[selOptions];
+                        Item selectedItem = Player.Instance.Inventory[selOptions];
 
                         if (selectedItem.Type == ItemType.Weapon || selectedItem.Type == ItemType.Armor)
                         {
                             EquipItem(selOptions);
                         }
-                        else if (selectedItem.Type == ItemType.Consumable)
+                        else if (selectedItem.Type == ItemType.ConsumableHP || selectedItem.Type == ItemType.ConsumableMP)
                         {
-                            Player player = Player.Instance;
-
-                            int healAmount = selectedItem.Heal;
-
-                            if (player.Hp == player.MaxHp)
-                            {
-                                Console.WriteLine("체력이 가득 찼습니다.");
-                                Thread.Sleep(1500);
-                                return;
-                            }
-                            else if (player.Hp < (player.MaxHp - healAmount))
-                            {
-                                player.Hp += healAmount;
-                                Console.WriteLine($"체력이 {healAmount}회복 되었습니다");
-                                Thread.Sleep(1500);
-                                return;
-
-                            }
-                            else if (player.Hp > (player.MaxHp - healAmount))
-                            {
-                                Console.WriteLine($"체력이 {player.MaxHp - player.Hp}회복 되었습니다");
-                                Thread.Sleep(1500);
-                                player.Hp = player.MaxHp;
-                                return;
-                            }
+                            UseConsumable(selectedItem);
                         }
                     }
                     break;

@@ -26,6 +26,7 @@ namespace TeamProject
             scenes.Add(SceneState.JobSelectScene, new JobSelectScene());
             scenes.Add(SceneState.QuestScene, new QuestScene());
             scenes.Add(SceneState.SelectQuestScene, new SelectQuestScene());
+            scenes.Add(SceneState.FinalScene, new FinalScene());
             scenes.Add(SceneState.InventoryScene, new InventoryScene());
             scenes.Add(SceneState.LoadScene, new LoadScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
@@ -37,7 +38,6 @@ namespace TeamProject
 
 
             // 시작은 이름 입력 씬으로
-
 
             sceneState = SceneState.InputNameScene;
 

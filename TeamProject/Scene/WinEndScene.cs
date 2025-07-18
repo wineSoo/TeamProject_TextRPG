@@ -26,6 +26,8 @@ namespace TeamProject
         int pastExp;
         bool isLevelUp = false;
         int dungeonFloor = 0;
+        private Item rewardItem;
+        private bool rewardGiven = false;
 
         void ResultCalculator()
         {
@@ -48,6 +50,19 @@ namespace TeamProject
             }
         }
 
+        private void GiveReward()
+        {
+            if (!rewardGiven)
+            {
+                var origin = ItemLibrary.Instance.GetRandomRewardItem();
+                rewardItem = new Item(origin); // 복사 생성자 필요
+                Player.Instance.AddItem(rewardItem);
+                rewardGiven = true;
+            }
+        }
+
+
+
         public override void Render()
         {
             sb.Clear();
@@ -61,6 +76,10 @@ namespace TeamProject
             sb.AppendLine("Victory");
             sb.AppendLine();
             sb.AppendLine($"{dungeonFloor}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");
+            if (rewardGiven && rewardItem != null)
+            {
+                sb.AppendLine($"보상 아이템: {rewardItem.Name}");
+            }
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
             if (isLevelUp) sb.AppendLine($"Lv.{pastLevel} {player.Name} -> Lv.{player.Level} {player.Name}");
@@ -119,11 +138,18 @@ namespace TeamProject
 
         public override void SetupScene()
         {
+            sb.Clear();
+
             base.SetupScene();
 
             //경험치 계산
             ResultCalculator();
             isLevelUp = Player.Instance.LevelCalculator(totalExpGained);
+
+            // 보상 아이템 지급
+            rewardGiven = false;
+            rewardItem = null;
+            GiveReward();
 
             // 소환된 몬스터 초기화
             MonsterManager.Instance.ClearActiveMonsters();
