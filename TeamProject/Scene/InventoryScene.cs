@@ -59,7 +59,7 @@ namespace TeamProject
             {
                 int npad = padding - GetDisplayWidth(items[i].Name);
                 int apad = apadding - GetDisplayWidth(items[i].Atk.ToString());
-                int defpad = apadding - GetDisplayWidth(items[i].Def.ToString());
+                int hpad = apadding - GetDisplayWidth(items[i].RestoreHp.ToString());
                 int qpad = apadding - GetDisplayWidth(items[i].Quantity.ToString());
                 int epad = exPadding - GetDisplayWidth(items[i].Description);
 
@@ -81,7 +81,7 @@ namespace TeamProject
                 }
                 else if (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
                 {
-                    Console.WriteLine($"   {item.Name}{new string(' ', npad)}| 회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)}{new string(' ', qpad)}| 수량: {item.Quantity}{new string(' ', qpad)}| {item.Description}");
+                    Console.WriteLine($"   {item.Name}{new string(' ', npad)}| 회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)}{new string(' ', hpad)}| 수량: {item.Quantity}{new string(' ', qpad)}| {item.Description}");
                 }
             }
         }
