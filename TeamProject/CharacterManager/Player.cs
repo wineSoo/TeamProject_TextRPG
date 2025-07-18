@@ -204,6 +204,66 @@ namespace TeamProject
         {
             Mp = Mp + 10 >= MaxMp ? MaxMp : Mp;
         }
-        
+
+        public void SetAbilityByEquipment()
+        {
+            PlusAtk = 0;
+            PlusDef = 0;
+            PlusHp = 0;
+            PlusMp = 0;
+            PlusSkill = 0;
+            PlusSpeed = 0;
+
+            foreach (var equip in Equipments.Values)
+            {
+                if (equip == null) continue;
+
+                PlusAtk += equip.Atk;
+                PlusDef += equip.Def;
+                PlusHp += equip.HP;
+                PlusMp += equip.MP;
+                PlusSkill += equip.Skill;
+                PlusSpeed += equip.Speed;
+            }
+
+            AtkPower = BaseAttack + PlusAtk; // 기본 공격력 30
+            DefPower = BaseDef + PlusDef; // 기본 방어력 5
+            MaxHp = BaseHp + PlusHp; // 기본 체력 100
+            MaxMp = BaseMp + PlusMp; // 기본 마나 50
+            Skill = BaseSkill + PlusSkill;
+            Speed = BaseSpeed + PlusSpeed;
+
+        }
+
+        public bool IsEquipped(Item item)
+        {
+            foreach (var pair in Equipments)
+            {
+                if (pair.Value == item)
+                    return true;
+            }
+            return false;
+        }
+        public void SetEquipment(Item item)
+        {
+            ItemType slot = GetEquipmentSlot(item);
+
+            // 이미 장착되어 있던 아이템이면 제거
+            if (Equipments.ContainsKey(slot) && Equipments[slot] == item)
+            {
+                Equipments.Remove(slot);
+            }
+            else
+            {
+                // 기존 장비가 있으면 교체
+                Equipments[slot] = item;
+            }
+        }
+        private ItemType GetEquipmentSlot(Item item)
+        {
+
+            return item.Type;
+
+        }
     }
 }
