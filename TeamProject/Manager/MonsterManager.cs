@@ -34,8 +34,6 @@ namespace TeamProject
         public int SelActiveMonstersNum { private get; set; }
         public int MonsterCnt { get; private set; }
         public void SetBattleMonsters()
-
-       
         {
             if (Player.Instance.DungeonFloor == 5)  //5스테이지에 보스 몬스터 등장
             {
