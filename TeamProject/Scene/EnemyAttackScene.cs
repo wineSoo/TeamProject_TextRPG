@@ -72,10 +72,6 @@ namespace TeamProject
 
         //받아와야 하는거
         //현재 살아있는 몬스터 목록
-        /*Monster monster1;
-        Monster monster2;
-        Monster monster3;*/
-        //List<Monster> monsters = new List<Monster>();
         List<Monster>? monsters;
 
 

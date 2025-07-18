@@ -71,44 +71,6 @@ namespace TeamProject
             }
         }
 
-        // 공통 대미지 처리
-        public virtual int DamageTaken(int atk, out bool isHit, out bool isCritical)
-        {
-            int tmpDam = 0;
-            int check = rand.Next(10);
-            isCritical = false;
-
-            // 10% 확률로 공격 실패(0~3, 5~9)
-            if (check == 6) isHit = false; // 공격 실패 시
-            //if (check <= 5) isHit = false; // 테스트용
-            else // 공격 성공 시
-            {
-                int tmpAtk = rand.Next((int)(atk - atk * 0.1f),
-                    (int)(atk * 0.1f >= 0.5f ? (int)(atk + atk * 0.1f + 1) : (int)(atk + atk * 0.1f)));
-                isHit = true;
-                tmpDam = (int)(tmpAtk - DefPower);
-
-                if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
-
-                // 치명타 계산
-                check = rand.Next(0, 100);
-                if (check <= 54)
-                {
-                    isCritical = true;
-                    tmpDam = (int)(tmpDam * 1.6f); // 160% 데미지
-                }
-
-                Hp -= tmpDam;
-                if (Hp <= 0)
-                {
-                    Hp = 0;
-                    isDie = true;
-                    QuestManager.Instance.KillCuntsUp(this.Index);
-                }
-            }
-            return tmpDam;
-        }
-
         public virtual int DamageTaken(TeamProject.Skill skill, out bool isHit, out bool isCritical)
         {
             int tmpDam = 0;
@@ -147,10 +109,6 @@ namespace TeamProject
             return tmpDam;
         }
 
-        public virtual bool IsDead()
-        {
-            return Hp <= 0;
-        }
         public Skill GetUseSkill()
         {
             return skills[SelSkillNum];
