@@ -28,11 +28,40 @@ namespace TeamProject
         public override void Render()
         {
             sb.Clear();
-            sb.Append("이름을 입력해주세요. (Enter로 완료): ");
-            if (stringName != null)
-            {
-                sb.AppendLine(stringName);
-            }
+            sb.AppendLine();
+            sb.AppendLine("  .-._                                                   _,-,");
+            sb.AppendLine("    `._`-._                                           _,-'_,'");
+            sb.AppendLine("       `._ `-._                                   _,-' _,'");
+            sb.AppendLine("          `._  `-._        __.-----.__        _,-'  _,'");
+            sb.AppendLine("             `._   `#===\"\"\"           \"\"\"===#'   _,'");
+            sb.AppendLine("                `._/)  ._               _.  (\\_,'");
+            sb.AppendLine("                 )*'     **.__     __.**     '*(");
+            sb.AppendLine("                 #  .==..__  \"\"   \"\"  __..==,  #");
+            sb.AppendLine("                  #   `\"._(_).       .(_)_.'\" #");
+            sb.AppendLine("              ╔══════════════════════════════════════╗");
+            sb.AppendLine("              ║      𝓒𝓱𝓪𝓻𝓪𝓬𝓽𝓮𝓻 𝓝𝓪𝓶𝓮 𝓒𝓻𝓮𝓪𝓽𝓲𝓸𝓷         ║");
+            sb.AppendLine("              ╠══════════════════════════════════════╣");
+            sb.AppendLine("              ║                                      ║");
+            sb.AppendLine("              ║        『 ENTER YOUR NAME 』         ║");
+            sb.AppendLine("              ║                                      ║");
+            sb.AppendLine("              ║  +------------------------------+    ║");
+            sb.Append("              ║  |  ");
+            int boxWidth = 26;
+            string name = stringName ?? "";
+            int padLeft = (boxWidth - name.Length) / 2;
+            int padRight = boxWidth - name.Length - padLeft;
+
+            sb.Append(new string(' ', padLeft));
+            sb.Append(name);
+            sb.Append(new string(' ', padRight));
+            sb.AppendLine("  |    ║");
+            sb.AppendLine("              ║  +------------------------------+    ║");
+            sb.AppendLine("              ║                                      ║");
+            sb.AppendLine("              ╠══════════════════════════════════════╣");
+            sb.AppendLine("              ║           (Enter로 완료)             ║");
+            sb.AppendLine("              ╚══════════════════════════════════════╝");
+            sb.AppendLine();
+
             switch (state)
             {
                 case InputState.Input:

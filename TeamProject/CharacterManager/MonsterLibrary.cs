@@ -29,7 +29,6 @@ namespace TeamProject
             monsters[0].Hp = 15f;
             monsters[0].AtkPower = 6f;
             monsters[0].DefPower = 1f;
-            //monsters[0].Description = "가장 평범한 몬스터.";
             monsters[0].skills.Add(new Skill(monsters[0]));
             monsters[0].Description = "어둠 속을 몰래 돌아다니는 작은 악마. 위협적이진 않지만 방심은 금물";
             monsters[0].Index = Character.MonsterIndex.ShadowImp;
@@ -41,7 +40,6 @@ namespace TeamProject
             monsters[1].Hp = 25f;
             monsters[1].AtkPower = 10f;
             monsters[1].DefPower = 3f;
-            //monsters[1].Description = "무시무시한 대포를 장착한 미니언.";
             monsters[1].skills.Add(new Skill(monsters[1]));
             monsters[1].Description = "높은 생명력과 방어력을 보유하고 있는 심연의 문을 지키는 수호자.";
             monsters[1].Index = Character.MonsterIndex.DarkGuardian;
@@ -53,7 +51,6 @@ namespace TeamProject
             monsters[2].Hp = 10f;
             monsters[2].AtkPower = 7f;
             monsters[2].DefPower = 0f;
-            //monsters[2].Description = "빠르고 공격적인 벌레.";
             monsters[2].skills.Add(new Skill(monsters[2]));
             monsters[2].Description = "죽은 자의 영혼이 모여든 악령. 공격력은 강하지만 몸은 약하다.";
             monsters[2].Index = Character.MonsterIndex.PaleWhisp;
