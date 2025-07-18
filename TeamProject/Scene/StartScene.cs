@@ -85,22 +85,6 @@ namespace TeamProject
                 default:
                     break;
             }
-            
-
-
-            /*sb.AppendLine("스파르타 던전에 오신 여러분 환영합니다.");
-            sb.AppendLine("이제 전투를 시작할 수 있습니다.");
-            sb.AppendLine();*/
-            /*for (int i = 0; i < optionsLen; i++)
-            {
-                if(selOptions == i) sb.Append("▶ ");
-                else sb.Append("　 ");
-                sb.AppendLine(options[i]);
-            }
-            sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z");
-            Console.Write(sb.ToString());
-            SceneControl();*/
         }
 
         protected override void SceneControl()

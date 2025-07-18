@@ -33,11 +33,6 @@ namespace TeamProject
         public List<Monster>? ActiveMonsters { get; private set; }  // 현재 관리하는 몬스터들
         public int SelActiveMonstersNum { private get; set; }
         public int MonsterCnt { get; private set; }
-        /*public MonsterManager(MonsterLibrary library) // 생성은 매니저에서
-        {
-            monsterLibrary = library;
-            activeMonsters = new List<Monster>();
-        }*/
 
         public void SetBattleMonsters()
         {

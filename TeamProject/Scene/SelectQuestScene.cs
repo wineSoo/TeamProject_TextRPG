@@ -9,13 +9,13 @@ namespace TeamProject
     internal class SelectQuestScene : Scene
     {
        public SelectQuestScene()
-        {
+       {
             selectedQuest = QuestManager.Instance.questList[QuestManager.Instance.SelectQuestVariable];
             sb = new StringBuilder();
             options.Add($"1. 수락");
             options.Add($"2. 거절");
             optionsLen = options.Count;
-        }
+       }
 
         StringBuilder sb;
         int selOptions = 0;

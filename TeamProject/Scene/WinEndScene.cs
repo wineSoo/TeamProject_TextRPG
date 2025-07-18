@@ -125,7 +125,7 @@ namespace TeamProject
         }
         public override void FinishScene()
         {
-            Player.Instance.Mp += 10;
+            Player.Instance.BattleFinish();
         }
 
     }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+
+    // 스킬 DB용, 현재 사용x
     internal class SkillLibrary
     {
         private static SkillLibrary? instance;

@@ -8,13 +8,10 @@ namespace TeamProject
 {
     internal class BattleScene : Scene
     {
-
-
         private int monsterselect = 0;     // 몬스터 선택용
         private int actionSelect = 0;   // 공격 스킬 선택용
         private int skillSelect = 1;     // 스킬 선택용 (0: 공격, 1: 스킬) 
         private List<string> actions = new List<string> { "1. 공격", "2. 스킬" };
-        private MonsterLibrary monsterLibrary;
 
         List<Monster>? enemy = MonsterManager.Instance.GetActiveMonsters();
 
@@ -33,7 +30,6 @@ namespace TeamProject
         {
 
             this.player = Player.Instance;
-            monsterLibrary = new MonsterLibrary();
             SetupScene();
         }
 

@@ -11,7 +11,7 @@ namespace TeamProject
         public InputNameScene()
         {
             sb = new StringBuilder();
-            CreatScene();
+            //CreatScene();
             state = InputState.Input;
 
         }

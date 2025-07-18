@@ -107,11 +107,13 @@ namespace TeamProject
 
             if (Mp - skills[skillNum].MP < 0) return false; // 사용할 마나가 안되면 false
 
-            //Mp -= skills[skillNum].MP;
             return true;
         }
         // 취소 할 수도 있으니 마나 감소는 플레이어 공격씬 들어갈 때
-
+        public void BattleFinish()
+        {
+            Mp = Mp + 10 >= MaxMp ? MaxMp : Mp;
+        }
         
     }
 }

@@ -12,14 +12,9 @@ namespace TeamProject
         {}
         public Monster(Character unit) : base(unit) {}
 
-        public override bool IsDead()
+        /*public string GetStatus()
         {
-            return Hp <= 0 || isDie;
-        }
-
-        public string GetStatus()
-        {
-            if (IsDead())
+            if (isDie)
                 return $"Lv.{Level} {Name} Dead";
             else
                 return $"Lv.{Level} {Name} HP {Hp}";
@@ -27,14 +22,14 @@ namespace TeamProject
 
         public void PrintStatus()
         {
-            if (IsDead())
+            if (isDie)
                 Console.ForegroundColor = ConsoleColor.Gray;
             else
                 Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine(GetStatus());
             Console.ResetColor();
-        }
+        }*/
     }
 }
 
