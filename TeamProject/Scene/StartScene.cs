@@ -109,10 +109,13 @@ namespace TeamProject
                         case 0: // 상태 보기
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.StatScene;
                             break;
-                        case 1: // 전투 시작
+                        case 1: // 인벤 토리
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.InventoryScene;
+                            break;
+                        case 2: // 전투 시작
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
                             break;
-                        case 2: // 퀘스트 씬
+                        case 3: // 퀘스트 씬
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.QuestScene;
                             break;
                         default:
@@ -131,8 +134,9 @@ namespace TeamProject
             base.SetupScene();
             options.Clear();
             options.Add("1. 상태 보기");
-            options.Add($"2. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
-            options.Add("3. 퀘스트");
+            options.Add("2. 인벤 토리");
+            options.Add($"3. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
+            options.Add("4. 퀘스트");
             optionsLen = options.Count;
         }
     }
