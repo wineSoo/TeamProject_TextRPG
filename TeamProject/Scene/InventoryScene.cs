@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using static TeamProject.Item;
 
@@ -12,6 +13,7 @@ namespace TeamProject
 
         public InventoryScene()
         {
+            itemLibrary = ItemLibrary.Instance;
             sb = new StringBuilder();
             optionsLen = items.Count;
         }
@@ -117,7 +119,19 @@ namespace TeamProject
                         }
                         else if (selectedItem.Type == ItemType.Consumable)
                         {
-                            // 소비 아이템 효과 기능 추가 해야함
+                            Player player = Player.Instance;
+
+                            int healAmount = selectedItem.Heal;
+
+                            if (player.Hp < player.MaxHp- healAmount)
+                            {
+                                player.Hp += healAmount;
+                            }
+                            else
+                            {
+                                player.Hp = player.MaxHp;
+                            }
+
                         }
                     }
                     break;
