@@ -8,7 +8,7 @@ using static TeamProject.InputNameScene;
 
 namespace TeamProject
 {
-    internal static class ControlManager
+    internal class ControlManager
     {
         public static void ClearInputBuffer() // 씬 넘어가기전 현재 입력된 모든 입력 값 없애기
         {
@@ -64,6 +64,23 @@ namespace TeamProject
             if (value < 0f) return 0f;
             if (value > 1f) return 1f;
             return value;
+        }
+        public static int GetDisplayWidth(string s)
+        {
+            int width = 0;
+            foreach (char c in s)
+            {
+                if (IsKorean(c))
+                    width += 2;
+                else
+                    width += 1;
+            }
+            return width;
+        }
+        public static bool IsKorean(char c)
+        {
+            // 한글 완성형 범위: U+AC00 ~ U+D7A3
+            return c >= 0xAC00 && c <= 0xD7A3;
         }
     }
 }

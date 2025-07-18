@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,9 +15,17 @@ namespace TeamProject
         private List<string> actions = new List<string> { "1. 공격", "2. 스킬" };
 
         List<Monster>? enemy = MonsterManager.Instance.GetActiveMonsters();
+        // 체력 출력용 
+        StringBuilder sbHp = new StringBuilder();
+        // 최대 Hp바 개수
+        int hpBarCnt = 40;
+        // 출력 패딩용 변수
+        int lvPad = 6;
+        int namePad = 14;
 
         private Player player;
         private BattleState currentState = BattleState.SelectAction;
+        
 
         public enum BattleState
         {
@@ -24,11 +33,8 @@ namespace TeamProject
             SelectSkill,    // 스킬 선택
             SelectMonster   // 적 선택
         }
-
-
         public BattleScene()
         {
-
             this.player = Player.Instance;
             SetupScene();
         }
@@ -36,7 +42,9 @@ namespace TeamProject
         public override void Render()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Battle!!");
+            Console.ResetColor();
             Console.WriteLine();
             if (enemy == null) return;
 
@@ -46,26 +54,15 @@ namespace TeamProject
                 {
                     Monster m = enemy[i];
 
-                    Console.Write("　 ");
-                    if (m.isDie)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: Dead)");// 죽은 몬스터는 회색 처리
-                        Console.ResetColor();
-                    }
-                    else Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
-
+                    //Console.Write("　 ");
+                    PrintMon(m);
+                    //Console.Write("　 ");
+                    PrintBar(m.Hp / m.MaxHp);
                 }
-                Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
-                Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
-                Console.WriteLine($"MP {player.Mp}/{player.MaxMp}");
-                Console.WriteLine();
+                PrintPlayer();
 
                 if (currentState == BattleState.SelectAction) // 공격 스킬 선택
                 {
-                    //string[] actions = { "1. 공격", "2. 스킬" };
                     for (int i = 0; i < actions.Count; i++)
                     {
                         if (actionSelect == i) Console.Write("▶ ");
@@ -98,21 +95,11 @@ namespace TeamProject
                     if (monsterselect == i) Console.Write("▶ ");
                     else Console.Write("　 ");
 
-                    if (m.isDie)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: Dead)");// 죽은 몬스터는 회색 처리
-                        Console.ResetColor();
-                    }
-                    else Console.WriteLine($"Lv.{m.Level} {m.Name} (HP: {m.Hp})");
-
+                    PrintMon(m);
+                    Console.Write("　 ");
+                    PrintBar(m.Hp / m.MaxHp);
                 }
-                Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
-                Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
-                Console.WriteLine($"MP {player.Mp}/{player.MaxMp}");
-                Console.WriteLine();
+                PrintPlayer();
                 Console.WriteLine("공격할 몬스터를 선택해주세요. 이동: 방향키, 선택: z, 취소: x");
             }
             SceneControl();
@@ -279,6 +266,56 @@ namespace TeamProject
                 actionSelect = 0;
             }
             currentState = BattleState.SelectAction;
+        }
+        void PrintBar(float barRatio, ConsoleColor col = ConsoleColor.Red)
+        {
+            Console.Write("[");
+            Console.ForegroundColor = col;
+            SetHpBar(barRatio);
+            Console.Write(sbHp);
+            Console.ResetColor();
+            Console.WriteLine("]");
+        }
+        void SetHpBar(float barRatio)
+        {
+            int tmpCnt = (int)(hpBarCnt * barRatio); // 몇 개의 HpBar를 출력할건지 계산
+            sbHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i < tmpCnt) sbHp.Append("█");
+                else sbHp.Append(" ");
+            }
+        }
+        void PrintMon(Monster mon)
+        {
+            // 패딩 계산
+            int tmpLvP = lvPad - ControlManager.GetDisplayWidth($"Lv.{mon.Level}");
+            int tmpNameP = namePad - ControlManager.GetDisplayWidth(mon.Name);
+            int tmpHpP = 0;
+
+            if (mon.isDie)
+            {
+                tmpHpP = (hpBarCnt + 2 - lvPad - namePad) - ControlManager.GetDisplayWidth("[HP: Dead]");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"Lv.{mon.Level}" + new string(' ', tmpLvP) + $"{mon.Name}" + new string(' ', tmpNameP) + new string(' ', tmpHpP) + $"[HP: Dead]");
+                Console.ResetColor();
+            }
+            else
+            {
+                tmpHpP = (hpBarCnt + 2 - lvPad - namePad) - ControlManager.GetDisplayWidth($"[HP: {mon.Hp}]");
+                Console.WriteLine($"Lv.{mon.Level}" + new string(' ', tmpLvP) + $"{mon.Name}" + new string(' ', tmpNameP) + new string(' ', tmpHpP) + $"[HP: {mon.Hp}]");
+            }
+        }
+        void PrintPlayer()
+        {
+            Console.WriteLine();
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.Level} {player.Name} ({player.Job})");
+            Console.WriteLine($"HP {player.Hp}/{player.MaxHp}");
+            PrintBar(player.Hp / player.MaxHp);
+            Console.WriteLine($"MP {player.Mp}/{player.MaxMp}");
+            PrintBar(player.Mp / player.MaxMp, ConsoleColor.Blue);
+            Console.WriteLine();
         }
     }
 }
