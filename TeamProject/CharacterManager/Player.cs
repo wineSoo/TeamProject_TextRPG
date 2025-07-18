@@ -106,8 +106,8 @@ namespace TeamProject
             Inventory.Add(new Item
             {
                 Name = "회복 물약",
-                Type = ItemType.Consumable,
-                Heal = 20,
+                Type = ItemType.ConsumableHP,
+                RestoreHp = 20,
                 Quantity = 1,
                 Description = "체력을 회복시킨다"
             });
@@ -251,16 +251,22 @@ namespace TeamProject
         public void AddItem(Item newItem) //아이템 획득
         {
             // 소모품이면 이미 있는 아이템 수량만 증가
-            if (newItem.Type == ItemType.Consumable)
+            if (newItem.Type == ItemType.ConsumableHP || newItem.Type == ItemType.ConsumableMP)
             {
-                var existingItem = Inventory.Find(item => item.Name == newItem.Name && item.Type == ItemType.Consumable);
+                Console.WriteLine($"[DEBUG] 추가 아이템: {newItem.Name} / 수량: {newItem.Quantity}");
+                var existingItem = Inventory.Find(item =>
+                item.Name == newItem.Name &&
+                (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
+);
                 if (existingItem != null)
                 {
+                    Console.WriteLine($"[DEBUG] 기존 아이템 발견: {existingItem.Name} / 기존 수량: {existingItem.Quantity}");
                     existingItem.Quantity += newItem.Quantity;
+                    Console.WriteLine($"[DEBUG] 추가 후 수량: {existingItem.Quantity}");
                     return;
                 }
             }
-
+            Console.WriteLine($"[DEBUG] 새 아이템 추가: {newItem.Name} / 수량: {newItem.Quantity}");
             // 그 외에는 새 아이템 추가
             Inventory.Add(newItem);
         }

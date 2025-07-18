@@ -16,8 +16,8 @@ namespace TeamProject
         public int MP { get; set; } // 아이템 마나
         public int Skill { get; set; } // 아이템 치명타율
         public int Speed { get; set; } // 아이템 속도
-
-        public int Heal { get; set; } // 아이템 회복력
+        public int RestoreHp { get; set; } // 아이템 체력 회복량
+        public int RestoreMp { get; set; } // 아이템 마나 회복량
         public int Quantity { get; set; } // 아이템 수량
         public int Price { get; set; } // 아이템 가격
         public string Description { get; set; } // 아이템 설명
@@ -26,7 +26,8 @@ namespace TeamProject
         {
             Weapon,
             Armor,
-            Consumable, // 소모품
+            ConsumableHP, // 소모품
+            ConsumableMP,
         }
         public Item()
         {
@@ -38,12 +39,13 @@ namespace TeamProject
             MP = 0;
             Skill = 0;
             Speed = 0;
-            Heal = 0;
+            RestoreHp = 0;
+            RestoreMp = 0;
             Quantity = 1;
             Price = 0;
             Type = ItemType.Weapon; // 기본값은 장비
         }
-        public Item(string name, int atk, int def,int hp,int mp,int skill, int speed, int heal, int quantity, int price, string description, ItemType type)
+        public Item(string name, int atk, int def,int hp,int mp,int skill, int speed, int restorehp, int restoremp,  int quantity, int price, string description, ItemType type)
         {
             Name = name;
             Atk = atk;
@@ -52,7 +54,8 @@ namespace TeamProject
             MP = mp;
             Skill = skill;
             Speed = speed;
-            Heal = heal;
+            RestoreHp = restorehp;
+            RestoreMp = restoremp;
             Quantity = quantity;
             Price = price;
             Description = description;
@@ -68,7 +71,8 @@ namespace TeamProject
             MP = other.MP;
             Skill = other.Skill;
             Speed = other.Speed;
-            Heal = other.Heal;
+            RestoreHp = other.RestoreHp;
+            RestoreMp = other.RestoreMp;
             Quantity = other.Quantity;
             Price = other.Price;
             Description = other.Description;

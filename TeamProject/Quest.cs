@@ -86,7 +86,7 @@ namespace TeamProject
             {
                 var inventory = Player.Instance.Inventory;
                 var consumableList = inventory.FirstOrDefault(
-                    i => i.Type == Item.ItemType.Consumable // 주의: 현재 가장 먼저 검색된 소비 아이템을 찾음 => 소비 아이템이 한 종류라 가능, 종류 늘어나면 반드시 수정
+                    i => i.Type == Item.ItemType.ConsumableHP // 주의: 현재 가장 먼저 검색된 소비 아이템을 찾음 => 소비 아이템이 한 종류라 가능, 종류 늘어나면 반드시 수정
                 );
 
                 if (consumableList != null)
@@ -98,8 +98,8 @@ namespace TeamProject
                     inventory.Add(new Item
                     {
                         Name = "회복 물약",
-                        Type = ItemType.Consumable,
-                        Heal = 20,
+                        Type = ItemType.ConsumableHP,
+                        RestoreHp = 20,
                         Quantity = RewardItemQuantity,
                         Description = "체력을 회복시킨다"
                     });

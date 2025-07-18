@@ -49,15 +49,19 @@ namespace TeamProject
                 }
             }
         }
+
         private void GiveReward()
         {
             if (!rewardGiven)
             {
-                rewardItem = ItemLibrary.Instance.GetRandomRewardItem();
+                var origin = ItemLibrary.Instance.GetRandomRewardItem();
+                rewardItem = new Item(origin); // 복사 생성자 필요
                 Player.Instance.AddItem(rewardItem);
                 rewardGiven = true;
             }
         }
+
+
 
         public override void Render()
         {
@@ -129,6 +133,8 @@ namespace TeamProject
 
         public override void SetupScene()
         {
+            sb.Clear();
+
             base.SetupScene();
 
             //경험치 계산
@@ -136,6 +142,8 @@ namespace TeamProject
             isLevelUp = Player.Instance.LevelCalculator(totalExpGained);
 
             // 보상 아이템 지급
+            rewardGiven = false;
+            rewardItem = null;
             GiveReward();
 
             // 소환된 몬스터 초기화
