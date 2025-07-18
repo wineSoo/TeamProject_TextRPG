@@ -25,7 +25,7 @@ namespace TeamProject
         {
             sb.Clear();
             sb.AppendLine("직업을 선택해 주세요\n");
-            sb.AppendLine();
+            //sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
             {
                 if (selOptions == i) sb.Append("▶ ");

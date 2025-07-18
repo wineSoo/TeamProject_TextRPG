@@ -27,6 +27,7 @@ namespace TeamProject
             scenes.Add(SceneState.QuestScene, new QuestScene());
             scenes.Add(SceneState.SelectQuestScene, new SelectQuestScene());
             scenes.Add(SceneState.FinalScene, new FinalScene());
+
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -34,8 +35,6 @@ namespace TeamProject
             /*scenes.Add(SceneState.Rest, new RestScene());*/
             /*scenes.Add(SceneState.Dungeon, new DungeonScene());*/
 
-            // 한 장면당 10ms
-            delta = 10;
 
             // 시작은 이름 입력 씬으로
 
@@ -58,13 +57,14 @@ namespace TeamProject
         }
         public enum SceneState
         {
-            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene, QuestScene, SelectQuestScene, FinalScene
+
+            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene, QuestScene, SelectQuestScene, InventoryScene,FinalScene
+
         }
         private SceneState sceneState;
         // 씬 저장용
         private Dictionary<SceneState, Scene> scenes;
-        public string tmpS; // 밀어내기용
-        public int delta { get; private set; }
+        public string tmpS = ""; // 밀어내기용
 
         public SceneState SetSceneState
         {
@@ -78,17 +78,6 @@ namespace TeamProject
                 sceneState = value;
                 scenes[sceneState].SetupScene();
                 ControlManager.ClearInputBuffer(); // 씬 넘어 갈 떄 기존에 입력된 키값들 없애기
-            }
-        }
-        public Dictionary<SceneState, Scene> ScenesDict
-        {
-            get { return scenes; }
-        }
-        public Scene GetCurScene
-        {
-            get
-            {
-                return scenes[sceneState];
             }
         }
         public void StartScene()

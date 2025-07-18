@@ -43,6 +43,7 @@ namespace TeamProject
             Description = description;
             Type = type;
         }
+        // 깊은 복사용 생성자
         public Skill(Skill oriSkill, Character owner)
         {
             Name = oriSkill.Name;
@@ -57,7 +58,6 @@ namespace TeamProject
             this.ownChar = owner;
             SetDamge();
         }
-
         // 구조 변경용 생성자
         public Skill(Character owner)
         {
@@ -71,6 +71,7 @@ namespace TeamProject
             Target = SkillTarget.Single;
             SetDamge();
         }
+        // 스킬 생성, 몬스터 레벨 세팅, 플레이어 레벨 세팅 시 호출됨
         public virtual void SetDamge()
         {
             // 기본 공격 스킬 데미지는 소유자 공격력 그대로

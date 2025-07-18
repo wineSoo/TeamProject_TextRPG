@@ -81,8 +81,10 @@ namespace TeamProject
         // 단일 보스 몬스터 복사본 반환
         public BossMonster GetBossMonster()
         {
-            var m = bossMonster;
-            return new BossMonster(m.Name!, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Index, m.Description);
+            if (bossMonster == null) return new BossMonster();
+
+            //return new BossMonster(m.Name!, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Index, m.Description);
+            return new BossMonster(bossMonster);
         }
 
         //랜덤 N마리 복사본 반환 (중복X)
@@ -114,7 +116,6 @@ namespace TeamProject
             {
                 int idx = rnd.Next(monsters.Count);
                 Monster m = monsters[idx];
-                //selected.Add(new Monster(m.Name, m.Level, m.MaxHp, m.AtkPower, m.DefPower, m.Description));
                 selected.Add(new Monster(m));
                 LevelIncreaser(selected[i], Player.Instance.DungeonFloor);
             }

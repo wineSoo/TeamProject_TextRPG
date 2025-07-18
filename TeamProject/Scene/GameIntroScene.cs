@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+    // 게임 스타트 씬에 통합됨 - 현재 사용 X
     internal class GameIntroScene : Scene
     {
         int selOption = 0; // 0: START GAME, 1: QUIT

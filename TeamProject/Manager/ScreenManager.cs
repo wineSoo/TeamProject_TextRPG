@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
+    // WinAPI를 가져와 더블 버퍼를 구현하려 했으나, 한글이 깨지는 이슈로 사용 X
     internal class ScreenManager
     {
         private const int Width = 120;

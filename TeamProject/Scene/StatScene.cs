@@ -18,6 +18,7 @@ namespace TeamProject
         int selOptions = 0;
         public override void Render()
         {
+            Player.Instance.SetAbilityByEquipment();
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("상태 보기");
@@ -46,12 +47,19 @@ namespace TeamProject
                 default:
                     break;
             }
-            sb.AppendLine($"공격력 : {Player.Instance.AtkPower}");// 플레이어 공격력
-            sb.AppendLine($"방어력 : {Player.Instance.DefPower}");// 플레이어 방어력
-            sb.AppendLine($"기 술 : {Player.Instance.Skill}"); //플레이어 기술 = 플레이어 치명타율
-            sb.AppendLine($"속 도 : {Player.Instance.Speed}");// 플레이어 속도 = 플레이어 회피율
-            sb.AppendLine($"체 력 : {Player.Instance.Hp}");// 플레이어 체력
-            sb.AppendLine($"마 나 : {Player.Instance.Mp}");//플레이어 마나
+
+            string FormatStat(string statName, float baseValue, int plusValue)
+            {
+                string plusText = plusValue > 0 ? $" (+{plusValue})" : "";
+                return $"{statName}: {baseValue}{plusText}";
+            }
+
+            sb.AppendLine(FormatStat("공격력", Player.Instance.AtkPower, Player.Instance.PlusAtk)); // 플레이어 공격력
+            sb.AppendLine(FormatStat("방어력", Player.Instance.DefPower, Player.Instance.PlusDef)); // 플레이어 방어력
+            sb.AppendLine(FormatStat("기 술 ", Player.Instance.Skill, Player.Instance.PlusSkill)); // 플레이어 기술 (치명타율)
+            sb.AppendLine(FormatStat("속 도 ", Player.Instance.Speed, Player.Instance.PlusSpeed)); // 플레이어 속도 (회피율)
+            sb.AppendLine(FormatStat("체 력 ", Player.Instance.MaxHp, Player.Instance.PlusHp)); // 플레이어 체력
+            sb.AppendLine(FormatStat("마 나 ", Player.Instance.MaxMp, Player.Instance.PlusMp)); // 플레이어 마나
             sb.AppendLine($"Gold : {Player.Instance.Gold} G"); // 플레이어 골드
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)

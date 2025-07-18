@@ -50,7 +50,7 @@ namespace TeamProject
         //bool isFinish = false;
         public override void Render()
         {
-            HashSet<int> ints = new HashSet<int>();
+            HashSet<int> ints = new HashSet<int>(); // 랜덤 타겟 중복 방지용
             switch (Player.Instance.GetUseSkill().Target) // 타겟 타입에 따라 흐름 변경
             {
                 case Skill.SkillTarget.Multi: // 배틀 씬에서 선택 한 몬스터 공격하기 -> 큐로 구현?
@@ -58,24 +58,19 @@ namespace TeamProject
                 case Skill.SkillTarget.RandomMulti:
                     // 중복 안되게 타겟 선택하기
                     // 살아있는 몬스터 수 체크
-                    int tmpMonCnt = 0;
                     List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
-                    List<int> tmpList = new List<int>();
+                    List<int> tmpList = new List<int>(); // 살아있는 몬스터 담은 배열
                     if (monList != null)
                     {
                         for(int i = 0; i < monList.Count; i++)
                         {
-                            if (!monList[i].isDie)
-                            {
-                                tmpMonCnt++;
-                                tmpList.Add(i);
-                            }
+                            if (!monList[i].isDie) tmpList.Add(i); // 살아있는 몬스터 넣기
                         }
                     }
                     
-                    while (ints.Count < tmpMonCnt && ints.Count < Player.Instance.GetUseSkill().target) // 타겟 수 또는 살아있는 몬스터 만큼
+                    while (ints.Count < tmpList.Count && ints.Count < Player.Instance.GetUseSkill().target) // 타겟 수 또는 살아있는 몬스터 만큼
                     {
-                        int tmpN = new Random().Next(0, tmpMonCnt);
+                        int tmpN = new Random().Next(0, tmpList.Count); // 중복 안되게 랜덤으로 n마리 몬스터 고르기
                         if (ints.Contains(tmpN)) continue;
                         ints.Add(tmpN);
                     }
@@ -142,9 +137,6 @@ namespace TeamProject
                 default:
                     break;
             }
-            
-
-            
         }
 
         protected override void SceneControl()
@@ -388,10 +380,7 @@ namespace TeamProject
         
         public override void SetupScene()
         {
-            base.SetupScene();
-
-            // 싱글 타겟인가, 다중 타겟인가
-            //if (Player.Instance.GetUseSkill().)
+            //base.SetupScene();
 
             selectedMon = MonsterManager.Instance.GetSelectedMonster();
             if (selectedMon == null) return;
@@ -407,8 +396,6 @@ namespace TeamProject
             }
             lerpBeforeHpToCurHp = beforeHp;
             atkState = AttackState.PlayerAttack;
-            //isFinish = false;
-
         }
 
         public void SetCurMon(int monIdx)
@@ -465,7 +452,7 @@ namespace TeamProject
             return IsHit;
 
         }
-        void CheckFinish()
+        /*void CheckFinish()
         {
             if (CheckClear()) // 클리어 여부 확인
             {
@@ -496,6 +483,6 @@ namespace TeamProject
             {
                 SceneControl();
             }
-        }
+        }*/
     }
 }
