@@ -31,13 +31,17 @@ namespace TeamProject
             sb.AppendLine($"exp {player.Exp}");
             sb.AppendLine();
 
-            sb.AppendLine("────────────────────────────────────────────");
-            sb.AppendLine("          🎮 Team Project: 소울C#");
-            sb.AppendLine("          제작자: 이원진, 김세웅, 정희찬, 조수호");
-            sb.AppendLine("");
-            sb.AppendLine("          Special Thanks: 플레이해주신 여러분!");
-            sb.AppendLine("────────────────────────────────────────────");
+            sb.AppendLine("========================================");
+            sb.AppendLine("           🎮 Soul C# ");
+            sb.AppendLine("----------------------------------------");
+            sb.AppendLine("   팀장: 이원진");
+            sb.AppendLine("   조원: 김세웅, 정희찬, 조수호");
             sb.AppendLine();
+            sb.AppendLine("   Special Thanks:");
+            sb.AppendLine("     플레이해주셔서 감사합니다!");
+            sb.AppendLine();
+            sb.AppendLine("========================================");
+
 
             for (int i = 0; i < optionsLen; i++)
             {
