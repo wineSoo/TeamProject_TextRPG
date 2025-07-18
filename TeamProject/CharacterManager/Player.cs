@@ -184,8 +184,10 @@ namespace TeamProject
                     Job = PlayerJob.Mage;
                     BaseMp = 100f;
                     break;
-
             }
+            SetAbilityByEquipment();
+            Hp = MaxHp;
+            Mp = MaxMp;
         }
         public void UseSkill()
         {
