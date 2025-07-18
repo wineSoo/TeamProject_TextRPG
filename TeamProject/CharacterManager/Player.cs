@@ -245,9 +245,24 @@ namespace TeamProject
         }
         private ItemType GetEquipmentSlot(Item item)
         {
-
             return item.Type;
+        }
 
+        public void AddItem(Item newItem) //아이템 획득
+        {
+            // 소모품이면 이미 있는 아이템 수량만 증가
+            if (newItem.Type == ItemType.Consumable)
+            {
+                var existingItem = Inventory.Find(item => item.Name == newItem.Name && item.Type == ItemType.Consumable);
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += newItem.Quantity;
+                    return;
+                }
+            }
+
+            // 그 외에는 새 아이템 추가
+            Inventory.Add(newItem);
         }
     }
 }

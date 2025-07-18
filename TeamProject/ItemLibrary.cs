@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -90,22 +91,23 @@ namespace TeamProject
             items[5].Type = Item.ItemType.Weapon;
 
             items.Add(new Item());
-            items[6].Name = "숙련자의 검";
-            items[6].Atk = 15;
-            items[6].Def = 0;
+            items[6].Name = "초보자의 방패";
+            items[6].Atk = 0;
+            items[6].Def = 5;
             items[6].HP = 0;
             items[6].Heal = 0;
-            items[6].Description = "숙련자들이 쓸 수 있게 만든 날카로운 검";
-            items[6].Type = Item.ItemType.Weapon;
+            items[6].Description = "누구나 쓸 수 있게 만든 가벼운 방패";
+            items[6].Type = Item.ItemType.Armor;
 
             items.Add(new Item());
-            items[7].Name = "초보자의 방패";
-            items[7].Atk = 0;
-            items[7].Def = 5;
+            items[7].Name = "숙련자의 검";
+            items[7].Atk = 15;
+            items[7].Def = 0;
             items[7].HP = 0;
             items[7].Heal = 0;
-            items[7].Description = "누구나 쓸 수 있게 만든 가벼운 방패";
-            items[7].Type = Item.ItemType.Armor;
+            items[7].Description = "숙련자들이 쓸 수 있게 만든 날카로운 검";
+            items[7].Type = Item.ItemType.Weapon;
+            items.Add(new Item());
 
             items.Add(new Item());
             items[8].Name = "숙련자의 방패";
@@ -116,7 +118,6 @@ namespace TeamProject
             items[8].Description = "숙련자들이 쓸 수 있게 만든 단단한 방패";
             items[8].Type = Item.ItemType.Armor;
 
-            items.Add(new Item());
             items[9].Name = "날카로운 방패";
             items[9].Atk = 10;
             items[9].Def = 5;
@@ -144,10 +145,34 @@ namespace TeamProject
             items[11].Type = Item.ItemType.Armor;
         }
 
-        public List<Item> GetAllItems()
+        public Item GetRandomRewardItem()
         {
-            return new List<Item>(items);
-        }
+            Random rand = new Random();
+            int roll = rand.Next(100);
 
+            List<int> targetIndices;
+
+            if (roll < 25)
+            {
+                targetIndices = new List<int> { 0, 1 }; // 25%
+            }
+            else if (roll < 85)
+            {
+                targetIndices = new List<int> { 2, 3, 4, 5, 6 }; // 60%
+            }
+            else if (roll < 95)
+            {
+                targetIndices = new List<int> { 7, 8, 9 }; // 10%
+            }
+            else
+            {
+                targetIndices = new List<int> { 10, 11 }; // 5%
+            }
+
+            // 해당 인덱스 중 하나 랜덤 선택
+            int selectedIndex = targetIndices[rand.Next(targetIndices.Count)];
+
+            return new Item(items[selectedIndex]);
+        }
     }
 }

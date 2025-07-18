@@ -52,6 +52,9 @@ namespace TeamProject
             Player player = Player.Instance;
             var items = player.Inventory;
 
+            if (selOptions < 0) selOptions = 0;
+            if (selOptions >= items.Count) selOptions = items.Count - 1;
+
             for (int i = 0; i < items.Count; i++)
             {
                 Item item = items[i];
@@ -97,21 +100,24 @@ namespace TeamProject
         protected override void SceneControl()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            int itemCount = Player.Instance.Inventory.Count;
 
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    if (selOptions != 0) selOptions--;
+                    selOptions--;
+                    if (selOptions < 0) selOptions = 0;
                     break;
 
                 case ConsoleKey.DownArrow:
-                    if (selOptions != optionsLen - 1) selOptions++;
+                    selOptions++;
+                    if (selOptions >= itemCount) selOptions = itemCount - 1;
                     break;
 
                 case ConsoleKey.Z: // 아이템 선택
-                    if (items != null && selOptions < items.Count)
+                    if (itemCount > 0 && selOptions < itemCount)
                     {
-                        Item selectedItem = items[selOptions];
+                        Item selectedItem = Player.Instance.Inventory[selOptions];
 
                         if (selectedItem.Type == ItemType.Weapon || selectedItem.Type == ItemType.Armor)
                         {
@@ -152,8 +158,6 @@ namespace TeamProject
                                 Console.WriteLine($"{selectedItem.Name}을(를) 모두 사용했습니다.");
                                 Thread.Sleep(1500);
                             }
-
-
                         }
                     }
                     break;

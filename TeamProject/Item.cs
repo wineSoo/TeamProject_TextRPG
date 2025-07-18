@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace TeamProject
             Skill = 0;
             Speed = 0;
             Heal = 0;
-            Quantity = 0;
+            Quantity = 1;
             Price = 0;
             Type = ItemType.Weapon; // 기본값은 장비
         }
@@ -56,6 +57,22 @@ namespace TeamProject
             Price = price;
             Description = description;
             Type = type;
+        }
+
+        public Item(Item other)
+        {
+            Name = other.Name;
+            Atk = other.Atk;
+            Def = other.Def;
+            HP = other.HP;
+            MP = other.MP;
+            Skill = other.Skill;
+            Speed = other.Speed;
+            Heal = other.Heal;
+            Quantity = other.Quantity;
+            Price = other.Price;
+            Description = other.Description;
+            Type = other.Type;
         }
     }
 }
