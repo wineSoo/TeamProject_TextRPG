@@ -58,6 +58,9 @@ namespace TeamProject
             for (int i = 0; i < items.Count; i++)
             {
                 int npad = padding - GetDisplayWidth(items[i].Name);
+                int apad = apadding - GetDisplayWidth(items[i].Atk.ToString());
+                int defpad = apadding - GetDisplayWidth(items[i].Def.ToString());
+                int qpad = apadding - GetDisplayWidth(items[i].Quantity.ToString());
                 int epad = exPadding - GetDisplayWidth(items[i].Description);
 
                 Item item = items[i];
@@ -74,11 +77,11 @@ namespace TeamProject
 
                 if (item.Type == ItemType.Weapon || item.Type == ItemType.Armor)
                 {
-                    Console.WriteLine($"{equipTag} {item.Name}{new string(' ', npad)}{(item.Type == ItemType.Weapon ? $"| 공격력: {item.Atk}" : $"| 방어력: {item.Def}")}{new string(' ', npad)}| {item.Description}");
+                    Console.WriteLine($"{equipTag} {item.Name}{new string(' ', npad)}{(item.Type == ItemType.Weapon ? $"| 공격력: {item.Atk}" : $"| 방어력: {item.Def}")}{new string(' ', apad)}| {item.Description}");
                 }
                 else if (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
                 {
-                    Console.WriteLine($"   {item.Name}{new string(' ', npad)}| 회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)} | 수량: {item.Quantity}{new string(' ', npad)}| {item.Description}");
+                    Console.WriteLine($"   {item.Name}{new string(' ', npad)}| 회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)}{new string(' ', qpad)}| 수량: {item.Quantity}{new string(' ', qpad)}| {item.Description}");
                 }
             }
         }
