@@ -14,18 +14,8 @@ namespace TeamProject
 
         public enum PlayerJob { Warrior, Archer, Theif, Mage }
         public PlayerJob Job { get; set; }
-        public float BaseAttack { get; set; } // 기본 공격력
-        public float BaseDef { get; set; } // 기본 방어력
-        public float BaseHp { get; set; } // 기본 체력
-        public float BaseMp { get; set; } // 기본 마나
-        public float BaseSkill { get; set; } // 치명타율
-        public float BaseSpeed { get; set; } // 회피율
-        public float AtkPower { get; set; } // 장비 추가한 공격력
-        public float DefPower { get; set; } // 장비 추가한 방어력
-        public float MaxHp { get; set; } // 장비 추가한 최대 체력
+        public float Mp { get; set; } // 기본 마나
         public float MaxMp { get; set; } // 장비 추가한 최대 마나
-        public float Hp { get; set; }
-        public float Mp { get; set; }
 
         public float Skill { get; set; } // 치명타율
         public float Speed { get; set; } // 회피율
@@ -48,20 +38,13 @@ namespace TeamProject
             Level = 1;
             Name = "이름 없는";
             Job = PlayerJob.Warrior;
-            BaseAttack = 30f; //과제 기본값 30
-            BaseDef = 5f;
-            BaseHp = 100f;
-            BaseMp = 50f;
-            BaseSkill = 15f;
-            BaseSpeed = 10f;
+            AtkPower = 30f; //과제 기본값 30
+            DefPower = 5f;
+            MaxHp = 100f;
+            MaxMp = 50f;
+            Skill = 15f;
+            Speed = 10f;
 
-
-            AtkPower = BaseAttack; // 기본 공격력 30
-            DefPower = BaseDef; // 기본 방어력 5
-            MaxHp = BaseHp; // 기본 체력 100
-            MaxMp = BaseMp; // 기본 마나 50
-            Skill = BaseSkill; // 기본 치명타율 15
-            Speed = BaseSpeed; // 기본 회피율 10
             Hp = MaxHp; // 현재 체력은 최대 체력으로 초기화
             Mp = MaxMp; // 현재 마나는 최대 마나로 초기화
 
@@ -170,19 +153,19 @@ namespace TeamProject
             {
                 case PlayerJob.Warrior:
                     Job = PlayerJob.Warrior;
-                    BaseHp = 150f;
+                    Hp = 150f;
                     break;
                 case PlayerJob.Archer:
                     Job = PlayerJob.Archer;
-                    BaseSkill = 25f;
+                    Skill = 25f;
                     break;
                 case PlayerJob.Theif:
                     Job = PlayerJob.Theif;
-                    BaseSpeed = 20f;
+                    Speed = 20f;
                     break;
                 case PlayerJob.Mage:
                     Job = PlayerJob.Mage;
-                    BaseMp = 100f;
+                    Mp = 100f;
                     break;
             }
             SetAbilityByEquipment();
@@ -228,13 +211,12 @@ namespace TeamProject
                 PlusSpeed += equip.Speed;
             }
 
-            AtkPower = BaseAttack + PlusAtk; // 기본 공격력 30
-            DefPower = BaseDef + PlusDef; // 기본 방어력 5
-            MaxHp = BaseHp + PlusHp; // 기본 체력 100
-            MaxMp = BaseMp + PlusMp; // 기본 마나 50
-            Skill = BaseSkill + PlusSkill;
-            Speed = BaseSpeed + PlusSpeed;
-
+            AtkPower += PlusAtk; // 기본 공격력 30
+            DefPower += PlusDef; // 기본 방어력 5
+            MaxHp += PlusHp; // 기본 체력 100
+            MaxMp += PlusMp; // 기본 마나 50
+            Skill += PlusSkill;
+            Speed += PlusSpeed;
         }
 
         public bool IsEquipped(Item item)
