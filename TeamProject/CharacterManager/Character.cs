@@ -13,6 +13,13 @@ namespace TeamProject
         public string Description { get; set; }
         public bool isDie { get; private set; } // 죽었는지 여부 확인 (true=죽음/false=생존)
 
+        public MonsterIndex Index { get; set; }
+
+        public enum MonsterIndex
+        {
+            AA, ShadowImp, DarkGuardian, PaleWhisp, AbyssLord
+        }
+
         protected Random rand = new Random();
 
         public List<Skill> skills { get; private set; }
@@ -32,7 +39,7 @@ namespace TeamProject
             SelSkillNum = 0;
         }
 
-        protected Character(string name, int level, float maxHp, float atkPower, float defPower, string description = "")
+        protected Character(string name, int level, float maxHp, float atkPower, float defPower, MonsterIndex index, string description = "")
         {
             Name = name;
             Level = level;
@@ -54,6 +61,7 @@ namespace TeamProject
             AtkPower = unit.AtkPower;
             DefPower = unit.DefPower;
             Description = unit.Description;
+            Index = unit.Index;
             isDie = unit.isDie;
             SelSkillNum = 0;
             skills = new List<Skill>();
@@ -95,6 +103,7 @@ namespace TeamProject
                 {
                     Hp = 0;
                     isDie = true;
+                    QuestManager.Instance.KillCuntsUp(this.Index);
                 }
             }
             return tmpDam;
@@ -129,6 +138,7 @@ namespace TeamProject
                 if (Hp <= 0)
                 {
                     Hp = 0;
+                    QuestManager.Instance.KillCuntsUp(this.Index);
                     isDie = true;
                 }
             }

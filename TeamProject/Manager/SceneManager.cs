@@ -24,6 +24,8 @@ namespace TeamProject
             scenes.Add(SceneState.WinEndScene, new WinEndScene());
             scenes.Add(SceneState.LoseEndScene, new LoseEndScene());
             scenes.Add(SceneState.JobSelectScene, new JobSelectScene());
+            scenes.Add(SceneState.QuestScene, new QuestScene());
+            scenes.Add(SceneState.SelectQuestScene, new SelectQuestScene());
             /*scenes.Add(SceneState.StatScene, new StatScene());*/
             /*scenes.Add(SceneState.InventoryScene, new InventoryScene());*/
             /*scenes.Add(SceneState.ShopScene, new ShopScene());*/
@@ -36,8 +38,8 @@ namespace TeamProject
 
             // 시작은 이름 입력 씬으로
 
-            sceneState = SceneState.InputNameScene;
 
+            sceneState = SceneState.InputNameScene;
 
         }
 
@@ -55,12 +57,12 @@ namespace TeamProject
         }
         public enum SceneState
         {
-            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene,
+            InputNameScene, GameIntroScene, JobSelectScene, StartScene, StatScene, BattleScene, PlayerAttackScene, EnemyAttackScene, TestScene, WinEndScene, LoseEndScene, SkillScene, QuestScene, SelectQuestScene
         }
         private SceneState sceneState;
         // 씬 저장용
         private Dictionary<SceneState, Scene> scenes;
-
+        public string tmpS; // 밀어내기용
         public int delta { get; private set; }
 
         public SceneState SetSceneState
@@ -69,6 +71,8 @@ namespace TeamProject
             {  return sceneState; }*/
             set
             {
+                // 씬 변경 후 실행해야 할 것들 실행
+                scenes[sceneState].FinishScene();
                 // 씬 스테이트 세팅하면 씬 세팅 자동 초기화 해보기
                 sceneState = value;
                 scenes[sceneState].SetupScene();
@@ -103,7 +107,7 @@ namespace TeamProject
                 }
                 sb.AppendLine();
             }
-            string tmpS = sb.ToString();
+            tmpS = sb.ToString();
             while (true)
             {
                 // 깜빡임 줄이기 위해 빈공간으로 덮어 쓰기
@@ -111,11 +115,15 @@ namespace TeamProject
                 // 게임 상태 그리기
                 scenes[sceneState].Render();
 
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine(tmpS);
-                Console.SetCursorPosition(0, 0);
+                ClearScene();
 
             }
+        }
+        public void ClearScene()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(tmpS);
+            Console.SetCursorPosition(0, 0);
         }
     }
 }

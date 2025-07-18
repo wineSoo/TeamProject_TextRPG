@@ -11,9 +11,10 @@ namespace TeamProject
        public QuestScene()
         {
             sb = new StringBuilder();
-            options.Add("1. 퀘스트 1");
-            options.Add("2. 퀘스트 2");
-            options.Add("2. 퀘스트 3");
+            options.Add($"1. {QuestManager.Instance.questList[1].Name}");
+            options.Add($"2. {QuestManager.Instance.questList[2].Name}");
+            options.Add($"3. {QuestManager.Instance.questList[3].Name}");
+            options.Add($"처음으로");
             optionsLen = options.Count;
         }
 
@@ -55,22 +56,18 @@ namespace TeamProject
                 case ConsoleKey.RightArrow:
                     break;
                 case ConsoleKey.Z:
-                    switch (selOptions)
+                    if (selOptions >= 0 && selOptions <= 2)
                     {
-                        case 0: // 퀘스트 1
-
-                            break;
-                        case 1: // 퀘스트 2
-
-                            break;
-                        case 2: // 퀘스트 3
-
-                            break;
-                        default:
-                            break;
+                        QuestManager.Instance.SelectQuestVariable = selOptions+1;
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.SelectQuestScene;
+                    }
+                    else if (selOptions == 3)
+                    {
+                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                     }
                     break;
                 case ConsoleKey.X:
+                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                     break;
                 default:
                     break;

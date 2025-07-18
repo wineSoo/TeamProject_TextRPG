@@ -7,8 +7,8 @@ namespace TeamProject
         public Monster() : base() 
         {}
 
-        public Monster(string name, int level, float maxHp, float atkPower, float defPower, string description = "")
-            : base(name, level, maxHp, atkPower, defPower, description)
+        public Monster(string name, int level, float maxHp, float atkPower, float defPower, MonsterIndex index, string description = "")
+            : base(name, level, maxHp, atkPower, defPower, index, description)
         {}
         public Monster(Character unit) : base(unit) {}
 
