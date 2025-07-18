@@ -108,7 +108,7 @@ namespace TeamProject
                 Name = "회복 물약",
                 Type = ItemType.Consumable,
                 Heal = 20,
-                Quantity = 3,
+                Quantity = 1,
                 Description = "체력을 회복시킨다"
             });
 
