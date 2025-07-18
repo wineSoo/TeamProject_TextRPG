@@ -161,12 +161,14 @@ namespace TeamProject
                             Thread.Sleep(1000);
                             // 클리어 했다면 자동으로 승리 씬으로 이동
                             // 테스트로는 스타트로 이동
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
+                            if (Player.Instance.DungeonFloor == 5)
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.FinalScene;
+                            else
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
                         }
                         else
                         {
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
-
                         }
                         isRightInput = true; // 선택을 해야만 넘어가도록
                         break;
