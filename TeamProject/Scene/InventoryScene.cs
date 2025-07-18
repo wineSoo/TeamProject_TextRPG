@@ -123,21 +123,24 @@ namespace TeamProject
 
                             int healAmount = selectedItem.Heal;
 
-                            if (player.Hp == (player.MaxHp - healAmount))
+                            if (player.Hp == player.MaxHp)
                             {
                                 Console.WriteLine("체력이 가득 찼습니다.");
+                                Thread.Sleep(1500);
                                 return;
                             }
                             else if (player.Hp < (player.MaxHp - healAmount))
                             {
                                 player.Hp += healAmount;
                                 Console.WriteLine($"체력이 {healAmount}회복 되었습니다");
+                                Thread.Sleep(1500);
                                 return;
 
                             }
                             else if (player.Hp > (player.MaxHp - healAmount))
                             {
                                 Console.WriteLine($"체력이 {player.MaxHp - player.Hp}회복 되었습니다");
+                                Thread.Sleep(1500);
                                 player.Hp = player.MaxHp;
                                 return;
                             }
