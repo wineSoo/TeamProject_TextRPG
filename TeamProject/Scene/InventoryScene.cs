@@ -57,6 +57,9 @@ namespace TeamProject
 
             for (int i = 0; i < items.Count; i++)
             {
+                int npad = padding - GetDisplayWidth(items[i].Name);
+                int epad = exPadding - GetDisplayWidth(items[i].Description);
+
                 Item item = items[i];
                 bool isEquipped = player.IsEquipped(item);
                 string equipTag = "  ";
@@ -71,11 +74,11 @@ namespace TeamProject
 
                 if (item.Type == ItemType.Weapon || item.Type == ItemType.Armor)
                 {
-                    Console.WriteLine($"{equipTag} {item.Name} |공격력: {item.Atk} | 방어력: {item.Def} | {item.Description}");
+                    Console.WriteLine($"{equipTag} {item.Name}{new string(' ', npad)}{(item.Type == ItemType.Weapon ? $"| 공격력: {item.Atk}" : $"| 방어력: {item.Def}")}{new string(' ', npad)}| {item.Description}");
                 }
                 else if (item.Type == ItemType.ConsumableHP || item.Type == ItemType.ConsumableMP)
                 {
-                    Console.WriteLine($"   {item.Name} |회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)} | 수량: {item.Quantity} | {item.Description}");
+                    Console.WriteLine($"   {item.Name}{new string(' ', npad)}| 회복력: {(item.Type == ItemType.ConsumableHP ? item.RestoreHp : item.RestoreMp)} | 수량: {item.Quantity}{new string(' ', npad)}| {item.Description}");
                 }
             }
         }
@@ -155,6 +158,24 @@ namespace TeamProject
                 Console.WriteLine($"{selectedItem.Name}을(를) 모두 사용했습니다.");
                 Thread.Sleep(1000);
             }
+        }
+
+        public int GetDisplayWidth(string s)
+        {
+            int width = 0;
+            foreach (char c in s)
+            {
+                if (IsKorean(c))
+                    width += 2;
+                else
+                    width += 1;
+            }
+            return width;
+        }
+        public bool IsKorean(char c)
+        {
+            // 한글 완성형 범위: U+AC00 ~ U+D7A3
+            return c >= 0xAC00 && c <= 0xD7A3;
         }
 
         protected override void SceneControl()

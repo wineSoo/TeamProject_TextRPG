@@ -10,6 +10,8 @@ namespace TeamProject
     {
         protected List<string> options;
         protected int optionsLen = 0;
+        protected int padding = 16;
+        protected int exPadding = 50;
 
         public Scene()
         {
