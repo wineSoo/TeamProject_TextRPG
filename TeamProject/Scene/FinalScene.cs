@@ -35,12 +35,10 @@ namespace TeamProject
             sb.AppendLine("           🎮 Soul C# ");
             sb.AppendLine("----------------------------------------");
             sb.AppendLine("   팀장: 이원진");
-            sb.AppendLine("   조원: 김세웅, 정희찬, 조수호");
-            sb.AppendLine();
+            sb.AppendLine("   조원: 김세웅, 정희찬, 조수호\n");
             sb.AppendLine("   Special Thanks:");
-            sb.AppendLine("     플레이해주셔서 감사합니다!");
-            sb.AppendLine();
-            sb.AppendLine("========================================");
+            sb.AppendLine("     플레이해주셔서 감사합니다!\n");
+            sb.AppendLine("========================================\n");
 
 
             for (int i = 0; i < optionsLen; i++)
