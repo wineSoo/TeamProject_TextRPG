@@ -8,6 +8,7 @@ namespace TeamProject
 {
     internal class Item
     {
+        public Guid Id { get; set; } = Guid.NewGuid(); // 고유 식별자
         public string Name { get; set; } // 아이템 이름
         public int Atk { get; set; }// 아이템 공격력
         public int Def { get; set; } // 아이템 방어력

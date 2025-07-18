@@ -118,6 +118,12 @@ namespace TeamProject
                         case 3: // 퀘스트 씬
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.QuestScene;
                             break;
+                        case 4: // 저장하기
+                            SaveManager.Save(Player.Instance);
+                            break;
+                        case 5: // 불러오기
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.LoadScene;
+                            break;
                         default:
                             break;
                     }
@@ -137,6 +143,8 @@ namespace TeamProject
             options.Add("2. 인벤 토리");
             options.Add($"3. 전투 시작 (현재 진행 : {Player.Instance.DungeonFloor} 층)");
             options.Add("4. 퀘스트");
+            options.Add("5. 저장하기");
+            options.Add("6. 불러오기");
             optionsLen = options.Count;
         }
     }
