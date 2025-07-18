@@ -27,7 +27,7 @@ namespace TeamProject
         
         enum AttackState 
         {
-            PlayerAttack, ShowEnermyHp, EnemyTakeDamage, ShowDamageText, Evaded
+            PlayerAttack, ShowEnermyHp, EnemyTakeDamage, ShowDamageText, Evaded, Finish
         }
         AttackState atkState { get; set; }
 
@@ -46,49 +46,146 @@ namespace TeamProject
         StringBuilder sbMonHp;
         // 최대 Hp바 개수
         int hpBarCnt = 50;
+        // 랜덤 다중 타겟 종료용 변수
+        //bool isFinish = false;
         public override void Render()
         {
-            switch (atkState)
+            HashSet<int> ints = new HashSet<int>();
+            switch (Player.Instance.GetUseSkill().Target) // 타겟 타입에 따라 흐름 변경
             {
-                case AttackState.PlayerAttack:
-                    RenderPlayerAttack();
+                case Skill.SkillTarget.Multi: // 배틀 씬에서 선택 한 몬스터 공격하기 -> 큐로 구현?
                     break;
-                case AttackState.ShowEnermyHp:
-                    RenderEnermyHp();
+                case Skill.SkillTarget.RandomMulti:
+                    // 중복 안되게 타겟 선택하기
+                    // 살아있는 몬스터 수 체크
+                    int tmpMonCnt = 0;
+                    List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
+                    List<int> tmpList = new List<int>();
+                    if (monList != null)
+                    {
+                        for(int i = 0; i < monList.Count; i++)
+                        {
+                            if (!monList[i].isDie)
+                            {
+                                tmpMonCnt++;
+                                tmpList.Add(i);
+                            }
+                        }
+                    }
+                    
+                    while (ints.Count < tmpMonCnt && ints.Count < Player.Instance.GetUseSkill().target) // 타겟 수 또는 살아있는 몬스터 만큼
+                    {
+                        int tmpN = new Random().Next(0, tmpMonCnt);
+                        if (ints.Contains(tmpN)) continue;
+                        ints.Add(tmpN);
+                    }
+                    
+                    foreach (int monIdx in ints)
+                    {
+                        SetCurMon(tmpList[monIdx]);
+                        while (atkState != AttackState.Finish)
+                        {
+                            SceneManager.Instance.ClearScene();
+                            switch (atkState)
+                            {
+                                case AttackState.PlayerAttack:
+                                    RenderPlayerAttack();
+                                    break;
+                                case AttackState.ShowEnermyHp:
+                                    RenderEnermyHp();
+                                    break;
+                                case AttackState.EnemyTakeDamage:
+                                    RenderEnermyTakeDam();
+                                    break;
+                                case AttackState.ShowDamageText:
+                                    RenderDamageText();
+                                    atkState = AttackState.Finish;
+                                    break;
+                                case AttackState.Evaded:
+                                    Evaded();
+                                    break;
+                                default:
+                                    break;
+                            }
+                            
+                        }
+                        atkState = AttackState.PlayerAttack;
+                    }
+                    //isFinish = true;
+                    //CheckFinish();
+                    SceneControl();
                     break;
-                case AttackState.EnemyTakeDamage:
-                    RenderEnermyTakeDam();
-                    break;
-                case AttackState.ShowDamageText:
-                    RenderDamageText();
-                    break;
-                case AttackState.Evaded:
-                    Evaded();
+                case Skill.SkillTarget.Single: // 기존대로
+                    switch (atkState)
+                    {
+                        case AttackState.PlayerAttack:
+                            RenderPlayerAttack();
+                            break;
+                        case AttackState.ShowEnermyHp:
+                            RenderEnermyHp();
+                            break;
+                        case AttackState.EnemyTakeDamage:
+                            RenderEnermyTakeDam();
+                            break;
+                        case AttackState.ShowDamageText:
+                            RenderDamageText();
+                            //CheckFinish();
+                            SceneControl();
+                            break;
+                        case AttackState.Evaded:
+                            Evaded();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
             }
+            
+
+            
         }
 
         protected override void SceneControl()
         {
             ControlManager.ClearInputBuffer();
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            bool isRightInput = false;
 
-            switch (keyInfo.Key)
+            while (!isRightInput)
             {
-                case ConsoleKey.Z: // 다음 선택
-                    SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
-                    // atkState = AttackState.PlayerAttack; 씬 세팅에서
-                    //Console.WriteLine("적 공격 턴으로 넘어갑니다");
-                    //Thread.Sleep(1000);
-                    break;
-                case ConsoleKey.X: // 선택지 없음
-                    
-                    break;
-                default:
-                    break;
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.Z: // 다음 선택
+                        if (CheckClear())
+                        {
+                            atkState = AttackState.PlayerAttack;
+                            Console.WriteLine("모든 적을 처지하셨습니다!");
+
+                            //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
+
+                            Thread.Sleep(1000);
+                            // 클리어 했다면 자동으로 승리 씬으로 이동
+                            // 테스트로는 스타트로 이동
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
+                        }
+                        else
+                        {
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.EnemyAttackScene;
+
+                        }
+                        isRightInput = true; // 선택을 해야만 넘어가도록
+                        break;
+                    case ConsoleKey.X: // 선택지 없음
+
+                        break;
+                    default:
+                        break;
+                }
             }
+            
         }
         void RenderPlayerAttack()
         {
@@ -100,8 +197,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.Append(Player.Instance.Name);
-            sb.AppendLine("의 공격!");
+            sb.AppendLine($"{Player.Instance.Name}의 {Player.Instance.GetUseSkill().Name}!");
 
             Console.Write(sb.ToString());
 
@@ -129,8 +225,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.Append(Player.Instance.Name);
-            sb.AppendLine("의 공격!");
+            sb.AppendLine($"{Player.Instance.Name}의 {Player.Instance.GetUseSkill().Name}!");
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -175,8 +270,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.Append(Player.Instance.Name);
-            sb.AppendLine("의 공격!");
+            sb.AppendLine($"{Player.Instance.Name}의 {Player.Instance.GetUseSkill().Name}!");
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -227,8 +321,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.Append(Player.Instance.Name);
-            sb.AppendLine("의 공격!");
+            sb.AppendLine($"{Player.Instance.Name}의 {Player.Instance.GetUseSkill().Name}!");
 
             sb.Append("Lv. ");
             sb.Append(selectedMon.Level.ToString()); // 몬스터 레벨
@@ -268,21 +361,8 @@ namespace TeamProject
             sb.AppendLine(options[0]);
 
             sb.AppendLine();
-            sb.AppendLine("이동: 방향키, 선택: z, 돌아가기: x");
+            sb.AppendLine("이동: 방향키, 선택: z");
             Console.Write(sb.ToString());
-            if (CheckClear()) // 클리어 여부 확인
-            {
-                atkState = AttackState.PlayerAttack;
-                Console.WriteLine("모든 적을 처지하셨습니다!");
-
-                //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
-
-                Thread.Sleep(2000);
-                // 클리어 했다면 자동으로 승리 씬으로 이동
-                // 테스트로는 스타트로 이동
-                SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
-            }
-            else SceneControl();
         }
         void Evaded()
         {
@@ -296,7 +376,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.AppendLine($"{Player.Instance.Name}의 공격!");
+            sb.AppendLine($"{Player.Instance.Name}의 {Player.Instance.GetUseSkill().Name}!");
             sb.AppendLine($"Lv. {selectedMon.Level} {selectedMon.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다.");
             sb.AppendLine();
             sb.AppendLine($"▶ {options[0]}");
@@ -309,7 +389,33 @@ namespace TeamProject
         public override void SetupScene()
         {
             base.SetupScene();
+
+            // 싱글 타겟인가, 다중 타겟인가
+            //if (Player.Instance.GetUseSkill().)
+
             selectedMon = MonsterManager.Instance.GetSelectedMonster();
+            if (selectedMon == null) return;
+
+            beforeHp = (int)selectedMon.Hp;
+            float tmp = selectedMon.Hp / (float)selectedMon.MaxHp;
+            int tmpCnt = (int)(hpBarCnt * tmp);
+            sbMonHp.Clear();
+            for (int i = 0; i < hpBarCnt; i++)
+            {
+                if (i < tmpCnt) sbMonHp.Append("█");
+                else sbMonHp.Append(" ");
+            }
+            lerpBeforeHpToCurHp = beforeHp;
+            atkState = AttackState.PlayerAttack;
+            //isFinish = false;
+
+        }
+
+        public void SetCurMon(int monIdx)
+        {
+            List<Monster>? tmpL = MonsterManager.Instance.GetActiveMonsters();
+            if (tmpL == null) return;
+            selectedMon = tmpL[monIdx];
             if (selectedMon == null) return;
 
             beforeHp = (int)selectedMon.Hp;
@@ -353,11 +459,43 @@ namespace TeamProject
             if (selectedMon == null) return false;
             bool IsHit;
             beforeHp = (int)selectedMon.Hp;
-            renderDam = selectedMon.DamageTaken((int)Player.Instance.AtkPower, out IsHit, out isCritical);
+            renderDam = selectedMon.DamageTaken(Player.Instance.GetUseSkill(), out IsHit, out isCritical);
             //renderDam = selectedMon.DamageTaken(new Skill(), out IsHit, out isCritical);
 
             return IsHit;
 
+        }
+        void CheckFinish()
+        {
+            if (CheckClear()) // 클리어 여부 확인
+            {
+                while(true)
+                {
+                    ControlManager.ClearInputBuffer();
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                    switch (keyInfo.Key)
+                    {
+                        case ConsoleKey.Z: // 다음 선택
+                            atkState = AttackState.PlayerAttack;
+                            Console.WriteLine("모든 적을 처지하셨습니다!");
+
+                            //소환된 몬스터 초기화가 원래 이 자리에 있었는데, WindEndScene으로 이동했습니다
+
+                            Thread.Sleep(1000);
+                            // 클리어 했다면 자동으로 승리 씬으로 이동
+                            // 테스트로는 스타트로 이동
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.WinEndScene;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
+            }
+            else
+            {
+                SceneControl();
+            }
         }
     }
 }

@@ -22,5 +22,9 @@ namespace TeamProject
         {
             // Empty
         }
+        public virtual void FinishScene()
+        {
+            // Empty
+        }
     }
 }

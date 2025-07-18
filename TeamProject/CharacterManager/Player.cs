@@ -96,7 +96,6 @@ namespace TeamProject
                     break;
             }
         }
-
         public void UseSkill()
         {
             Mp -= skills[SelSkillNum].MP;
@@ -111,7 +110,5 @@ namespace TeamProject
             return true;
         }
         // 취소 할 수도 있으니 마나 감소는 플레이어 공격씬 들어갈 때
-
-
     }
 }

@@ -38,8 +38,10 @@ namespace TeamProject
             monsterLibrary = library;
             activeMonsters = new List<Monster>();
         }*/
-
+  
         public void SetBattleMonsters()
+
+       
         {
             if (Player.Instance.DungeonFloor == 5)  //5스테이지에 보스 몬스터 등장
             {
@@ -52,7 +54,7 @@ namespace TeamProject
                 MonsterCnt = rand.Next(1, 5);
                 ActiveMonsters = MonsterLibrary.GetRandomMonsters(MonsterCnt);
             }
-        }
+        }        
 
         public List<Monster>? GetActiveMonsters()
         {            

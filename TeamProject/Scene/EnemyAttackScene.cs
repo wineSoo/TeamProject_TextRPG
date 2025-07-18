@@ -241,41 +241,37 @@ namespace TeamProject
         }
         protected override void SceneControl()
         {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            ControlManager.ClearInputBuffer();
+            bool isRightInput = false;
 
-            switch (keyInfo.Key)
+            while (!isRightInput)
             {
-                case ConsoleKey.UpArrow:
-                    if (selOptions != 0) selOptions--;
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (selOptions != optionsLen - 1) selOptions++;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    break;
-                case ConsoleKey.RightArrow:
-                    break;
-                case ConsoleKey.Z:
-                    // 매 턴마다 플레이어 체력 체크, 체력 0이면 게임 오버 씬으로
-                    if (Player.Instance.Hp <= 0) //게임 오버 씬
-                    {
-                        Console.WriteLine("게임 오버 씬으로 체인지");
-                        isGameOver = true;
-                        Thread.Sleep(2000);
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
-                        // 소환된 몬스터 초기화
-                        MonsterManager.Instance.ClearActiveMonsters();
-                        // 테스트로 스타트씬으로 변경
-                        SceneManager.Instance.SetSceneState = SceneManager.SceneState.LoseEndScene;
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.Z:
+                        // 매 턴마다 플레이어 체력 체크, 체력 0이면 게임 오버 씬으로
+                        if (Player.Instance.Hp <= 0) //게임 오버 씬
+                        {
+                            Console.WriteLine("게임 오버 씬으로 체인지");
+                            isGameOver = true;
+                            Thread.Sleep(2000);
 
-                        //SceneManager.Instance.SetSceneState = SceneManager.SceneState.
-                    }
-                    break;
-                case ConsoleKey.X:
-                    break;
-                default:
-                    break;
+                            // 소환된 몬스터 초기화
+                            MonsterManager.Instance.ClearActiveMonsters();
+                            // 테스트로 스타트씬으로 변경
+                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.LoseEndScene;
+
+                            //SceneManager.Instance.SetSceneState = SceneManager.SceneState.
+                        }
+                        isRightInput = true; // z키 눌러야만 넘어가도록
+                        break;
+                    default:
+                        break;
+                }
             }
+                
         }
         public override void SetupScene()
         {
@@ -313,7 +309,7 @@ namespace TeamProject
         {
             bool IsHit;
             beforeHp = (int)Player.Instance.Hp;
-            renderDam = Player.Instance.DamageTaken((int)mon.AtkPower, out IsHit, out isCritical);
+            renderDam = Player.Instance.DamageTaken(mon.GetUseSkill(), out IsHit, out isCritical);
 
             return IsHit;
         }
@@ -326,7 +322,7 @@ namespace TeamProject
             Console.ResetColor();// 출력 색 초기화
 
             sb.Clear();
-            sb.AppendLine($"LV.{mon.Level} {mon.Name} 의 공격!");
+            sb.AppendLine($"LV.{mon.Level} {mon.Name}의 {mon.GetUseSkill().Name}!");
         }
         void DrawHit(ref Monster mon)
         {

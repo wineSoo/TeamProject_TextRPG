@@ -123,7 +123,10 @@ namespace TeamProject
             // 소환된 몬스터 초기화
             MonsterManager.Instance.ClearActiveMonsters();
         }
-
+        public override void FinishScene()
+        {
+            Player.Instance.Mp += 10;
+        }
 
     }
 }

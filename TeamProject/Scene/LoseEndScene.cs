@@ -77,6 +77,10 @@ namespace TeamProject
                     break;
             }
         }
+        public override void FinishScene()
+        {
+            Player.Instance.Mp += 10;
+        }
     }
 }
 
