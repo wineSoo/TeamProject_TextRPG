@@ -34,7 +34,6 @@ namespace TeamProject
             sb.AppendLine();
             sb.AppendLine("- 보상-");
             sb.AppendLine();
-            sb.AppendLine($"  {selectedQuest.RewardItem} x {selectedQuest.RewardItemQuantity}");
             sb.AppendLine($"  {selectedQuest.RewardGold} G");
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)

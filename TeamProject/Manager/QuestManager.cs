@@ -21,8 +21,6 @@ namespace TeamProject
                                 Type = Quest.QuestType.KillShadowImp,
                                 ConditionNumber = 5,
                                 ConditionDescription = "쉐도우 임프 5마리 처치",
-                                RewardItem = "작은 물약",
-                                RewardItemQuantity = 3,
                                 RewardGold = 5
                             },
                 new Quest() {
@@ -31,10 +29,8 @@ namespace TeamProject
                                 Description = "설마 자네 맨몸으로 몬스터랑 싸우는 건가?\n 너무 위험하네! 아무리 실력이 있어도 목숨을 소중히 하라고\n자네가 걱정되서 이러다 잠도 안오겠어",
                                 Type = Quest.QuestType.Equip,
                                 ConditionNumber = 1,
-                                ConditionDescription = "아무 장비 착용하고 오기",
-                                RewardItem = "작은 물약",
-                                RewardItemQuantity = 1,
-                                RewardGold = 15,
+                                ConditionDescription = "아무 방어구나 착용하기",
+                                RewardGold = 15
                             },
                 new Quest() {
                                 Id = 3,
@@ -43,8 +39,6 @@ namespace TeamProject
                                 Type = Quest.QuestType.IncreaseLevel,
                                 ConditionNumber = 1,
                                 ConditionDescription = "레벨 1이상 추가로 올리기",
-                                RewardItem = "작은 물약",
-                                RewardItemQuantity = 2,
                                 RewardGold = 100
                             }
 
