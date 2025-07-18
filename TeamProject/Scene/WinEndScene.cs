@@ -51,8 +51,13 @@ namespace TeamProject
         public override void Render()
         {
             sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!! - Result");
             sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
             sb.AppendLine("Victory");
             sb.AppendLine();
             sb.AppendLine($"{dungeonFloor}층 던전에서 몬스터 {totalMonsterNumber}마리를 잡았습니다.");

@@ -59,7 +59,7 @@ namespace TeamProject
                     // 중복 안되게 타겟 선택하기
                     // 살아있는 몬스터 수 체크
                     List<Monster>? monList = MonsterManager.Instance.GetActiveMonsters();
-                    List<int> tmpList = new List<int>(); // 살아있는 몬스터 담은 배열
+                    List<int> tmpList = new List<int>(); // 살아있는 몬스터 인덱스 담은 배열
                     if (monList != null)
                     {
                         for(int i = 0; i < monList.Count; i++)
@@ -183,7 +183,7 @@ namespace TeamProject
         {
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Player Attacks!!");
             sb.AppendLine();
             Console.Write(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
@@ -211,7 +211,7 @@ namespace TeamProject
             if (selectedMon == null) return;
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Player Attacks!!");
             sb.AppendLine();
             Console.Write(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
@@ -256,7 +256,7 @@ namespace TeamProject
 
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Player Attacks!!");
             sb.AppendLine();
             Console.Write(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
@@ -307,7 +307,7 @@ namespace TeamProject
 
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Player Attacks!!");
             sb.AppendLine();
             Console.Write(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
@@ -362,7 +362,7 @@ namespace TeamProject
 
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Player Attacks!!");
             sb.AppendLine();
             Console.Write(sb.ToString());
             Console.ResetColor();// 출력 색 초기화

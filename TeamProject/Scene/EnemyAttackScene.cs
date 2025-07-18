@@ -313,7 +313,7 @@ namespace TeamProject
         {
             sb.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
-            sb.AppendLine("Battle!!");
+            sb.AppendLine("Battle - Enemy Attacks!!");
             Console.WriteLine(sb.ToString());
             Console.ResetColor();// 출력 색 초기화
 

@@ -23,8 +23,13 @@ namespace TeamProject
         public override void Render()
         {
             sb.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; // 출력 색 지정
             sb.AppendLine("Battle!! - Result");
             sb.AppendLine();
+            Console.Write(sb.ToString());
+            Console.ResetColor();// 출력 색 초기화
+
+            sb.Clear();
             sb.AppendLine("You Lose");
             sb.AppendLine();
 
