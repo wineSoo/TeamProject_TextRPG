@@ -46,6 +46,8 @@ namespace TeamProject
             Level = 1;
             Name = "이름 없는";
             Job = PlayerJob.Warrior;
+
+            // 이 부분 능력치는 캐릭터 베이스 능력치
             AtkPower = 30f; //과제 기본값 30
             DefPower = 5f;
             MaxHp = 100f;
@@ -56,12 +58,17 @@ namespace TeamProject
             Hp = MaxHp; // 현재 체력은 최대 체력으로 초기화
             Mp = MaxMp; // 현재 마나는 최대 마나로 초기화
 
+            // 아이템에 의한 추가 능력치
             PlusAtk = 0;
             PlusDef = 0;
             PlusHp = 0;
             PlusMp = 0;
             PlusSkill = 0;
             PlusSpeed = 0;
+
+            // 250721: 총 공격력과 총 방어력 추가
+            TotalAtk = AtkPower + PlusAtk;
+            TotalDef = DefPower + PlusDef;
 
             Gold = 1500;
             Exp = 0;
@@ -77,7 +84,7 @@ namespace TeamProject
             EquippedItemIds = new Dictionary<Item.ItemType, Guid>();
 
             // 테스트 아이템 추가
-            Inventory.Add(new Item
+            /*Inventory.Add(new Item
             {
                 Name = "테스트 검1",
                 Type = ItemType.Weapon,
@@ -112,7 +119,6 @@ namespace TeamProject
                 Def = 8,
                 Description = "시험용 방어구2"
             });
-
             Inventory.Add(new Item
             {
                 Name = "회복 물약",
@@ -120,7 +126,18 @@ namespace TeamProject
                 RestoreHp = 20,
                 Quantity = 1,
                 Description = "체력을 회복시킨다"
-            });
+            });*/
+
+            // 실전 아이템 추가
+            Inventory.Add(new Item(ItemLibrary.Instance.items[0]));
+            Inventory.Add(new Item(ItemLibrary.Instance.items[7]));
+            Inventory.Add(new Item(ItemLibrary.Instance.items[1]));
+            Inventory.Add(new Item(ItemLibrary.Instance.items[8]));
+            Inventory.Add(new Item(ItemLibrary.Instance.items[2]));
+            Inventory.Add(new Item(ItemLibrary.Instance.items[4]));
+
+
+            
 
 
         }
@@ -157,6 +174,8 @@ namespace TeamProject
                     {
                         skills[i].SetDamge();
                     }
+                    // 레벨 업에 총 공격력과 총 방어력도 수정
+                    SetAbilityByEquipment();
                 }
             }
             while (expToLevelUP <= Exp);
@@ -226,8 +245,9 @@ namespace TeamProject
                 PlusSpeed += equip.Speed;
             }
 
-            AtkPower += PlusAtk; // 기본 공격력 30
-            DefPower += PlusDef; // 기본 방어력 5
+            TotalAtk =  AtkPower + PlusAtk; // 기본 공격력에 추가 공격력
+            TotalDef =  DefPower + PlusDef; // 기본 방어력에 추가 방어력
+            // 아래 로직도 오류... 추가 체력/마나 아이템 없어, 추가 수정 x
             MaxHp += PlusHp; // 기본 체력 100
             MaxMp += PlusMp; // 기본 마나 50
             Skill += PlusSkill;
@@ -262,7 +282,6 @@ namespace TeamProject
         {
             return item.Type;
         }
-
         public void AddItem(Item newItem) //아이템 획득
         {
             // 소모품이면 이미 있는 아이템 수량만 증가

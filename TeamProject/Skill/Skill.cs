@@ -76,7 +76,7 @@ namespace TeamProject
         {
             // 기본 공격 스킬 데미지는 소유자 공격력 그대로
             if (ownChar == null) return;
-            skillDamage = (int)ownChar.AtkPower;
+            skillDamage = (int)ownChar.TotalAtk;
         }
 
 

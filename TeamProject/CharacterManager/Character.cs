@@ -8,10 +8,13 @@ namespace TeamProject
         public int Level { get; set; }         // 통일: Lv(X), Level(O)
         public float MaxHp { get; set; }
         public float Hp { get; set; }
-        public float AtkPower { get; set; }    // 통일: Atk(X), AtkPower(O)
+        public float AtkPower { get; set; }    // 통일: Atk(X), AtkPower(O), 이건 캐릭터 기본 능력
+        public float TotalAtk { get; set; }    // = 기본 능력 + 추가 능력
         public float DefPower { get; set; }    // 통일: Def(X), DefPower(O)
+        public float TotalDef { get; set; }    // = 기본 능력 + 추가 능력
+
         public string Description { get; set; }
-        public bool isDie { get; private set; } // 죽었는지 여부 확인 (true=죽음/false=생존)
+        public bool isDie { get; protected set; } // 죽었는지 여부 확인 (true=죽음/false=생존)
 
         public MonsterIndex Index { get; set; }
 
@@ -60,6 +63,8 @@ namespace TeamProject
             Hp = unit.Hp;
             AtkPower = unit.AtkPower;
             DefPower = unit.DefPower;
+            TotalAtk = unit.TotalAtk;
+            TotalDef = unit.TotalDef;
             Description = unit.Description;
             Index = unit.Index;
             isDie = unit.isDie;
@@ -84,7 +89,7 @@ namespace TeamProject
                 int tmpAtk = rand.Next((int)(skill.skillDamage - skill.skillDamage * 0.1f),
                         (int)(skill.skillDamage * 0.1f >= 0.5f ? (int)(skill.skillDamage + skill.skillDamage * 0.1f + 1) : (int)(skill.skillDamage + skill.skillDamage * 0.1f)));
 
-                tmpDam = (int)(tmpAtk - DefPower);
+                tmpDam = (int)(tmpAtk - TotalDef);
 
                 if (tmpDam < 0) tmpDam = 0; // 데미지는 0 밑으로 떨어짐x
 
