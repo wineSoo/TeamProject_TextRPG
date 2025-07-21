@@ -19,7 +19,7 @@ namespace TeamProject
                                 Name = "마을을 위협하는 쉐도우 임프 처치",
                                 Description = "이봐! 마을 근처에 쉐도우 임프들이 너무 많아졌다고 생각하지 않나?\n마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n모험가인 자네가 좀 처치해주게!",
                                 Type = Quest.QuestType.KillShadowImp,
-                                ConditionNumber = 5,
+                                ConditionNumber = 2,
                                 ConditionDescription = "쉐도우 임프 5마리 처치",
                                 RewardItem = "작은 물약",
                                 RewardItemQuantity = 3,
