@@ -119,10 +119,13 @@ namespace TeamProject
                 case ConsoleKey.Z:
                     switch (selOptions)
                     {
-                        case 0: // 던전 다시 실행
-                            SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
+                        case 0:                                
+                            if (Player.Instance.DungeonFloor > 5)  //5층 진입
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.FinalScene;
+                            else
+                                SceneManager.Instance.SetSceneState = SceneManager.SceneState.BattleScene;
                             break;
-                        case 1: // 스타트씬으로 
+                        case 1: // 처음으로 
                             SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                             break;
                         default:
