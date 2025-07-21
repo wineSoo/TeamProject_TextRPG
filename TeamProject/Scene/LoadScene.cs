@@ -47,6 +47,7 @@ namespace TeamProject
             if (player == null) // 불러오지 못했다면
             {
                 Console.Write("해당 플레이어의 데이터를 찾을 수 없습니다.");
+                SceneManager.Instance.SetSceneState = SceneManager.SceneState.StartScene;
                 Thread.Sleep(2000);
             }
             else // 불러왔다면
