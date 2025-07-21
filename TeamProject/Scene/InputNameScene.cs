@@ -39,7 +39,7 @@ namespace TeamProject
             sb.AppendLine("                 #  .==..__  \"\"   \"\"  __..==,  #");
             sb.AppendLine("                  #   `\"._(_).       .(_)_.'\" #");
             sb.AppendLine("              ╔══════════════════════════════════════╗");
-            sb.AppendLine("              ║      𝓒𝓱𝓪𝓻𝓪𝓬𝓽𝓮𝓻 𝓝𝓪𝓶𝓮 𝓒𝓻𝓮𝓪𝓽𝓲𝓸𝓷         ║");
+            sb.AppendLine("              ║      Character Name Creation         ║");
             sb.AppendLine("              ╠══════════════════════════════════════╣");
             sb.AppendLine("              ║                                      ║");
             sb.AppendLine("              ║        『 ENTER YOUR NAME 』         ║");
@@ -80,7 +80,7 @@ namespace TeamProject
         }
         protected override void SceneControl()
         {
-            Console.SetCursorPosition(24, 17);
+            Console.SetCursorPosition(30, 17);
 
             stringName = Console.ReadLine();
             Console.CursorVisible = false;

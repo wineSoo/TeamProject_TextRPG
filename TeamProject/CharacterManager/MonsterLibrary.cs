@@ -27,7 +27,7 @@ namespace TeamProject
             monsters[0].Level = 2;
             monsters[0].MaxHp = 45f;
             monsters[0].Hp = monsters[0].MaxHp;
-            monsters[0].AtkPower = 12f;
+            monsters[0].AtkPower = 8f;
             monsters[0].DefPower = 5f;
             monsters[0].TotalAtk = monsters[0].AtkPower;
             monsters[0].TotalDef = monsters[0].DefPower;
@@ -40,7 +40,7 @@ namespace TeamProject
             monsters[1].Level = 5;
             monsters[1].MaxHp = 80f;
             monsters[1].Hp = monsters[1].MaxHp;
-            monsters[1].AtkPower = 17f;
+            monsters[1].AtkPower = 10f;
             monsters[1].DefPower = 10f;
             monsters[1].TotalAtk = monsters[1].AtkPower;
             monsters[1].TotalDef = monsters[1].DefPower;
@@ -53,7 +53,7 @@ namespace TeamProject
             monsters[2].Level = 3;
             monsters[2].MaxHp = 55f;
             monsters[2].Hp = monsters[2].MaxHp;
-            monsters[2].AtkPower = 20f;
+            monsters[2].AtkPower = 12f;
             monsters[2].DefPower = 1f;
             monsters[2].TotalAtk = monsters[2].AtkPower;
             monsters[2].TotalDef = monsters[2].DefPower;

@@ -57,13 +57,22 @@ namespace TeamProject
 
             for (int i = 0; i < items.Count; i++)
             {
+                Item item = items[i];
+
                 int npad = padding - GetDisplayWidth(items[i].Name);
                 int apad = apadding - GetDisplayWidth(items[i].Atk.ToString());
-                int hpad = apadding - GetDisplayWidth(items[i].RestoreHp.ToString());
+                int hpad;
+                if (item.Type == ItemType.ConsumableHP)
+                {
+                    hpad = apadding - GetDisplayWidth(items[i].RestoreHp.ToString());
+                }
+                else
+                {
+                    hpad = apadding - GetDisplayWidth(items[i].RestoreMp.ToString());
+                }
                 int qpad = apadding - GetDisplayWidth(items[i].Quantity.ToString());
                 int epad = exPadding - GetDisplayWidth(items[i].Description);
 
-                Item item = items[i];
                 bool isEquipped = player.IsEquipped(item);
                 string equipTag = "[ ]";
 
