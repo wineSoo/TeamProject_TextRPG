@@ -13,7 +13,7 @@ namespace TeamProject
     {
         private static ItemLibrary? instance;
 
-        private List<Item> items;
+        public List<Item> items { get; private set; }
 
         public static ItemLibrary Instance
         {

@@ -54,12 +54,14 @@ namespace TeamProject
                 return $"{statName}: {baseValue}{plusText}";
             }
 
-            sb.AppendLine(FormatStat("공격력", Player.Instance.AtkPower, Player.Instance.PlusAtk)); // 플레이어 공격력
-            sb.AppendLine(FormatStat("방어력", Player.Instance.DefPower, Player.Instance.PlusDef)); // 플레이어 방어력
+            sb.AppendLine(FormatStat("공격력", Player.Instance.TotalAtk, Player.Instance.PlusAtk)); // 플레이어 공격력
+            sb.AppendLine(FormatStat("방어력", Player.Instance.TotalDef, Player.Instance.PlusDef)); // 플레이어 방어력
             sb.AppendLine(FormatStat("기 술 ", Player.Instance.Skill, Player.Instance.PlusSkill)); // 플레이어 기술 (치명타율)
             sb.AppendLine(FormatStat("속 도 ", Player.Instance.Speed, Player.Instance.PlusSpeed)); // 플레이어 속도 (회피율)
-            sb.AppendLine(FormatStat("체 력 ", Player.Instance.MaxHp, Player.Instance.PlusHp)); // 플레이어 체력
-            sb.AppendLine(FormatStat("마 나 ", Player.Instance.MaxMp, Player.Instance.PlusMp)); // 플레이어 마나
+            sb.AppendLine($"체 력 : {Player.Instance.Hp} / {Player.Instance.MaxHp}"); // 플레이어 체력
+            sb.AppendLine($"마 나 : {Player.Instance.Mp} / {Player.Instance.MaxMp}"); // 플레이어 마나
+            /*sb.AppendLine(FormatStat("체 력 ", Player.Instance.MaxHp, Player.Instance.PlusHp)); // 플레이어 체력
+            sb.AppendLine(FormatStat("마 나 ", Player.Instance.MaxMp, Player.Instance.PlusMp)); // 플레이어 마나*/
             sb.AppendLine($"Gold : {Player.Instance.Gold} G"); // 플레이어 골드
             sb.AppendLine();
             for (int i = 0; i < optionsLen; i++)
