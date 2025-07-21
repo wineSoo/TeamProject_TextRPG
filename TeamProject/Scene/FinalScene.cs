@@ -23,7 +23,7 @@ namespace TeamProject
             sb.AppendLine("Battle!! - Result");
             sb.AppendLine();
             sb.AppendLine("Victory!");
-            sb.AppendLine("던전 최종 보스 '어비스 로드'를 쓰러뜨렸습니다!");
+            sb.AppendLine("최초로 던전 최종 보스 '어비스 로드'를 쓰러뜨렸습니다!");
             sb.AppendLine();
             sb.AppendLine("[캐릭터 정보]");
             sb.AppendLine($"Lv.{player.Level} {player.Name}");
