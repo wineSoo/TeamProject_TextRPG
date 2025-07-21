@@ -48,7 +48,7 @@ namespace TeamProject
             Job = PlayerJob.Warrior;
 
             // 이 부분 능력치는 캐릭터 베이스 능력치
-            AtkPower = 30f; //과제 기본값 30
+            AtkPower = 40f; //과제 기본값 30
             DefPower = 5f;
             MaxHp = 100f;
             MaxMp = 50f;
